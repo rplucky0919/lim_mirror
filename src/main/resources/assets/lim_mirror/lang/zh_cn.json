@@ -1,0 +1,4 @@
+{
+  "effect.lim_mirror.poise": "呼吸法",
+  "effect.lim_mirror.poise.description": "下 %1$s 次攻击命中时有 %2$s x 5%% 的概率产生暴击"
+}
