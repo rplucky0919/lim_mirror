@@ -14,6 +14,7 @@ public class Registration {
             DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, lim_mirror.MODID);
 
     public static final RegistryObject<MobEffect> POISE = EFFECTS.register("poise", Poise::new);
+    public static final RegistryObject<MobEffect> BLEED = EFFECTS.register("bleed", BleedEffect::new);
 
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, lim_mirror.MODID);
@@ -53,6 +54,9 @@ public class Registration {
 
     public static final RegistryObject<Enchantment> BREATH_SMOOTH =
             ENCHANTMENTS.register("breath_smooth", BreathSmoothEnchantment::new);
+
+    public static final RegistryObject<Enchantment> SANCHO_BLOOD =
+            ENCHANTMENTS.register("sancho_blood", SanchoBloodEnchantment::new);
 
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);

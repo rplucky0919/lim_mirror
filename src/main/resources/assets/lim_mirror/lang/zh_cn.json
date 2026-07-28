@@ -16,5 +16,8 @@
   "item.lim_mirror.endorphin_kit": "内啡肽试剂组",
   "item.lim_mirror.horseshoe": "马蹄铁饰物",
   "item.lim_mirror.lucky_bag": "福袋",
-  "item.lim_mirror.devils_delight": "魔鬼所享"
+  "item.lim_mirror.devils_delight": "魔鬼所享",
+  "effect.lim_mirror.bleed": "流血",
+  "enchantment.lim_mirror.sancho_blood": "桑丘之血",
+  "enchantment.lim_mirror.sancho_blood.desc": "攻击时对目标施加1秒1层流血"
 }
