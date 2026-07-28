@@ -6,7 +6,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
@@ -37,10 +36,13 @@ public class lim_mirror {
     public static final RegistryObject<CreativeModeTab> LIM_MIRROR_TAB = CREATIVE_MODE_TABS.register("lim_mirror_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> new ItemStack(Registration.PIPE.get()))
+            .title(net.minecraft.network.chat.Component.literal("呼吸法饰品"))
             .displayItems((parameters, output) -> {
                 output.accept(Registration.PIPE.get());
                 output.accept(Registration.STONE_MOUND.get());
                 output.accept(Registration.CLOVER.get());
+                output.accept(Registration.MEMORY_PENDANT.get());
+                output.accept(Registration.NEBULIZER.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

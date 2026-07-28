@@ -27,6 +27,12 @@ public class Registration {
     public static final RegistryObject<Item> CLOVER = ITEMS.register("clover",
             () -> new Clover(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> MEMORY_PENDANT = ITEMS.register("memory_pendant",
+            () -> new MemoryPendant(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> NEBULIZER = ITEMS.register("nebulizer",
+            () -> new Nebulizer(new Item.Properties().stacksTo(1)));
+
     public static final DeferredRegister<Enchantment> ENCHANTMENTS =
             DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, lim_mirror.MODID);
 
