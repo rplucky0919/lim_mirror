@@ -42,6 +42,12 @@ public class Registration {
     public static final RegistryObject<Item> HORSESHOE = ITEMS.register("horseshoe",
             () -> new Horseshoe(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> LUCKY_BAG = ITEMS.register("lucky_bag",
+            () -> new LuckyBag(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> DEVILS_DELIGHT = ITEMS.register("devils_delight",
+            () -> new DevilsDelight(new Item.Properties().stacksTo(1)));
+
     public static final DeferredRegister<Enchantment> ENCHANTMENTS =
             DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, lim_mirror.MODID);
 

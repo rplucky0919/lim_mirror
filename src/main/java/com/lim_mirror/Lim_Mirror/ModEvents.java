@@ -1,6 +1,7 @@
 package com.lim_mirror.Lim_Mirror;
 
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -46,6 +47,30 @@ public class ModEvents {
                     boolean hasStillWater = player.getPersistentData().getBoolean("hasStillWater");
                     float multiplier = hasStillWater ? 3.5f : 1.5f;
 
+                    if (player.getPersistentData().getBoolean("hasLuckyBag")) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        int newAmplifier;
+                        if (currentPoise != null) {
+                            newAmplifier = currentPoise.getAmplifier() + 7;
+                        } else {
+                            newAmplifier = 0;
+                        }
+                        int currentDurationLucky = 0;
+                        if (currentPoise != null) {
+                            currentDurationLucky = currentPoise.getDuration();
+                        }
+                        int totalDuration = currentDurationLucky + 20 * 7;
+
+                        player.removeEffect(Registration.POISE.get());
+                        player.addEffect(new MobEffectInstance(
+                                Registration.POISE.get(),
+                                totalDuration,
+                                newAmplifier,
+                                false,
+                                false
+                        ));
+                    }
+
                     event.setAmount((baseDamage + additiveDamage) * multiplier);
 
                     if (hasStillWater) {
@@ -88,7 +113,39 @@ public class ModEvents {
                 }
             }
 
-            // ===== 呼吸顺畅附魔 =====
+            if (player.getPersistentData().getBoolean("hasDevilsDelight")) {
+                event.setAmount(event.getAmount() + 2.0f);
+            }
+
+            if (player.getPersistentData().getBoolean("hasLuckyBag")) {
+                MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                if (currentPoise != null) {
+                    event.setAmount(event.getAmount() + 9.0f);
+
+                    player.addEffect(new MobEffectInstance(
+                            MobEffects.DAMAGE_BOOST,
+                            20 * 3,
+                            11,
+                            false,
+                            false
+                    ));
+
+                    player.getPersistentData().putBoolean("luckyBagNextAttackBoost", true);
+                }
+            }
+
+            if (player.getPersistentData().getBoolean("luckyBagNextAttackBoost")) {
+                event.setAmount(event.getAmount() * 1.5f);
+                player.getPersistentData().putBoolean("luckyBagNextAttackBoost", false);
+            }
+
+            if (player.getPersistentData().getBoolean("hasDevilsDelight")) {
+                MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                if (currentPoise != null) {
+                    event.setAmount(event.getAmount() + 2.0f);
+                }
+            }
+
             ItemStack mainHand = player.getMainHandItem();
             int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BREATH_SMOOTH.get(), mainHand);
 
