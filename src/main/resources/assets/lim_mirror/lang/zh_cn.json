@@ -1,4 +1,8 @@
 {
   "effect.lim_mirror.poise": "呼吸法",
-  "effect.lim_mirror.poise.description": "下 %1$s 次攻击命中时有 %2$s x 5%% 的概率产生暴击"
+  "effect.lim_mirror.poise.description": "下 %1$s 次攻击命中时有 %2$s x 5%% 的概率产生暴击",
+  "item.lim_mirror.pipe": "烟斗",
+  "curios.identifier.necklace": "项链",
+  "enchantment.lim_mirror.breath_smooth": "呼吸顺畅",
+  "enchantment.lim_mirror.breath_smooth.desc": "攻击敌人时获得5秒呼吸法并提升1级强度"
 }
