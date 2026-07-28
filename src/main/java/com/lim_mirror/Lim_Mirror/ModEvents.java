@@ -1,6 +1,8 @@
 package com.lim_mirror.Lim_Mirror;
 
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -29,7 +31,14 @@ public class ModEvents {
                 int level = amplifier + 1;
                 float critChance = Math.min(level * 0.05f, 1.0f);
                 if (player.getRandom().nextFloat() < critChance) {
-                    event.setAmount(event.getAmount() * 1.5f);
+                    boolean hasStillWater = player.getPersistentData().getBoolean("hasStillWater");
+
+                    if (hasStillWater) {
+                        event.setAmount(event.getAmount() * 3.5f);
+                        player.getPersistentData().putBoolean("stillWaterNextAttackBoost", true);
+                    } else {
+                        event.setAmount(event.getAmount() * 1.5f);
+                    }
 
                     if (player.getPersistentData().getBoolean("hasClover")) {
                         long lastTrigger = player.getPersistentData().getLong("cloverLastTrigger");
@@ -61,9 +70,15 @@ public class ModEvents {
                             ));
 
                             player.getPersistentData().putLong("cloverLastTrigger", currentTime);
+                            player.getPersistentData().putBoolean("hasClover", false);
                         }
                     }
                 }
+            }
+
+            if (player.getPersistentData().getBoolean("stillWaterNextAttackBoost")) {
+                event.setAmount(event.getAmount() + 15.0f);
+                player.getPersistentData().putBoolean("stillWaterNextAttackBoost", false);
             }
 
             if (player.getPersistentData().getBoolean("hasPipeBonus")) {
@@ -76,17 +91,29 @@ public class ModEvents {
             if (enchantLevel > 0) {
                 MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
 
-                int newAmplifier;
-                if (currentPoise != null) {
-                    newAmplifier = currentPoise.getAmplifier() + 1;
-                } else {
-                    newAmplifier = 0;
-                }
-
                 int addDuration = 20 * 5;
+                int extraAmplifier = 0;
+
+                if (player.getPersistentData().getBoolean("hasEndorphinKit")) {
+                    LivingEntity target = event.getEntity();
+                    if (target instanceof Monster) {
+                        addDuration += 20 * 4;
+                        extraAmplifier += 4;
+                    } else {
+                        addDuration += 20 * 3;
+                        extraAmplifier += 3;
+                    }
+                }
 
                 if (player.getPersistentData().getBoolean("hasStoneMound")) {
                     addDuration = addDuration * 2;
+                }
+
+                int newAmplifier;
+                if (currentPoise != null) {
+                    newAmplifier = currentPoise.getAmplifier() + 1 + extraAmplifier;
+                } else {
+                    newAmplifier = 0 + extraAmplifier;
                 }
 
                 int currentDuration = 0;

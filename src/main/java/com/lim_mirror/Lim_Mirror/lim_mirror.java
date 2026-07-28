@@ -43,6 +43,8 @@ public class lim_mirror {
                 output.accept(Registration.CLOVER.get());
                 output.accept(Registration.MEMORY_PENDANT.get());
                 output.accept(Registration.NEBULIZER.get());
+                output.accept(Registration.STILL_WATER.get());
+                output.accept(Registration.ENDORPHIN_KIT.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

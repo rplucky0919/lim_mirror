@@ -5,10 +5,13 @@
   "item.lim_mirror.stone_mound": "石冢",
   "item.lim_mirror.clover": "四叶草",
   "item.lim_mirror.memory_pendant": "追忆吊坠",
+  "item.lim_mirror.nebulizer": "雾化吸入器",
   "curios.identifier.necklace": "项链",
   "curios.identifier.charm": "护符",
   "curios.identifier.curios": "通用饰品",
   "enchantment.lim_mirror.breath_smooth": "呼吸顺畅",
   "enchantment.lim_mirror.breath_smooth.desc": "攻击敌人时获得5秒呼吸法并提升1级强度",
-  "creativeTab.lim_mirror.lim_mirror_tab": "呼吸法饰品"
+  "creativeTab.lim_mirror.lim_mirror_tab": "呼吸法饰品",
+  "item.lim_mirror.still_water": "明镜止水",
+  "item.lim_mirror.endorphin_kit": "内啡肽试剂组"
 }
