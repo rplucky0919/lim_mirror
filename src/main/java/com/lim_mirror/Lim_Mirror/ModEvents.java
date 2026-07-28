@@ -31,13 +31,25 @@ public class ModEvents {
                 int level = amplifier + 1;
                 float critChance = Math.min(level * 0.05f, 1.0f);
                 if (player.getRandom().nextFloat() < critChance) {
+                    float baseDamage = event.getAmount();
+                    float additiveDamage = 0.0f;
+
+                    if (player.getPersistentData().getBoolean("hasPipeBonus")) {
+                        additiveDamage += 2.0f;
+                    }
+
+                    if (player.getPersistentData().getBoolean("stillWaterNextAttackBoost")) {
+                        additiveDamage += 15.0f;
+                        player.getPersistentData().putBoolean("stillWaterNextAttackBoost", false);
+                    }
+
                     boolean hasStillWater = player.getPersistentData().getBoolean("hasStillWater");
+                    float multiplier = hasStillWater ? 3.5f : 1.5f;
+
+                    event.setAmount((baseDamage + additiveDamage) * multiplier);
 
                     if (hasStillWater) {
-                        event.setAmount(event.getAmount() * 3.5f);
                         player.getPersistentData().putBoolean("stillWaterNextAttackBoost", true);
-                    } else {
-                        event.setAmount(event.getAmount() * 1.5f);
                     }
 
                     if (player.getPersistentData().getBoolean("hasClover")) {
@@ -76,15 +88,7 @@ public class ModEvents {
                 }
             }
 
-            if (player.getPersistentData().getBoolean("stillWaterNextAttackBoost")) {
-                event.setAmount(event.getAmount() + 15.0f);
-                player.getPersistentData().putBoolean("stillWaterNextAttackBoost", false);
-            }
-
-            if (player.getPersistentData().getBoolean("hasPipeBonus")) {
-                event.setAmount(event.getAmount() + 2.0f);
-            }
-
+            // ===== 呼吸顺畅附魔 =====
             ItemStack mainHand = player.getMainHandItem();
             int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BREATH_SMOOTH.get(), mainHand);
 

@@ -39,6 +39,8 @@ public class Registration {
     public static final RegistryObject<Item> ENDORPHIN_KIT = ITEMS.register("endorphin_kit",
             () -> new EndorphinKit(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> HORSESHOE = ITEMS.register("horseshoe",
+            () -> new Horseshoe(new Item.Properties().stacksTo(1)));
 
     public static final DeferredRegister<Enchantment> ENCHANTMENTS =
             DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, lim_mirror.MODID);
