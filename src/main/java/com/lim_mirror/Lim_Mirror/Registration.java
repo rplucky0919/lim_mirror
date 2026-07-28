@@ -21,6 +21,12 @@ public class Registration {
     public static final RegistryObject<Item> PIPE = ITEMS.register("pipe",
             () -> new pipe(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> STONE_MOUND = ITEMS.register("stone_mound",
+            () -> new StoneMound(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> CLOVER = ITEMS.register("clover",
+            () -> new Clover(new Item.Properties().stacksTo(1)));
+
     public static final DeferredRegister<Enchantment> ENCHANTMENTS =
             DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, lim_mirror.MODID);
 

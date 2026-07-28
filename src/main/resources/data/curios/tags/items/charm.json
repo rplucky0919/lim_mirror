@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "lim_mirror:pipe",
+    "lim_mirror:stone_mound",
+    "lim_mirror:clover"
+  ]
+}
