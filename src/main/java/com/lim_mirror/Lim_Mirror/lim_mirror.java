@@ -57,6 +57,13 @@ public class lim_mirror {
                 output.accept(Registration.BARREL_LIQUOR.get());
                 output.accept(Registration.END_OF_EVIL.get());
                 output.accept(Registration.COMMAND_SANCTUARY.get());
+                output.accept(Registration.SOMEONES_GREEN_BLADE.get());
+                output.accept(Registration.ROPE_CATCHER.get());
+                output.accept(Registration.WHALE_HEART.get());
+                output.accept(Registration.HARPOON_GUN_LEG.get());
+                output.accept(Registration.GAS_LAMP.get());
+                output.accept(Registration.FUZZY_HAT.get());
+                output.accept(Registration.GIANT_GIFT_BAG.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

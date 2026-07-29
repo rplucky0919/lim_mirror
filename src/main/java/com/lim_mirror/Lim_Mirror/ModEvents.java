@@ -162,6 +162,53 @@ public class ModEvents {
                         event.setAmount(event.getAmount() * 1.3f);
                     }
 
+                    if (player.getPersistentData().getBoolean("hasSomeonesGreenBlade")) {
+                        MobEffectInstance absorption = player.getEffect(MobEffects.ABSORPTION);
+                        if (absorption != null) {
+                            event.setAmount(event.getAmount() * 1.1f);
+                        }
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasRopeCatcher")) {
+                        LivingEntity target = event.getEntity();
+                        if (target instanceof LivingEntity) {
+                            target.addEffect(new MobEffectInstance(
+                                    MobEffects.MOVEMENT_SLOWDOWN,
+                                    20 * 5,
+                                    1,
+                                    false,
+                                    false
+                            ));
+                            MobEffectInstance bleed = target.getEffect(Registration.BLEED.get());
+                            if (bleed != null) {
+                                target.addEffect(new MobEffectInstance(
+                                        MobEffects.WEAKNESS,
+                                        20 * 5,
+                                        1,
+                                        false,
+                                        false
+                                ));
+                            }
+                        }
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasWhaleHeart")) {
+                        if (player.getRandom().nextFloat() < 0.5f) {
+                            event.setAmount(event.getAmount() * 1.1f);
+                        }
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasHarpoonGunLeg")) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        if (currentPoise != null) {
+                            event.setAmount(event.getAmount() * 1.22f);
+                        }
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasGasLamp")) {
+                        event.setAmount(event.getAmount() * 1.39f);
+                    }
+
                     if (player.getPersistentData().getBoolean("hasClover")) {
                         long lastTrigger = player.getPersistentData().getLong("cloverLastTrigger");
                         long currentTime = System.currentTimeMillis();
@@ -193,6 +240,23 @@ public class ModEvents {
 
                             player.getPersistentData().putLong("cloverLastTrigger", currentTime);
                             player.getPersistentData().putBoolean("hasClover", false);
+                        }
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasSomeonesGreenBlade")) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        if (currentPoise != null) {
+                            int poiseLevel = currentPoise.getAmplifier() + 1;
+                            int absorptionLevel = Math.min(poiseLevel / 5, 15);
+                            if (absorptionLevel > 0) {
+                                player.addEffect(new MobEffectInstance(
+                                        MobEffects.ABSORPTION,
+                                        20 * 10,
+                                        absorptionLevel - 1,
+                                        false,
+                                        false
+                                ));
+                            }
                         }
                     }
 
@@ -259,6 +323,30 @@ public class ModEvents {
                             event.setAmount(event.getAmount() + 1.0f);
                         }
                     }
+
+                    if (player.getPersistentData().getBoolean("hasSomeonesGreenBlade")) {
+                        MobEffectInstance absorption = player.getEffect(MobEffects.ABSORPTION);
+                        if (absorption != null) {
+                            event.setAmount(event.getAmount() * 1.1f);
+                        }
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasWhaleHeart")) {
+                        if (player.getRandom().nextFloat() < 0.5f) {
+                            event.setAmount(event.getAmount() * 1.1f);
+                        }
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasHarpoonGunLeg")) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        if (currentPoise != null) {
+                            event.setAmount(event.getAmount() * 1.22f);
+                        }
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasGasLamp")) {
+                        event.setAmount(event.getAmount() * 1.39f);
+                    }
                 }
             }
 
@@ -291,6 +379,68 @@ public class ModEvents {
                         ));
 
                         player.getPersistentData().putBoolean("endOfEvilNextAttackBoost", true);
+                    }
+                }
+            }
+
+            // ===== 捕绳：攻击缓慢目标获得呼吸法 =====
+            if (player.getPersistentData().getBoolean("hasRopeCatcher")) {
+                LivingEntity target = event.getEntity();
+                if (target instanceof LivingEntity) {
+                    MobEffectInstance slow = target.getEffect(MobEffects.MOVEMENT_SLOWDOWN);
+                    if (slow != null) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        int newAmplifier;
+                        if (currentPoise != null) {
+                            newAmplifier = currentPoise.getAmplifier() + 3;
+                        } else {
+                            newAmplifier = 0;
+                        }
+                        int currentDuration = 0;
+                        if (currentPoise != null) {
+                            currentDuration = currentPoise.getDuration();
+                        }
+                        int totalDuration = currentDuration + 20 * 2;
+
+                        player.removeEffect(Registration.POISE.get());
+                        player.addEffect(new MobEffectInstance(
+                                Registration.POISE.get(),
+                                totalDuration,
+                                newAmplifier,
+                                false,
+                                false
+                        ));
+                    }
+                }
+            }
+
+            // ===== 鲸心：攻击流血目标获得呼吸法 =====
+            if (player.getPersistentData().getBoolean("hasWhaleHeart")) {
+                LivingEntity target = event.getEntity();
+                if (target instanceof LivingEntity) {
+                    MobEffectInstance bleed = target.getEffect(Registration.BLEED.get());
+                    if (bleed != null) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        int newAmplifier;
+                        if (currentPoise != null) {
+                            newAmplifier = currentPoise.getAmplifier() + 1;
+                        } else {
+                            newAmplifier = 0;
+                        }
+                        int currentDuration = 0;
+                        if (currentPoise != null) {
+                            currentDuration = currentPoise.getDuration();
+                        }
+                        int totalDuration = currentDuration + 20;
+
+                        player.removeEffect(Registration.POISE.get());
+                        player.addEffect(new MobEffectInstance(
+                                Registration.POISE.get(),
+                                totalDuration,
+                                newAmplifier,
+                                false,
+                                false
+                        ));
                     }
                 }
             }

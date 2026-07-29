@@ -89,6 +89,27 @@ public class Registration {
     public static final RegistryObject<Item> COMMAND_SANCTUARY = ITEMS.register("command_sanctuary",
             () -> new CommandSanctuary(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> SOMEONES_GREEN_BLADE = ITEMS.register("someones_green_blade",
+            () -> new SomeonesGreenBlade(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> ROPE_CATCHER = ITEMS.register("rope_catcher",
+            () -> new RopeCatcher(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> WHALE_HEART = ITEMS.register("whale_heart",
+            () -> new WhaleHeart(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> HARPOON_GUN_LEG = ITEMS.register("harpoon_gun_leg",
+            () -> new HarpoonGunLeg(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> GAS_LAMP = ITEMS.register("gas_lamp",
+            () -> new GasLamp(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> FUZZY_HAT = ITEMS.register("fuzzy_hat",
+            () -> new FuzzyHat(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> GIANT_GIFT_BAG = ITEMS.register("giant_gift_bag",
+            () -> new GiantGiftBag(new Item.Properties().stacksTo(1)));
+
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
         ITEMS.register(modEventBus);
