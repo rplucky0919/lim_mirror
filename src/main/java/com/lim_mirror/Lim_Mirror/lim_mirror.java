@@ -64,6 +64,9 @@ public class lim_mirror {
                 output.accept(Registration.GAS_LAMP.get());
                 output.accept(Registration.FUZZY_HAT.get());
                 output.accept(Registration.GIANT_GIFT_BAG.get());
+                output.accept(Registration.BROKEN_BLADE.get());
+                output.accept(Registration.BROKEN_BAMBOO_HAT.get());
+                output.accept(Registration.HAPPY_PLUSHIE.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

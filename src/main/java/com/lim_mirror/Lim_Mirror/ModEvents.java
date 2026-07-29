@@ -6,6 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -31,9 +32,19 @@ public class ModEvents {
 
                 int level = amplifier + 1;
                 float critChance = Math.min(level * 0.05f, 1.0f);
-                if (player.getRandom().nextFloat() < critChance) {
+                boolean hasBambooHat = player.getPersistentData().getBoolean("hasBrokenBambooHat");
+                boolean isCrit = hasBambooHat || player.getRandom().nextFloat() < critChance;
+
+                if (isCrit) {
                     float baseDamage = event.getAmount();
                     float additiveDamage = 0.0f;
+
+                    if (hasBambooHat) {
+                        ItemStack mainHand = player.getMainHandItem();
+                        if (mainHand.getItem() instanceof SwordItem) {
+                            baseDamage = baseDamage * 1.5f;
+                        }
+                    }
 
                     if (player.getPersistentData().getBoolean("hasPipeBonus")) {
                         additiveDamage += 2.0f;
@@ -100,8 +111,17 @@ public class ModEvents {
                         }
                     }
 
+                    if (player.getPersistentData().getBoolean("hasBrokenBlade")) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        if (currentPoise != null) {
+                            int poiseLevel = currentPoise.getAmplifier() + 1;
+                            float extraDamage = poiseLevel / 2.0f;
+                            additiveDamage += extraDamage;
+                        }
+                    }
+
                     boolean hasStillWater = player.getPersistentData().getBoolean("hasStillWater");
-                    float multiplier = hasStillWater ? 3.5f : 1.5f;
+                    float multiplier = hasBambooHat ? 1.87f : (hasStillWater ? 3.5f : 1.5f);
 
                     if (player.getPersistentData().getBoolean("hasLuckyBag")) {
                         MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
@@ -146,6 +166,10 @@ public class ModEvents {
                     if (player.getPersistentData().getBoolean("barrelLiquorDamageBoost")) {
                         event.setAmount(event.getAmount() * 1.2f);
                         player.getPersistentData().putBoolean("barrelLiquorDamageBoost", false);
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasHappyPlushie")) {
+                        event.setAmount(event.getAmount() * 1.45f);
                     }
 
                     if (player.getPersistentData().getBoolean("hasEndOfEvil")) {
@@ -346,6 +370,10 @@ public class ModEvents {
 
                     if (player.getPersistentData().getBoolean("hasGasLamp")) {
                         event.setAmount(event.getAmount() * 1.39f);
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasHappyPlushie")) {
+                        event.setAmount(event.getAmount() * 1.45f);
                     }
                 }
             }

@@ -110,6 +110,15 @@ public class Registration {
     public static final RegistryObject<Item> GIANT_GIFT_BAG = ITEMS.register("giant_gift_bag",
             () -> new GiantGiftBag(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> BROKEN_BLADE = ITEMS.register("broken_blade",
+            () -> new BrokenBlade(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> BROKEN_BAMBOO_HAT = ITEMS.register("broken_bamboo_hat",
+            () -> new BrokenBambooHat(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> HAPPY_PLUSHIE = ITEMS.register("happy_plushie",
+            () -> new HappyPlushie(new Item.Properties().stacksTo(1)));
+
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
         ITEMS.register(modEventBus);

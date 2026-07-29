@@ -4,7 +4,7 @@ license="All Rights Reserved"
 
 [[mods]]
 modId="lim_mirror"
-version="1.0.0"
+version="1.0.2"
 displayName="边狱巴士镜牢饰品"
 logoFile="lim_mirror.png"
 credits="感谢所有测试者的反馈"
