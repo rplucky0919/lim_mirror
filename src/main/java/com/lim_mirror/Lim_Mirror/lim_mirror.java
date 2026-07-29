@@ -54,6 +54,9 @@ public class lim_mirror {
                 output.accept(Registration.MEMORY_OF_A_DAY.get());
                 output.accept(Registration.ANGELS_PRIVILEGE.get());
                 output.accept(Registration.REMINISCENCE.get());
+                output.accept(Registration.BARREL_LIQUOR.get());
+                output.accept(Registration.END_OF_EVIL.get());
+                output.accept(Registration.COMMAND_SANCTUARY.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

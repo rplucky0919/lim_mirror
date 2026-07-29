@@ -56,15 +56,6 @@ public class Registration {
     public static final RegistryObject<Item> OLD_WOODEN_FIGURINE = ITEMS.register("old_wooden_figurine",
             () -> new OldWoodenFigurine(new Item.Properties().stacksTo(1)));
 
-    public static final DeferredRegister<Enchantment> ENCHANTMENTS =
-            DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, lim_mirror.MODID);
-
-    public static final RegistryObject<Enchantment> BREATH_SMOOTH =
-            ENCHANTMENTS.register("breath_smooth", BreathSmoothEnchantment::new);
-
-    public static final RegistryObject<Enchantment> SANCHO_BLOOD =
-            ENCHANTMENTS.register("sancho_blood", SanchoBloodEnchantment::new);
-
     public static final RegistryObject<Item> NOSTALGIA = ITEMS.register("nostalgia",
             () -> new Nostalgia(new Item.Properties().stacksTo(1)));
 
@@ -76,6 +67,27 @@ public class Registration {
 
     public static final RegistryObject<Item> REMINISCENCE = ITEMS.register("reminiscence",
             () -> new Reminiscence(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> BARREL_LIQUOR = ITEMS.register("barrel_liquor",
+            () -> new BarrelLiquor(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> END_OF_EVIL = ITEMS.register("end_of_evil",
+            () -> new EndOfEvil(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredRegister<Enchantment> ENCHANTMENTS =
+            DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, lim_mirror.MODID);
+
+    public static final RegistryObject<Enchantment> BREATH_SMOOTH =
+            ENCHANTMENTS.register("breath_smooth", BreathSmoothEnchantment::new);
+
+    public static final RegistryObject<Enchantment> SANCHO_BLOOD =
+            ENCHANTMENTS.register("sancho_blood", SanchoBloodEnchantment::new);
+
+    public static final RegistryObject<Enchantment> SINKING_TOUCH =
+            ENCHANTMENTS.register("sinking_touch", SinkingTouchEnchantment::new);
+
+    public static final RegistryObject<Item> COMMAND_SANCTUARY = ITEMS.register("command_sanctuary",
+            () -> new CommandSanctuary(new Item.Properties().stacksTo(1)));
 
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);

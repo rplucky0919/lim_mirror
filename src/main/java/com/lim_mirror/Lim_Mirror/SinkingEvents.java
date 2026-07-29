@@ -44,6 +44,12 @@ public class SinkingEvents {
     public static void onLivingDamage(LivingDamageEvent event) {
         LivingEntity target = event.getEntity();
         if (target == null) return;
+        if (target.level().isClientSide()) return;
+
+        if (event.getSource() != null && event.getSource().getMsgId() != null &&
+                event.getSource().getMsgId().equals("sinking")) {
+            return;
+        }
 
         MobEffectInstance sinking = target.getEffect(Registration.SINKING.get());
         if (sinking == null) return;
@@ -51,6 +57,6 @@ public class SinkingEvents {
         int level = sinking.getAmplifier() + 1;
         float extraDamage = level;
 
-        target.hurt(target.damageSources().genericKill(), extraDamage);
+        event.setAmount(event.getAmount() + extraDamage);
     }
 }

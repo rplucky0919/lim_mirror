@@ -26,5 +26,10 @@
   "item.lim_mirror.nostalgia": "留恋",
   "item.lim_mirror.memory_of_a_day": "某日的记忆",
   "item.lim_mirror.angels_privilege": "天使所私",
-  "item.lim_mirror.reminiscence": "追忆"
+  "item.lim_mirror.reminiscence": "追忆",
+  "item.lim_mirror.barrel_liquor": "桶装烈酒",
+  "item.lim_mirror.end_of_evil": "万恶之终结",
+  "enchantment.lim_mirror.sinking_touch": "沉沦之触",
+  "enchantment.lim_mirror.sinking_touch.desc": "攻击时对目标施加可叠加的沉沦",
+  "item.lim_mirror.command_sanctuary": "指令的庇护"
 }

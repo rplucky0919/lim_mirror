@@ -93,6 +93,13 @@ public class ModEvents {
                         }
                     }
 
+                    if (player.getPersistentData().getBoolean("hasBarrelLiquor")) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        if (currentPoise != null) {
+                            additiveDamage += 1.0f;
+                        }
+                    }
+
                     boolean hasStillWater = player.getPersistentData().getBoolean("hasStillWater");
                     float multiplier = hasStillWater ? 3.5f : 1.5f;
 
@@ -120,6 +127,11 @@ public class ModEvents {
                         ));
                     }
 
+                    if (player.getPersistentData().getBoolean("endOfEvilNextAttackBoost")) {
+                        event.setAmount(event.getAmount() + 6.0f);
+                        player.getPersistentData().putBoolean("endOfEvilNextAttackBoost", false);
+                    }
+
                     event.setAmount((baseDamage + additiveDamage) * multiplier);
 
                     if (hasStillWater) {
@@ -129,6 +141,25 @@ public class ModEvents {
                     if (player.getPersistentData().getBoolean("luckyBagNextAttackBoost")) {
                         event.setAmount(event.getAmount() * 1.5f);
                         player.getPersistentData().putBoolean("luckyBagNextAttackBoost", false);
+                    }
+
+                    if (player.getPersistentData().getBoolean("barrelLiquorDamageBoost")) {
+                        event.setAmount(event.getAmount() * 1.2f);
+                        player.getPersistentData().putBoolean("barrelLiquorDamageBoost", false);
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasEndOfEvil")) {
+                        LivingEntity target = event.getEntity();
+                        if (target instanceof LivingEntity && target != player) {
+                            MobEffectInstance bleed = target.getEffect(Registration.BLEED.get());
+                            if (bleed != null) {
+                                event.setAmount(event.getAmount() * 1.1f);
+                            }
+                        }
+                    }
+
+                    if (player.getPersistentData().getLong("commandSanctuaryDamageBoost") > 0) {
+                        event.setAmount(event.getAmount() * 1.3f);
                     }
 
                     if (player.getPersistentData().getBoolean("hasClover")) {
@@ -221,10 +252,75 @@ public class ModEvents {
                             event.setAmount(event.getAmount() + 3.0f);
                         }
                     }
+
+                    if (player.getPersistentData().getBoolean("hasBarrelLiquor")) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        if (currentPoise != null) {
+                            event.setAmount(event.getAmount() + 1.0f);
+                        }
+                    }
                 }
             }
 
+            // ===== 万恶之终结：攻击流血目标获得呼吸法（独立于暴击） =====
+            if (player.getPersistentData().getBoolean("hasEndOfEvil")) {
+                LivingEntity target = event.getEntity();
+                if (target instanceof LivingEntity && target != player) {
+                    MobEffectInstance bleed = target.getEffect(Registration.BLEED.get());
+                    if (bleed != null) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        int newAmplifier;
+                        if (currentPoise != null) {
+                            newAmplifier = currentPoise.getAmplifier() + 3;
+                        } else {
+                            newAmplifier = 0;
+                        }
+                        int currentDuration = 0;
+                        if (currentPoise != null) {
+                            currentDuration = currentPoise.getDuration();
+                        }
+                        int totalDuration = currentDuration + 20 * 2;
+
+                        player.removeEffect(Registration.POISE.get());
+                        player.addEffect(new MobEffectInstance(
+                                Registration.POISE.get(),
+                                totalDuration,
+                                newAmplifier,
+                                false,
+                                false
+                        ));
+
+                        player.getPersistentData().putBoolean("endOfEvilNextAttackBoost", true);
+                    }
+                }
+            }
+
+            // ===== 沉沦之触附魔 =====
             ItemStack mainHand = player.getMainHandItem();
+            int sinkingEnchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.SINKING_TOUCH.get(), mainHand);
+            if (sinkingEnchantLevel > 0) {
+                LivingEntity target = event.getEntity();
+                if (target instanceof LivingEntity) {
+                    MobEffectInstance currentSinking = target.getEffect(Registration.SINKING.get());
+                    int newAmplifier = 0;
+                    int currentDuration = 0;
+                    if (currentSinking != null) {
+                        newAmplifier = currentSinking.getAmplifier() + 1;
+                        currentDuration = currentSinking.getDuration();
+                    }
+                    int totalDuration = currentDuration + 20;
+
+                    target.removeEffect(Registration.SINKING.get());
+                    target.addEffect(new MobEffectInstance(
+                            Registration.SINKING.get(),
+                            totalDuration,
+                            newAmplifier,
+                            false,
+                            false
+                    ));
+                }
+            }
+
             int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BREATH_SMOOTH.get(), mainHand);
 
             if (enchantLevel > 0) {
@@ -276,6 +372,22 @@ public class ModEvents {
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {
         if (event.getSource().getEntity() instanceof Player player) {
+            if (player.getPersistentData().getBoolean("hasEndOfEvil")) {
+                LivingEntity target = event.getEntity();
+                if (target instanceof LivingEntity) {
+                    MobEffectInstance bleed = target.getEffect(Registration.BLEED.get());
+                    if (bleed != null) {
+                        player.addEffect(new MobEffectInstance(
+                                MobEffects.DAMAGE_RESISTANCE,
+                                20 * 10,
+                                0,
+                                false,
+                                false
+                        ));
+                    }
+                }
+            }
+
             if (player.getPersistentData().getBoolean("hasStoneMound")) {
                 MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
 
