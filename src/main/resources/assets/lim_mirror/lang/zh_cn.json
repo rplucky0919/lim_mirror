@@ -19,5 +19,9 @@
   "item.lim_mirror.devils_delight": "魔鬼所享",
   "effect.lim_mirror.bleed": "流血",
   "enchantment.lim_mirror.sancho_blood": "桑丘之血",
-  "enchantment.lim_mirror.sancho_blood.desc": "攻击时对目标施加1秒1层流血"
+  "enchantment.lim_mirror.sancho_blood.desc": "攻击时对目标施加1秒1层流血",
+  "effect.lim_mirror.sinking": "沉沦",
+  "item.lim_mirror.green_elytra": "绿色鞘翅",
+  "item.lim_mirror.old_wooden_figurine": "陈旧的木雕人偶",
+  "item.lim_mirror.nostalgia": "留恋"
 }

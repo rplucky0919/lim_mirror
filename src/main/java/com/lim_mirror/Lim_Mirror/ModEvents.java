@@ -21,12 +21,12 @@ public class ModEvents {
             MobEffectInstance currentEffect = player.getEffect(Registration.POISE.get());
 
             if (currentEffect != null) {
-                int currentDuration = currentEffect.getDuration();
+                int currentDurationPoise = currentEffect.getDuration();
                 int amplifier = currentEffect.getAmplifier();
 
                 player.removeEffect(Registration.POISE.get());
-                if (currentDuration > 20) {
-                    player.addEffect(new MobEffectInstance(Registration.POISE.get(), currentDuration - 20, amplifier, false, false));
+                if (currentDurationPoise > 20) {
+                    player.addEffect(new MobEffectInstance(Registration.POISE.get(), currentDurationPoise - 20, amplifier, false, false));
                 }
 
                 int level = amplifier + 1;
@@ -110,6 +110,29 @@ public class ModEvents {
                             player.getPersistentData().putBoolean("hasClover", false);
                         }
                     }
+
+                    if (player.getPersistentData().getBoolean("hasOldWoodenFigurine")) {
+                        LivingEntity target = event.getEntity();
+                        if (target instanceof LivingEntity) {
+                            MobEffectInstance currentWither = target.getEffect(MobEffects.WITHER);
+                            int newAmplifier = 0;
+                            int currentDurationWither = 0;
+                            if (currentWither != null) {
+                                newAmplifier = Math.min(currentWither.getAmplifier() + 1, 4);
+                                currentDurationWither = currentWither.getDuration();
+                            }
+                            int totalDuration = currentDurationWither + 20 * 3;
+
+                            target.removeEffect(MobEffects.WITHER);
+                            target.addEffect(new MobEffectInstance(
+                                    MobEffects.WITHER,
+                                    totalDuration,
+                                    newAmplifier,
+                                    false,
+                                    false
+                            ));
+                        }
+                    }
                 }
             }
 
@@ -146,6 +169,24 @@ public class ModEvents {
                 }
             }
 
+            if (player.getPersistentData().getBoolean("hasNostalgia")) {
+                MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                if (currentPoise != null) {
+                    int durationSeconds = currentPoise.getDuration() / 20;
+                    int extraDamage = 0;
+                    if (durationSeconds >= 30 * 60) {
+                        extraDamage = 9;
+                    } else if (durationSeconds >= 20 * 60) {
+                        extraDamage = 6;
+                    } else if (durationSeconds >= 10 * 60) {
+                        extraDamage = 4;
+                    }
+                    if (extraDamage > 0) {
+                        event.setAmount(event.getAmount() + extraDamage);
+                    }
+                }
+            }
+
             ItemStack mainHand = player.getMainHandItem();
             int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BREATH_SMOOTH.get(), mainHand);
 
@@ -177,11 +218,11 @@ public class ModEvents {
                     newAmplifier = 0 + extraAmplifier;
                 }
 
-                int currentDuration = 0;
+                int currentDurationBreath = 0;
                 if (currentPoise != null) {
-                    currentDuration = currentPoise.getDuration();
+                    currentDurationBreath = currentPoise.getDuration();
                 }
-                int totalDuration = currentDuration + addDuration;
+                int totalDuration = currentDurationBreath + addDuration;
 
                 player.removeEffect(Registration.POISE.get());
                 player.addEffect(new MobEffectInstance(
@@ -210,11 +251,11 @@ public class ModEvents {
 
                 int addDuration = 20 * 4;
 
-                int currentDuration = 0;
+                int currentDurationStone = 0;
                 if (currentPoise != null) {
-                    currentDuration = currentPoise.getDuration();
+                    currentDurationStone = currentPoise.getDuration();
                 }
-                int totalDuration = currentDuration + addDuration;
+                int totalDuration = currentDurationStone + addDuration;
 
                 player.removeEffect(Registration.POISE.get());
                 player.addEffect(new MobEffectInstance(

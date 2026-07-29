@@ -15,6 +15,7 @@ public class Registration {
 
     public static final RegistryObject<MobEffect> POISE = EFFECTS.register("poise", Poise::new);
     public static final RegistryObject<MobEffect> BLEED = EFFECTS.register("bleed", BleedEffect::new);
+    public static final RegistryObject<MobEffect> SINKING = EFFECTS.register("sinking", SinkingEffect::new);
 
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, lim_mirror.MODID);
@@ -49,6 +50,12 @@ public class Registration {
     public static final RegistryObject<Item> DEVILS_DELIGHT = ITEMS.register("devils_delight",
             () -> new DevilsDelight(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> GREEN_ELYTRA = ITEMS.register("green_elytra",
+            () -> new GreenElytra(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> OLD_WOODEN_FIGURINE = ITEMS.register("old_wooden_figurine",
+            () -> new OldWoodenFigurine(new Item.Properties().stacksTo(1)));
+
     public static final DeferredRegister<Enchantment> ENCHANTMENTS =
             DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, lim_mirror.MODID);
 
@@ -57,6 +64,9 @@ public class Registration {
 
     public static final RegistryObject<Enchantment> SANCHO_BLOOD =
             ENCHANTMENTS.register("sancho_blood", SanchoBloodEnchantment::new);
+
+    public static final RegistryObject<Item> NOSTALGIA = ITEMS.register("nostalgia",
+            () -> new Nostalgia(new Item.Properties().stacksTo(1)));
 
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
