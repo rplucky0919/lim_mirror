@@ -68,6 +68,15 @@ public class Registration {
     public static final RegistryObject<Item> NOSTALGIA = ITEMS.register("nostalgia",
             () -> new Nostalgia(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> MEMORY_OF_A_DAY = ITEMS.register("memory_of_a_day",
+            () -> new MemoryOfADay(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> ANGELS_PRIVILEGE = ITEMS.register("angels_privilege",
+            () -> new AngelsPrivilege(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> REMINISCENCE = ITEMS.register("reminiscence",
+            () -> new Reminiscence(new Item.Properties().stacksTo(1)));
+
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
         ITEMS.register(modEventBus);

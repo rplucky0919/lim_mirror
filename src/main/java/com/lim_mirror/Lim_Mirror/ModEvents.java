@@ -44,6 +44,55 @@ public class ModEvents {
                         player.getPersistentData().putBoolean("stillWaterNextAttackBoost", false);
                     }
 
+                    if (player.getPersistentData().getBoolean("hasDevilsDelight")) {
+                        additiveDamage += 2.0f;
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasLuckyBag")) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        if (currentPoise != null) {
+                            additiveDamage += 9.0f;
+                            player.addEffect(new MobEffectInstance(
+                                    MobEffects.DAMAGE_BOOST,
+                                    20 * 3,
+                                    11,
+                                    false,
+                                    false
+                            ));
+                            player.getPersistentData().putBoolean("luckyBagNextAttackBoost", true);
+                        }
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasNostalgia")) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        if (currentPoise != null) {
+                            int durationSeconds = currentPoise.getDuration() / 20;
+                            if (durationSeconds >= 30 * 60) {
+                                additiveDamage += 9.0f;
+                            } else if (durationSeconds >= 20 * 60) {
+                                additiveDamage += 6.0f;
+                            } else if (durationSeconds >= 10 * 60) {
+                                additiveDamage += 4.0f;
+                            }
+                        }
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasMemoryOfADay")) {
+                        ItemStack mainHand = player.getMainHandItem();
+                        int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BREATH_SMOOTH.get(), mainHand);
+                        if (enchantLevel > 0) {
+                            additiveDamage += 6.0f;
+                        }
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasReminiscence")) {
+                        ItemStack mainHand = player.getMainHandItem();
+                        int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BREATH_SMOOTH.get(), mainHand);
+                        if (enchantLevel > 0) {
+                            additiveDamage += 3.0f;
+                        }
+                    }
+
                     boolean hasStillWater = player.getPersistentData().getBoolean("hasStillWater");
                     float multiplier = hasStillWater ? 3.5f : 1.5f;
 
@@ -75,6 +124,11 @@ public class ModEvents {
 
                     if (hasStillWater) {
                         player.getPersistentData().putBoolean("stillWaterNextAttackBoost", true);
+                    }
+
+                    if (player.getPersistentData().getBoolean("luckyBagNextAttackBoost")) {
+                        event.setAmount(event.getAmount() * 1.5f);
+                        player.getPersistentData().putBoolean("luckyBagNextAttackBoost", false);
                     }
 
                     if (player.getPersistentData().getBoolean("hasClover")) {
@@ -133,56 +187,39 @@ public class ModEvents {
                             ));
                         }
                     }
-                }
-            }
-
-            if (player.getPersistentData().getBoolean("hasDevilsDelight")) {
-                event.setAmount(event.getAmount() + 2.0f);
-            }
-
-            if (player.getPersistentData().getBoolean("hasLuckyBag")) {
-                MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
-                if (currentPoise != null) {
-                    event.setAmount(event.getAmount() + 9.0f);
-
-                    player.addEffect(new MobEffectInstance(
-                            MobEffects.DAMAGE_BOOST,
-                            20 * 3,
-                            11,
-                            false,
-                            false
-                    ));
-
-                    player.getPersistentData().putBoolean("luckyBagNextAttackBoost", true);
-                }
-            }
-
-            if (player.getPersistentData().getBoolean("luckyBagNextAttackBoost")) {
-                event.setAmount(event.getAmount() * 1.5f);
-                player.getPersistentData().putBoolean("luckyBagNextAttackBoost", false);
-            }
-
-            if (player.getPersistentData().getBoolean("hasDevilsDelight")) {
-                MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
-                if (currentPoise != null) {
-                    event.setAmount(event.getAmount() + 2.0f);
-                }
-            }
-
-            if (player.getPersistentData().getBoolean("hasNostalgia")) {
-                MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
-                if (currentPoise != null) {
-                    int durationSeconds = currentPoise.getDuration() / 20;
-                    int extraDamage = 0;
-                    if (durationSeconds >= 30 * 60) {
-                        extraDamage = 9;
-                    } else if (durationSeconds >= 20 * 60) {
-                        extraDamage = 6;
-                    } else if (durationSeconds >= 10 * 60) {
-                        extraDamage = 4;
+                } else {
+                    if (player.getPersistentData().getBoolean("hasDevilsDelight")) {
+                        event.setAmount(event.getAmount() + 2.0f);
                     }
-                    if (extraDamage > 0) {
-                        event.setAmount(event.getAmount() + extraDamage);
+
+                    if (player.getPersistentData().getBoolean("hasNostalgia")) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        if (currentPoise != null) {
+                            int durationSeconds = currentPoise.getDuration() / 20;
+                            if (durationSeconds >= 30 * 60) {
+                                event.setAmount(event.getAmount() + 9.0f);
+                            } else if (durationSeconds >= 20 * 60) {
+                                event.setAmount(event.getAmount() + 6.0f);
+                            } else if (durationSeconds >= 10 * 60) {
+                                event.setAmount(event.getAmount() + 4.0f);
+                            }
+                        }
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasMemoryOfADay")) {
+                        ItemStack mainHand = player.getMainHandItem();
+                        int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BREATH_SMOOTH.get(), mainHand);
+                        if (enchantLevel > 0) {
+                            event.setAmount(event.getAmount() + 6.0f);
+                        }
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasReminiscence")) {
+                        ItemStack mainHand = player.getMainHandItem();
+                        int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BREATH_SMOOTH.get(), mainHand);
+                        if (enchantLevel > 0) {
+                            event.setAmount(event.getAmount() + 3.0f);
+                        }
                     }
                 }
             }

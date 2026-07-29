@@ -51,6 +51,9 @@ public class lim_mirror {
                 output.accept(Registration.GREEN_ELYTRA.get());
                 output.accept(Registration.OLD_WOODEN_FIGURINE.get());
                 output.accept(Registration.NOSTALGIA.get());
+                output.accept(Registration.MEMORY_OF_A_DAY.get());
+                output.accept(Registration.ANGELS_PRIVILEGE.get());
+                output.accept(Registration.REMINISCENCE.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {
