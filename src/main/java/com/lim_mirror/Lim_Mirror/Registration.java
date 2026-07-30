@@ -136,6 +136,17 @@ public class Registration {
     public static final RegistryObject<Item> MOON_IN_WATER = ITEMS.register("moon_in_water",
             () -> new MoonInWater(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<MobEffect> BURN = EFFECTS.register("burn", BurnEffect::new);
+
+    public static final RegistryObject<Enchantment> MATCH_FLAME =
+            ENCHANTMENTS.register("match_flame", MatchFlameEnchantment::new);
+
+    public static final RegistryObject<Item> HELL_BUTTERFLY_DREAM = ITEMS.register("hell_butterfly_dream",
+            () -> new HellButterflyDream(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> DUST_TO_DUST = ITEMS.register("dust_to_dust",
+            () -> new DustToDust(new Item.Properties().stacksTo(1)));
+
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
         ITEMS.register(modEventBus);

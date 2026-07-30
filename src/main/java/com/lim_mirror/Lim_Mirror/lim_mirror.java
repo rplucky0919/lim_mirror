@@ -33,7 +33,8 @@ public class lim_mirror {
     public static final DeferredRegister<net.minecraft.world.item.Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    public static final RegistryObject<CreativeModeTab> LIM_MIRROR_TAB = CREATIVE_MODE_TABS.register("lim_mirror_tab", () -> CreativeModeTab.builder()
+    // 呼吸法饰品创造栏
+    public static final RegistryObject<CreativeModeTab> POISE_TAB = CREATIVE_MODE_TABS.register("poise_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> new ItemStack(Registration.PIPE.get()))
             .title(net.minecraft.network.chat.Component.literal("呼吸法饰品"))
@@ -71,6 +72,16 @@ public class lim_mirror {
                 output.accept(Registration.MELEE_COMBAT_MANUAL.get());
                 output.accept(Registration.STIFLED_BREATH.get());
                 output.accept(Registration.MOON_IN_WATER.get());
+            }).build());
+
+    // 烧伤饰品创造栏
+    public static final RegistryObject<CreativeModeTab> BURN_TAB = CREATIVE_MODE_TABS.register("burn_tab", () -> CreativeModeTab.builder()
+            .withTabsBefore(CreativeModeTabs.COMBAT)
+            .icon(() -> new ItemStack(Registration.HELL_BUTTERFLY_DREAM.get()))
+            .title(net.minecraft.network.chat.Component.literal("烧伤饰品"))
+            .displayItems((parameters, output) -> {
+                output.accept(Registration.HELL_BUTTERFLY_DREAM.get());
+                output.accept(Registration.DUST_TO_DUST.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

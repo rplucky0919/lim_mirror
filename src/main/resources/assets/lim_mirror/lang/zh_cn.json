@@ -48,5 +48,11 @@
   "effect.lim_mirror.rupture": "破裂",
   "enchantment.lim_mirror.shadow_beast": "黑兽之影",
   "enchantment.lim_mirror.shadow_beast.desc": "攻击时对目标施加1秒1层破裂",
-  "item.lim_mirror.moon_in_water": "水中月"
+  "item.lim_mirror.moon_in_water": "水中月",
+  "effect.lim_mirror.burn": "烧伤",
+  "enchantment.lim_mirror.match_flame": "火柴之焰",
+  "enchantment.lim_mirror.match_flame.desc": "攻击时对目标施加1秒1层烧伤",
+  "item.lim_mirror.hell_butterfly_dream": "地狱蝶之梦",
+  "creativeTab.lim_mirror.burn_tab": "烧伤饰品",
+  "item.lim_mirror.dust_to_dust": "尘归尘"
 }

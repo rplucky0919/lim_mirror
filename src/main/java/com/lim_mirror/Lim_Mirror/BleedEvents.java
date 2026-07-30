@@ -12,12 +12,19 @@ import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 @Mod.EventBusSubscriber(modid = lim_mirror.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BleedEvents {
 
     private static final int MAX_LEVELS = 99;
-    private static final int INTERVAL_TICKS = 20;
     private static final float DAMAGE_PER_LEVEL = 1.0f;
+    private static final int COOLDOWN_TICKS = 10;
+
+    private static final Map<UUID, double[]> lastPositions = new HashMap<>();
+    private static final Map<UUID, Long> lastDamageTimes = new HashMap<>();
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
@@ -51,33 +58,57 @@ public class BleedEvents {
 
     @SubscribeEvent
     public static void onLivingTick(LivingEvent.LivingTickEvent event) {
-        LivingEntity target = event.getEntity();
-        if (target == null) return;
-        if (target.level().isClientSide()) return;
+        LivingEntity entity = event.getEntity();
+        if (entity == null) return;
+        if (entity.level().isClientSide()) return;
 
-        MobEffectInstance bleed = target.getEffect(Registration.BLEED.get());
-        if (bleed == null) return;
+        MobEffectInstance bleed = entity.getEffect(Registration.BLEED.get());
+        if (bleed == null) {
+            lastPositions.remove(entity.getUUID());
+            lastDamageTimes.remove(entity.getUUID());
+            return;
+        }
 
-        long currentTick = target.level().getGameTime();
-        if (currentTick % INTERVAL_TICKS != 0) return;
+        UUID uuid = entity.getUUID();
+        double[] currentPos = new double[]{entity.getX(), entity.getY(), entity.getZ()};
+        double[] lastPos = lastPositions.get(uuid);
 
-        int level = Math.min(bleed.getAmplifier() + 1, MAX_LEVELS);
-        float damage = level * DAMAGE_PER_LEVEL;
+        if (lastPos == null) {
+            lastPositions.put(uuid, currentPos);
+            lastDamageTimes.put(uuid, entity.level().getGameTime());
+            return;
+        }
 
-        if (target.getAbsorptionAmount() > 0) {
-            float absorption = target.getAbsorptionAmount();
-            if (absorption >= damage) {
-                target.setAbsorptionAmount(absorption - damage);
-                return;
-            } else {
-                target.setAbsorptionAmount(0);
-                float remaining = damage - absorption;
-                target.hurt(target.damageSources().genericKill(), remaining);
-                return;
+        boolean hasMoved = Math.abs(currentPos[0] - lastPos[0]) > 0.001 ||
+                Math.abs(currentPos[1] - lastPos[1]) > 0.001 ||
+                Math.abs(currentPos[2] - lastPos[2]) > 0.001;
+
+        if (hasMoved) {
+            long currentTick = entity.level().getGameTime();
+            long lastDamageTick = lastDamageTimes.getOrDefault(uuid, 0L);
+
+            if (currentTick - lastDamageTick >= COOLDOWN_TICKS) {
+                int level = Math.min(bleed.getAmplifier() + 1, MAX_LEVELS);
+                float damage = level * DAMAGE_PER_LEVEL;
+
+                if (entity.getAbsorptionAmount() > 0) {
+                    float absorption = entity.getAbsorptionAmount();
+                    if (absorption >= damage) {
+                        entity.setAbsorptionAmount(absorption - damage);
+                    } else {
+                        entity.setAbsorptionAmount(0);
+                        float remaining = damage - absorption;
+                        entity.hurt(entity.damageSources().genericKill(), remaining);
+                    }
+                } else {
+                    entity.hurt(entity.damageSources().genericKill(), damage);
+                }
+
+                lastDamageTimes.put(uuid, currentTick);
             }
         }
 
-        target.hurt(target.damageSources().genericKill(), damage);
+        lastPositions.put(uuid, currentPos);
     }
 
     @SubscribeEvent
@@ -86,6 +117,8 @@ public class BleedEvents {
         if (living == null) return;
         if (event.getItem().getItem() == Items.MILK_BUCKET) {
             living.removeEffect(Registration.BLEED.get());
+            lastPositions.remove(living.getUUID());
+            lastDamageTimes.remove(living.getUUID());
         }
     }
 
