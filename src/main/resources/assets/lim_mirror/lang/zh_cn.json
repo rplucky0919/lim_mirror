@@ -41,5 +41,12 @@
   "item.lim_mirror.giant_gift_bag": "巨大的礼物袋",
   "item.lim_mirror.broken_blade": "损坏的刀刃",
   "item.lim_mirror.broken_bamboo_hat": "损坏的竹笠",
-  "item.lim_mirror.happy_plushie": "快乐的毛绒玩偶"
+  "item.lim_mirror.happy_plushie": "快乐的毛绒玩偶",
+  "item.lim_mirror.gear_shard": "齿轮碎片",
+  "item.lim_mirror.melee_combat_manual": "近身格斗教材",
+  "item.lim_mirror.stifled_breath": "憋闷的吐息",
+  "effect.lim_mirror.rupture": "破裂",
+  "enchantment.lim_mirror.shadow_beast": "黑兽之影",
+  "enchantment.lim_mirror.shadow_beast.desc": "攻击时对目标施加1秒1层破裂",
+  "item.lim_mirror.moon_in_water": "水中月"
 }

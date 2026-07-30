@@ -8,17 +8,19 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = lim_mirror.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class ModEvents {
+public class PoiseEvents {
 
     @SubscribeEvent
     public static void onAttack(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player player) {
+            ItemStack mainHand = player.getMainHandItem();
             MobEffectInstance currentEffect = player.getEffect(Registration.POISE.get());
 
             if (currentEffect != null) {
@@ -40,7 +42,6 @@ public class ModEvents {
                     float additiveDamage = 0.0f;
 
                     if (hasBambooHat) {
-                        ItemStack mainHand = player.getMainHandItem();
                         if (mainHand.getItem() instanceof SwordItem) {
                             baseDamage = baseDamage * 1.5f;
                         }
@@ -89,7 +90,6 @@ public class ModEvents {
                     }
 
                     if (player.getPersistentData().getBoolean("hasMemoryOfADay")) {
-                        ItemStack mainHand = player.getMainHandItem();
                         int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BREATH_SMOOTH.get(), mainHand);
                         if (enchantLevel > 0) {
                             additiveDamage += 6.0f;
@@ -97,7 +97,6 @@ public class ModEvents {
                     }
 
                     if (player.getPersistentData().getBoolean("hasReminiscence")) {
-                        ItemStack mainHand = player.getMainHandItem();
                         int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BREATH_SMOOTH.get(), mainHand);
                         if (enchantLevel > 0) {
                             additiveDamage += 3.0f;
@@ -168,8 +167,28 @@ public class ModEvents {
                         player.getPersistentData().putBoolean("barrelLiquorDamageBoost", false);
                     }
 
+                    if (player.getPersistentData().getBoolean("hasMoonInWater")) {
+                        LivingEntity target = event.getEntity();
+                        if (target instanceof LivingEntity) {
+                            MobEffectInstance rupture = target.getEffect(Registration.RUPTURE.get());
+                            if (rupture != null) {
+                                int levelRupture = rupture.getAmplifier() + 1;
+                                if (levelRupture >= 20) {
+                                    event.setAmount(event.getAmount() * 1.46f);
+                                }
+                            }
+                        }
+                    }
+
                     if (player.getPersistentData().getBoolean("hasHappyPlushie")) {
                         event.setAmount(event.getAmount() * 1.45f);
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasGearShard")) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        if (currentPoise != null) {
+                            event.setAmount(event.getAmount() * 1.32f);
+                        }
                     }
 
                     if (player.getPersistentData().getBoolean("hasEndOfEvil")) {
@@ -326,7 +345,6 @@ public class ModEvents {
                     }
 
                     if (player.getPersistentData().getBoolean("hasMemoryOfADay")) {
-                        ItemStack mainHand = player.getMainHandItem();
                         int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BREATH_SMOOTH.get(), mainHand);
                         if (enchantLevel > 0) {
                             event.setAmount(event.getAmount() + 6.0f);
@@ -334,7 +352,6 @@ public class ModEvents {
                     }
 
                     if (player.getPersistentData().getBoolean("hasReminiscence")) {
-                        ItemStack mainHand = player.getMainHandItem();
                         int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BREATH_SMOOTH.get(), mainHand);
                         if (enchantLevel > 0) {
                             event.setAmount(event.getAmount() + 3.0f);
@@ -374,6 +391,80 @@ public class ModEvents {
 
                     if (player.getPersistentData().getBoolean("hasHappyPlushie")) {
                         event.setAmount(event.getAmount() * 1.45f);
+                    }
+
+                    if (player.getPersistentData().getBoolean("hasGearShard")) {
+                        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                        if (currentPoise != null) {
+                            event.setAmount(event.getAmount() * 1.32f);
+                        }
+                    }
+                }
+            }
+
+            // ===== 近身格斗教材：物品栏有无限弓时伤害×1.6（独立于暴击） =====
+            if (player.getPersistentData().getBoolean("hasMeleeCombatManual")) {
+                boolean hasInfinityBow = false;
+                for (ItemStack stack : player.getInventory().items) {
+                    if (!stack.isEmpty()) {
+                        int infinityLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, stack);
+                        if (infinityLevel > 0) {
+                            hasInfinityBow = true;
+                            break;
+                        }
+                    }
+                }
+                if (hasInfinityBow) {
+                    event.setAmount(event.getAmount() * 1.6f);
+                }
+            }
+
+            // ===== 憋闷的吐息 =====
+            if (player.getPersistentData().getBoolean("hasStifledBreath")) {
+                MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                if (currentPoise != null) {
+                    int durationSeconds = currentPoise.getDuration() / 20;
+                    if (durationSeconds >= 50 * 60) {
+                        int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BREATH_SMOOTH.get(), mainHand);
+                        if (enchantLevel > 0) {
+                            event.setAmount(event.getAmount() * 2.6f);
+                        } else {
+                            event.setAmount(event.getAmount() * 1.8f);
+                        }
+                    }
+                }
+            }
+
+            // ===== 水中月：攻击破裂目标获得呼吸法 =====
+            if (player.getPersistentData().getBoolean("hasMoonInWater")) {
+                LivingEntity target = event.getEntity();
+                if (target instanceof LivingEntity) {
+                    MobEffectInstance rupture = target.getEffect(Registration.RUPTURE.get());
+                    if (rupture != null) {
+                        int durationSeconds = rupture.getDuration() / 20;
+                        if (durationSeconds >= 5) {
+                            MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                            int newAmplifier;
+                            if (currentPoise != null) {
+                                newAmplifier = currentPoise.getAmplifier() + 1;
+                            } else {
+                                newAmplifier = 0;
+                            }
+                            int currentDuration = 0;
+                            if (currentPoise != null) {
+                                currentDuration = currentPoise.getDuration();
+                            }
+                            int totalDuration = currentDuration + 20;
+
+                            player.removeEffect(Registration.POISE.get());
+                            player.addEffect(new MobEffectInstance(
+                                    Registration.POISE.get(),
+                                    totalDuration,
+                                    newAmplifier,
+                                    false,
+                                    false
+                            ));
+                        }
                     }
                 }
             }
@@ -473,24 +564,25 @@ public class ModEvents {
                 }
             }
 
-            // ===== 沉沦之触附魔 =====
-            ItemStack mainHand = player.getMainHandItem();
-            int sinkingEnchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.SINKING_TOUCH.get(), mainHand);
-            if (sinkingEnchantLevel > 0) {
-                LivingEntity target = event.getEntity();
-                if (target instanceof LivingEntity) {
-                    MobEffectInstance currentSinking = target.getEffect(Registration.SINKING.get());
-                    int newAmplifier = 0;
-                    int currentDuration = 0;
-                    if (currentSinking != null) {
-                        newAmplifier = currentSinking.getAmplifier() + 1;
-                        currentDuration = currentSinking.getDuration();
+            // ===== 近身格斗教材：射出箭时获得呼吸法 =====
+            if (player.getPersistentData().getBoolean("hasMeleeCombatManual")) {
+                if (event.getSource().getMsgId() != null && event.getSource().getMsgId().equals("arrow")) {
+                    MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+                    int newAmplifier;
+                    if (currentPoise != null) {
+                        newAmplifier = currentPoise.getAmplifier() + 3;
+                    } else {
+                        newAmplifier = 0;
                     }
-                    int totalDuration = currentDuration + 20;
+                    int currentDuration = 0;
+                    if (currentPoise != null) {
+                        currentDuration = currentPoise.getDuration();
+                    }
+                    int totalDuration = currentDuration + 20 * 3;
 
-                    target.removeEffect(Registration.SINKING.get());
-                    target.addEffect(new MobEffectInstance(
-                            Registration.SINKING.get(),
+                    player.removeEffect(Registration.POISE.get());
+                    player.addEffect(new MobEffectInstance(
+                            Registration.POISE.get(),
                             totalDuration,
                             newAmplifier,
                             false,

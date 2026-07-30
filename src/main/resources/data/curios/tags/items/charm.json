@@ -26,6 +26,10 @@
     "lim_mirror:harpoon_gun_leg",
     "lim_mirror:gas_lamp",
     "lim_mirror:broken_blade",
-    "lim_mirror:happy_plushie"
+    "lim_mirror:happy_plushie",
+    "lim_mirror:gear_shard",
+    "lim_mirror:melee_combat_manual",
+    "lim_mirror:stifled_breath",
+    "lim_mirror:moon_in_water"
   ]
 }

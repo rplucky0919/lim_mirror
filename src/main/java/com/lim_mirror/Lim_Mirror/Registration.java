@@ -119,6 +119,23 @@ public class Registration {
     public static final RegistryObject<Item> HAPPY_PLUSHIE = ITEMS.register("happy_plushie",
             () -> new HappyPlushie(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> GEAR_SHARD = ITEMS.register("gear_shard",
+            () -> new GearShard(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> MELEE_COMBAT_MANUAL = ITEMS.register("melee_combat_manual",
+            () -> new MeleeCombatManual(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> STIFLED_BREATH = ITEMS.register("stifled_breath",
+            () -> new StifledBreath(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<MobEffect> RUPTURE = EFFECTS.register("rupture", RuptureEffect::new);
+
+    public static final RegistryObject<Enchantment> SHADOW_BEAST =
+            ENCHANTMENTS.register("shadow_beast", ShadowBeastEnchantment::new);
+
+    public static final RegistryObject<Item> MOON_IN_WATER = ITEMS.register("moon_in_water",
+            () -> new MoonInWater(new Item.Properties().stacksTo(1)));
+
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
         ITEMS.register(modEventBus);
