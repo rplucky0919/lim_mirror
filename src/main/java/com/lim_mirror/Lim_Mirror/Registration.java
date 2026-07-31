@@ -147,6 +147,30 @@ public class Registration {
     public static final RegistryObject<Item> DUST_TO_DUST = ITEMS.register("dust_to_dust",
             () -> new DustToDust(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> BLAZING_FEATHER = ITEMS.register("blazing_feather",
+            () -> new BlazingFeather(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SINGLE_POINT_LOGIC_CIRCUIT = ITEMS.register("single_point_logic_circuit",
+            () -> new SinglePointLogicCircuit(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> YANLING = ITEMS.register("yanling",
+            () -> new Yanling(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> EARTH_TO_EARTH = ITEMS.register("earth_to_earth",
+            () -> new EarthToEarth(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SCORCHED_DISC = ITEMS.register("scorched_disc",
+            () -> new ScorchedDisc(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> BLAZING_WISDOM = ITEMS.register("blazing_wisdom",
+            () -> new BlazingWisdom(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> REQUIEM = ITEMS.register("requiem",
+            () -> new Requiem(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> MELTED_WAX = ITEMS.register("melted_wax",
+            () -> new MeltedWax(new Item.Properties().stacksTo(1)));
+
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
         ITEMS.register(modEventBus);

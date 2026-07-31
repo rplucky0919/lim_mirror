@@ -82,6 +82,14 @@ public class lim_mirror {
             .displayItems((parameters, output) -> {
                 output.accept(Registration.HELL_BUTTERFLY_DREAM.get());
                 output.accept(Registration.DUST_TO_DUST.get());
+                output.accept(Registration.BLAZING_FEATHER.get());
+                output.accept(Registration.SINGLE_POINT_LOGIC_CIRCUIT.get());
+                output.accept(Registration.YANLING.get());
+                output.accept(Registration.EARTH_TO_EARTH.get());
+                output.accept(Registration.SCORCHED_DISC.get());
+                output.accept(Registration.BLAZING_WISDOM.get());
+                output.accept(Registration.REQUIEM.get());
+                output.accept(Registration.MELTED_WAX.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {
