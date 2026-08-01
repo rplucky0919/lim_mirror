@@ -90,6 +90,15 @@ public class lim_mirror {
                 output.accept(Registration.BLAZING_WISDOM.get());
                 output.accept(Registration.REQUIEM.get());
                 output.accept(Registration.MELTED_WAX.get());
+                output.accept(Registration.POLARIZED_LIGHT.get());
+                output.accept(Registration.SUPPRESSED_FIRE.get());
+                output.accept(Registration.FIRELIGHT_FLOWER.get());
+                output.accept(Registration.ETERNAL_STEWPOT.get());
+                output.accept(Registration.ETERNAL_HEARTHFIRE.get());
+                output.accept(Registration.COOKING_SECRETS_BOOK.get());
+                output.accept(Registration.STOLEN_FLAME.get());
+                output.accept(Registration.RED_TIE.get());
+                output.accept(Registration.UNIFORM_SIX_ASSOCIATION.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

@@ -171,6 +171,33 @@ public class Registration {
     public static final RegistryObject<Item> MELTED_WAX = ITEMS.register("melted_wax",
             () -> new MeltedWax(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> POLARIZED_LIGHT = ITEMS.register("polarized_light",
+            () -> new PolarizedLight(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SUPPRESSED_FIRE = ITEMS.register("suppressed_fire",
+            () -> new SuppressedFire(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> FIRELIGHT_FLOWER = ITEMS.register("firelight_flower",
+            () -> new FirelightFlower(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> ETERNAL_STEWPOT = ITEMS.register("eternal_stewpot",
+            () -> new EternalStewpot(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> ETERNAL_HEARTHFIRE = ITEMS.register("eternal_hearthfire",
+            () -> new EternalHearthfire(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> COOKING_SECRETS_BOOK = ITEMS.register("cooking_secrets_book",
+            () -> new CookingSecretsBook(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> STOLEN_FLAME = ITEMS.register("stolen_flame",
+            () -> new StolenFlame(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> RED_TIE = ITEMS.register("red_tie",
+            () -> new RedTie(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> UNIFORM_SIX_ASSOCIATION = ITEMS.register("uniform_six_association",
+            () -> new UniformSixAssociation(new Item.Properties().stacksTo(1)));
+
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
         ITEMS.register(modEventBus);
