@@ -198,6 +198,18 @@ public class Registration {
     public static final RegistryObject<Item> UNIFORM_SIX_ASSOCIATION = ITEMS.register("uniform_six_association",
             () -> new UniformSixAssociation(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> ROYAL_JELLY_PERFUME = ITEMS.register("royal_jelly_perfume",
+            () -> new RoyalJellyPerfume(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> RED_DISASTER_EXTRACT = ITEMS.register("red_disaster_extract",
+            () -> new RedDisasterExtract(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> BURNING_FATE = ITEMS.register("burning_fate",
+            () -> new BurningFate(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SCORCHING_COPPER_PIPE = ITEMS.register("scorching_copper_pipe",
+            () -> new ScorchingCopperPipe(new Item.Properties().stacksTo(1)));
+
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
         ITEMS.register(modEventBus);

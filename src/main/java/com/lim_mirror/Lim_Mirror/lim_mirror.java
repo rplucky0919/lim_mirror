@@ -99,6 +99,10 @@ public class lim_mirror {
                 output.accept(Registration.STOLEN_FLAME.get());
                 output.accept(Registration.RED_TIE.get());
                 output.accept(Registration.UNIFORM_SIX_ASSOCIATION.get());
+                output.accept(Registration.ROYAL_JELLY_PERFUME.get());
+                output.accept(Registration.RED_DISASTER_EXTRACT.get());
+                output.accept(Registration.BURNING_FATE.get());
+                output.accept(Registration.SCORCHING_COPPER_PIPE.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

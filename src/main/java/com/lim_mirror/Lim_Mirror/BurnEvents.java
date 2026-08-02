@@ -23,9 +23,28 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = lim_mirror.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BurnEvents {
 
-    private static final int MAX_LEVELS = 99;
+    public static int CURRENT_MAX_LEVELS = 99;
     private static final int INTERVAL_TICKS = 20;
     private static final float DAMAGE_PER_LEVEL = 1.0f;
+
+    public static void updateMaxLevels(Player player) {
+        if (player == null) {
+            CURRENT_MAX_LEVELS = 99;
+            return;
+        }
+        boolean hasBurningFate = player.getPersistentData().getBoolean("hasBurningFate");
+        boolean hasScorchingCopperPipe = player.getPersistentData().getBoolean("hasScorchingCopperPipe");
+
+        if (hasBurningFate && hasScorchingCopperPipe) {
+            CURRENT_MAX_LEVELS = 150;
+        } else if (hasBurningFate) {
+            CURRENT_MAX_LEVELS = 129;
+        } else if (hasScorchingCopperPipe) {
+            CURRENT_MAX_LEVELS = 120;
+        } else {
+            CURRENT_MAX_LEVELS = 99;
+        }
+    }
 
     private static void applyBurn(LivingEntity target, Player attacker, int addAmplifier, int addDuration) {
         MobEffectInstance currentBurn = target.getEffect(Registration.BURN.get());
@@ -41,7 +60,7 @@ public class BurnEvents {
         target.addEffect(new MobEffectInstance(
                 Registration.BURN.get(),
                 totalDuration,
-                Math.min(currentAmplifier, MAX_LEVELS - 1),
+                Math.min(currentAmplifier, CURRENT_MAX_LEVELS - 1),
                 false,
                 false
         ));
@@ -51,7 +70,7 @@ public class BurnEvents {
         MobEffectInstance burn = target.getEffect(Registration.BURN.get());
         if (burn == null) return;
 
-        int level = Math.min(burn.getAmplifier() + 1, MAX_LEVELS);
+        int level = Math.min(burn.getAmplifier() + 1, CURRENT_MAX_LEVELS);
         float damage = level * DAMAGE_PER_LEVEL;
 
         if (target.getAbsorptionAmount() > 0) {
@@ -115,7 +134,7 @@ public class BurnEvents {
         target.addEffect(new MobEffectInstance(
                 Registration.BURN.get(),
                 totalDuration,
-                currentAmplifier,
+                Math.min(currentAmplifier, CURRENT_MAX_LEVELS - 1),
                 false,
                 false
         ));
@@ -144,7 +163,7 @@ public class BurnEvents {
             target.addEffect(new MobEffectInstance(
                     Registration.BURN.get(),
                     totalDuration,
-                    Math.min(newAmplifier, MAX_LEVELS - 1),
+                    Math.min(newAmplifier, CURRENT_MAX_LEVELS - 1),
                     false,
                     false
             ));
@@ -168,7 +187,7 @@ public class BurnEvents {
                 target.addEffect(new MobEffectInstance(
                         Registration.BURN.get(),
                         20 * 2,
-                        3,
+                        Math.min(3, CURRENT_MAX_LEVELS - 1),
                         false,
                         false
                 ));
@@ -183,7 +202,7 @@ public class BurnEvents {
             target.addEffect(new MobEffectInstance(
                     Registration.BURN.get(),
                     totalDuration,
-                    Math.min(newAmplifier, MAX_LEVELS - 1),
+                    Math.min(newAmplifier, CURRENT_MAX_LEVELS - 1),
                     false,
                     false
             ));
@@ -207,7 +226,7 @@ public class BurnEvents {
                 target.addEffect(new MobEffectInstance(
                         Registration.BURN.get(),
                         20 * 2,
-                        0,
+                        Math.min(0, CURRENT_MAX_LEVELS - 1),
                         false,
                         false
                 ));
@@ -222,7 +241,7 @@ public class BurnEvents {
             target.addEffect(new MobEffectInstance(
                     Registration.BURN.get(),
                     totalDuration,
-                    Math.min(newAmplifier, MAX_LEVELS - 1),
+                    Math.min(newAmplifier, CURRENT_MAX_LEVELS - 1),
                     false,
                     false
             ));
@@ -240,7 +259,7 @@ public class BurnEvents {
             MobEffectInstance burn = target.getEffect(Registration.BURN.get());
             if (burn != null) {
                 int level = burn.getAmplifier() + 1;
-                if (level >= 99) {
+                if (level >= CURRENT_MAX_LEVELS) {
                     event.setAmount(event.getAmount() * 1.1f);
                 }
             }
@@ -524,6 +543,148 @@ public class BurnEvents {
     }
 
     @SubscribeEvent
+    public static void onLivingHurtRoyalJellyPerfume(LivingHurtEvent event) {
+        LivingEntity target = event.getEntity();
+        if (!(target instanceof Player player)) return;
+        if (player.level().isClientSide()) return;
+
+        if (!player.getPersistentData().getBoolean("hasRoyalJellyPerfume")) return;
+
+        LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity ? (LivingEntity) event.getSource().getEntity() : null;
+        if (attacker == null) return;
+
+        MobEffectInstance currentBurn = attacker.getEffect(Registration.BURN.get());
+        int currentAmplifier = 0;
+        int currentDuration = 0;
+        if (currentBurn != null) {
+            currentAmplifier = currentBurn.getAmplifier() + 3;
+            currentDuration = currentBurn.getDuration();
+        }
+        int totalDuration = currentDuration + 20;
+
+        attacker.removeEffect(Registration.BURN.get());
+        attacker.addEffect(new MobEffectInstance(
+                Registration.BURN.get(),
+                totalDuration,
+                Math.min(currentAmplifier, CURRENT_MAX_LEVELS - 1),
+                false,
+                false
+        ));
+    }
+
+    @SubscribeEvent
+    public static void onLivingHurtRoyalJellyPerfumeResistance(LivingHurtEvent event) {
+        LivingEntity target = event.getEntity();
+        if (!(target instanceof Player player)) return;
+        if (player.level().isClientSide()) return;
+
+        if (!player.getPersistentData().getBoolean("hasRoyalJellyPerfume")) return;
+
+        LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity ? (LivingEntity) event.getSource().getEntity() : null;
+        if (attacker == null) return;
+
+        MobEffectInstance burn = attacker.getEffect(Registration.BURN.get());
+        if (burn != null) {
+            player.addEffect(new MobEffectInstance(
+                    MobEffects.DAMAGE_RESISTANCE,
+                    20 * 3,
+                    0,
+                    false,
+                    false
+            ));
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtRoyalJellyPerfumeDamage(LivingHurtEvent event) {
+        if (event.getSource().getEntity() instanceof Player player) {
+            LivingEntity target = event.getEntity();
+            if (target == null) return;
+
+            if (!player.getPersistentData().getBoolean("hasRoyalJellyPerfume")) return;
+
+            MobEffectInstance burn = target.getEffect(Registration.BURN.get());
+            if (burn != null && burn.getAmplifier() + 1 >= 60) {
+                event.setAmount(event.getAmount() * 1.2f);
+            }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtRedDisasterExtract(LivingHurtEvent event) {
+        if (event.getSource().getEntity() instanceof Player player) {
+            LivingEntity target = event.getEntity();
+            if (target == null) return;
+
+            if (!player.getPersistentData().getBoolean("hasRedDisasterExtract")) return;
+
+            ItemStack weapon = player.getMainHandItem();
+            int matchLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
+
+            if (matchLevel > 0) {
+                event.setAmount(event.getAmount() + 3.0f);
+                event.setAmount(event.getAmount() * 1.1f);
+            }
+
+            float healthPercent = (player.getHealth() / player.getMaxHealth()) * 100;
+            if (healthPercent <= 70.0f) {
+                event.setAmount(event.getAmount() * 1.3f);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingHurtBurningFate(LivingHurtEvent event) {
+        if (event.getSource().getEntity() instanceof Player player) {
+            LivingEntity target = event.getEntity();
+            if (target == null) return;
+
+            if (!player.getPersistentData().getBoolean("hasBurningFate")) return;
+
+            event.setAmount(event.getAmount() + 8.0f);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingHurtBurningFateTrigger(LivingHurtEvent event) {
+        if (event.getSource().getEntity() instanceof Player player) {
+            LivingEntity target = event.getEntity();
+            if (target == null) return;
+
+            if (!player.getPersistentData().getBoolean("hasBurningFate")) return;
+
+            ItemStack weapon = player.getMainHandItem();
+            int matchLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
+            if (matchLevel > 0) {
+                triggerBurnDamage(target);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingHurtScorchingCopperPipe(LivingHurtEvent event) {
+        if (event.getSource().getEntity() instanceof Player player) {
+            LivingEntity target = event.getEntity();
+            if (target == null) return;
+
+            if (!player.getPersistentData().getBoolean("hasScorchingCopperPipe")) return;
+
+            ItemStack weapon = player.getMainHandItem();
+            int matchLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
+            if (matchLevel <= 0) return;
+
+            event.setAmount(event.getAmount() * 1.3f);
+
+            MobEffectInstance burn = target.getEffect(Registration.BURN.get());
+            if (burn != null) {
+                int burnLevel = burn.getAmplifier() + 1;
+                float extraDamage = burnLevel * 1.5f;
+                event.setAmount(event.getAmount() + extraDamage);
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {
         LivingEntity target = event.getEntity();
         if (target == null) return;
@@ -559,7 +720,7 @@ public class BurnEvents {
         long currentTick = target.level().getGameTime();
         if (currentTick % INTERVAL_TICKS != 0) return;
 
-        int level = Math.min(burn.getAmplifier() + 1, MAX_LEVELS);
+        int level = Math.min(burn.getAmplifier() + 1, CURRENT_MAX_LEVELS);
         float damage = level * DAMAGE_PER_LEVEL;
 
         if (target.getAbsorptionAmount() > 0) {
