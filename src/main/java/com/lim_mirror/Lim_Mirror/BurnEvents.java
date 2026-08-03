@@ -1,5 +1,6 @@
 package com.lim_mirror.Lim_Mirror;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,6 +27,15 @@ public class BurnEvents {
     public static int CURRENT_MAX_LEVELS = 99;
     private static final int INTERVAL_TICKS = 20;
     private static final float DAMAGE_PER_LEVEL = 1.0f;
+
+    // 未孵化的火种：冷却时间 600秒 = 12000 ticks
+    private static final long UNHATCHED_SPARKS_COOLDOWN = 20 * 600;
+    // 未孵化的火种：锁定持续时间 5秒 = 100 ticks
+    private static final long UNHATCHED_SPARKS_DURATION = 20 * 5;
+
+    // 余火：范围30格，间隔30秒 = 600 ticks
+    private static final int EMBERS_RADIUS = 30;
+    private static final int EMBERS_INTERVAL = 20 * 30;
 
     public static void updateMaxLevels(Player player) {
         if (player == null) {
@@ -87,6 +97,217 @@ public class BurnEvents {
         }
     }
 
+    // ==================== 未孵化的火种 ====================
+
+    /**
+     * 优先级最高：检测致死伤害，触发保命效果
+     */
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onLivingHurtUnhatchedSparksTrigger(LivingHurtEvent event) {
+        LivingEntity target = event.getEntity();
+        if (!(target instanceof Player player)) return;
+        if (player.level().isClientSide()) return;
+
+        // 检查是否佩戴了未孵化的火种
+        if (!player.getPersistentData().getBoolean("hasUnhatchedSparks")) return;
+
+        // 检查冷却
+        long lastTrigger = player.getPersistentData().getLong("unhatchedSparksLastTrigger");
+        long currentTick = player.level().getGameTime();
+        if (currentTick - lastTrigger < UNHATCHED_SPARKS_COOLDOWN) return;
+
+        // 检查是否是致死伤害（伤害 >= 当前生命值）
+        float health = player.getHealth();
+        float damage = event.getAmount();
+        if (damage < health) return;
+
+        // 防止自己伤害自己触发
+        if (event.getSource().getEntity() == player) return;
+
+        // ---- 触发保命效果 ----
+
+        // 1. 将生命值设为1点
+        player.setHealth(1.0f);
+
+        // 2. 检查是否有烧伤效果（触发时检测）
+        boolean hasBurn = player.hasEffect(Registration.BURN.get());
+
+        // 3. 存储状态
+        player.getPersistentData().putBoolean("unhatchedSparksActive", true);
+        player.getPersistentData().putLong("unhatchedSparksActiveStart", currentTick);
+        player.getPersistentData().putLong("unhatchedSparksLastTrigger", currentTick);
+        player.getPersistentData().putBoolean("unhatchedSparksHasBurn", hasBurn);
+
+        // 4. 取消原伤害（生命值已设为1点）
+        event.setCanceled(true);
+
+        // 5. 提示玩家
+        player.displayClientMessage(Component.literal("§6[未孵化的火种] §c体力锁定为1点，持续5秒！"), true);
+    }
+
+    /**
+     * 锁定期间：每次受伤强制保持1点生命值
+     */
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onLivingHurtUnhatchedSparksLock(LivingHurtEvent event) {
+        LivingEntity target = event.getEntity();
+        if (!(target instanceof Player player)) return;
+        if (player.level().isClientSide()) return;
+
+        // 检查是否处于激活状态
+        if (!player.getPersistentData().getBoolean("unhatchedSparksActive")) return;
+
+        // 检查是否还在有效期内（5秒）
+        long activeStart = player.getPersistentData().getLong("unhatchedSparksActiveStart");
+        long currentTick = player.level().getGameTime();
+        if (currentTick - activeStart >= UNHATCHED_SPARKS_DURATION) {
+            // 已超时，清除激活状态（恢复逻辑在 onLivingTick 中处理）
+            return;
+        }
+
+        // 强制生命值为1点
+        player.setHealth(1.0f);
+
+        // 取消伤害（已经强制设为1点，原伤害不再生效）
+        event.setCanceled(true);
+    }
+
+    /**
+     * 每 Tick 检查：5秒结束后恢复生命值
+     */
+    @SubscribeEvent
+    public static void onLivingTickUnhatchedSparksRecover(LivingEvent.LivingTickEvent event) {
+        LivingEntity entity = event.getEntity();
+        if (!(entity instanceof Player player)) return;
+        if (player.level().isClientSide()) return;
+
+        // 检查是否处于激活状态
+        if (!player.getPersistentData().getBoolean("unhatchedSparksActive")) return;
+
+        long activeStart = player.getPersistentData().getLong("unhatchedSparksActiveStart");
+        long currentTick = player.level().getGameTime();
+
+        // 检查是否已满5秒
+        if (currentTick - activeStart < UNHATCHED_SPARKS_DURATION) return;
+
+        // ---- 5秒结束，恢复生命值 ----
+
+        float maxHealth = player.getMaxHealth();
+        boolean hasBurn = player.getPersistentData().getBoolean("unhatchedSparksHasBurn");
+        float restorePercent = hasBurn ? 0.4f : 0.2f;
+        float restoreAmount = maxHealth * restorePercent;
+
+        // 恢复生命值（不超过上限）
+        float newHealth = Math.min(player.getHealth() + restoreAmount, maxHealth);
+        player.setHealth(newHealth);
+
+        // 清除激活状态
+        player.getPersistentData().putBoolean("unhatchedSparksActive", false);
+        player.getPersistentData().putBoolean("unhatchedSparksHasBurn", false);
+
+        // 提示玩家
+        String percent = hasBurn ? "40%" : "20%";
+        player.displayClientMessage(Component.literal("§6[未孵化的火种] §a恢复" + percent + "体力！"), true);
+    }
+
+    // ==================== 余火 ====================
+
+    /**
+     * 每30秒对30格内所有敌人延长/施加2秒烧伤
+     */
+    @SubscribeEvent
+    public static void onLivingTickEmbersAOE(LivingEvent.LivingTickEvent event) {
+        LivingEntity entity = event.getEntity();
+        if (!(entity instanceof Player player)) return;
+        if (player.level().isClientSide()) return;
+
+        if (!player.getPersistentData().getBoolean("hasEmbers")) return;
+
+        long currentTick = player.level().getGameTime();
+        long lastTrigger = player.getPersistentData().getLong("embersLastTrigger");
+
+        if (currentTick - lastTrigger < EMBERS_INTERVAL) return;
+
+        AABB aabb = new AABB(player.blockPosition()).inflate(EMBERS_RADIUS);
+        List<LivingEntity> targets = player.level().getEntitiesOfClass(
+                LivingEntity.class, aabb,
+                e -> e != player && e.isAlive()
+        );
+
+        for (LivingEntity target : targets) {
+            MobEffectInstance currentBurn = target.getEffect(Registration.BURN.get());
+            if (currentBurn != null) {
+                int currentAmplifier = currentBurn.getAmplifier();
+                int newDuration = currentBurn.getDuration() + 40;
+                target.removeEffect(Registration.BURN.get());
+                target.addEffect(new MobEffectInstance(
+                        Registration.BURN.get(),
+                        Math.min(newDuration, Integer.MAX_VALUE),
+                        Math.min(currentAmplifier, CURRENT_MAX_LEVELS - 1),
+                        false,
+                        false
+                ));
+            } else {
+                target.addEffect(new MobEffectInstance(
+                        Registration.BURN.get(),
+                        40,
+                        Math.min(0, CURRENT_MAX_LEVELS - 1),
+                        false,
+                        false
+                ));
+            }
+        }
+
+        player.getPersistentData().putLong("embersLastTrigger", currentTick);
+    }
+
+    /**
+     * 被火柴之焰攻击5次：减少目标1秒烧伤，额外触发一次烧伤
+     */
+    @SubscribeEvent
+    public static void onLivingHurtEmbersCount(LivingHurtEvent event) {
+        if (event.getSource().getEntity() instanceof Player player) {
+            LivingEntity target = event.getEntity();
+            if (target == null) return;
+
+            if (!player.getPersistentData().getBoolean("hasEmbers")) return;
+
+            ItemStack weapon = player.getMainHandItem();
+            int matchLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
+            if (matchLevel <= 0) return;
+
+            String targetKey = "embersCount_" + target.getStringUUID();
+            int count = player.getPersistentData().getInt(targetKey) + 1;
+
+            if (count >= 5) {
+                player.getPersistentData().putInt(targetKey, 0);
+
+                MobEffectInstance burn = target.getEffect(Registration.BURN.get());
+                if (burn != null) {
+                    int newDuration = Math.max(burn.getDuration() - 20, 0);
+                    if (newDuration <= 0) {
+                        target.removeEffect(Registration.BURN.get());
+                    } else {
+                        target.removeEffect(Registration.BURN.get());
+                        target.addEffect(new MobEffectInstance(
+                                Registration.BURN.get(),
+                                newDuration,
+                                Math.min(burn.getAmplifier(), CURRENT_MAX_LEVELS - 1),
+                                false,
+                                false
+                        ));
+                    }
+                }
+
+                triggerBurnDamage(target);
+            } else {
+                player.getPersistentData().putInt(targetKey, count);
+            }
+        }
+    }
+
+    // ==================== 原有烧伤逻辑 ====================
+
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         LivingEntity target = event.getEntity();
@@ -103,15 +324,34 @@ public class BurnEvents {
         int addAmplifier = 1;
         int addDuration = 20;
 
+        // 镇魂：火柴之焰改为+2秒+2层
         if (attacker.getPersistentData().getBoolean("hasRequiem")) {
             addAmplifier = 2;
             addDuration = 40;
         }
 
+        // 点火手套：额外+2秒，+2层
+        if (attacker.getPersistentData().getBoolean("hasIgnitionGloves")) {
+            addAmplifier += 2;
+            addDuration += 40;
+        }
+
+        // 重燃火花塞：额外+1秒
+        if (attacker.getPersistentData().getBoolean("hasReignitionSparkPlug")) {
+            addDuration += 20;
+        }
+
+        // 烹饪秘诀书：额外+2层
         if (attacker.getPersistentData().getBoolean("hasCookingSecretsBook")) {
             addAmplifier += 2;
         }
 
+        // 火热多汁琵琶腿：额外+3层
+        if (attacker.getPersistentData().getBoolean("hasSpicyDrumstick")) {
+            addAmplifier += 3;
+        }
+
+        // 熔化的石蜡：额外 + 武器伤害/2 层
         if (attacker.getPersistentData().getBoolean("hasMeltedWax")) {
             float weaponDamage = 0;
             if (weapon.getItem() instanceof SwordItem sword) {
@@ -139,6 +379,62 @@ public class BurnEvents {
                 false
         ));
     }
+
+    // ==================== 点火手套：伤害+5 ====================
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtIgnitionGlovesDamage(LivingHurtEvent event) {
+        if (event.getSource().getEntity() instanceof Player player) {
+            LivingEntity target = event.getEntity();
+            if (target == null) return;
+
+            if (!player.getPersistentData().getBoolean("hasIgnitionGloves")) return;
+
+            ItemStack weapon = player.getMainHandItem();
+            int matchLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
+            if (matchLevel > 0) {
+                event.setAmount(event.getAmount() + 5.0f);
+            }
+        }
+    }
+
+    // ==================== 重燃火花塞：伤害+5，最终伤害×1.2，降低护甲2点 ====================
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtReignitionSparkPlugDamage(LivingHurtEvent event) {
+        if (event.getSource().getEntity() instanceof Player player) {
+            LivingEntity target = event.getEntity();
+            if (target == null) return;
+
+            if (!player.getPersistentData().getBoolean("hasReignitionSparkPlug")) return;
+
+            ItemStack weapon = player.getMainHandItem();
+            int matchLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
+            if (matchLevel > 0) {
+                event.setAmount(event.getAmount() + 5.0f);
+                event.setAmount(event.getAmount() * 1.2f);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingHurtReignitionSparkPlugArmorReduce(LivingHurtEvent event) {
+        if (event.getSource().getEntity() instanceof Player player) {
+            LivingEntity target = event.getEntity();
+            if (target == null) return;
+
+            if (!player.getPersistentData().getBoolean("hasReignitionSparkPlug")) return;
+
+            ItemStack weapon = player.getMainHandItem();
+            int matchLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
+            if (matchLevel > 0) {
+                target.getAttribute(Attributes.ARMOR).removeModifier(ReignitionSparkPlug.ARMOR_REDUCE);
+                target.getAttribute(Attributes.ARMOR).addTransientModifier(ReignitionSparkPlug.ARMOR_REDUCE);
+            }
+        }
+    }
+
+    // ==================== 其他烧伤事件 ====================
 
     @SubscribeEvent
     public static void onLivingHurtBurnBoost(LivingHurtEvent event) {
@@ -680,6 +976,22 @@ public class BurnEvents {
                 int burnLevel = burn.getAmplifier() + 1;
                 float extraDamage = burnLevel * 1.5f;
                 event.setAmount(event.getAmount() + extraDamage);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingHurtWingCandle(LivingHurtEvent event) {
+        if (event.getSource().getEntity() instanceof Player player) {
+            LivingEntity target = event.getEntity();
+            if (target == null) return;
+
+            if (!player.getPersistentData().getBoolean("hasWingCandle")) return;
+
+            ItemStack weapon = player.getMainHandItem();
+            int matchLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
+            if (matchLevel > 0) {
+                event.setAmount((event.getAmount() + 6.0f) * 1.15f);
             }
         }
     }

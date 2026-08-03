@@ -210,6 +210,24 @@ public class Registration {
     public static final RegistryObject<Item> SCORCHING_COPPER_PIPE = ITEMS.register("scorching_copper_pipe",
             () -> new ScorchingCopperPipe(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> WING_CANDLE = ITEMS.register("wing_candle",
+            () -> new WingCandle(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SPICY_DRUMSTICK = ITEMS.register("spicy_drumstick",
+            () -> new SpicyDrumstick(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> UNHATCHED_SPARKS = ITEMS.register("unhatched_sparks",
+            () -> new UnhatchedSparks(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> IGNITION_GLOVES = ITEMS.register("ignition_gloves",
+            () -> new IgnitionGloves(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> REIGNITION_SPARK_PLUG = ITEMS.register("reignition_spark_plug",
+            () -> new ReignitionSparkPlug(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> EMBERS = ITEMS.register("embers",
+            () -> new Embers(new Item.Properties().stacksTo(1)));
+
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
         ITEMS.register(modEventBus);
