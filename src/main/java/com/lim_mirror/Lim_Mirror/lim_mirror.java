@@ -109,6 +109,7 @@ public class lim_mirror {
                 output.accept(Registration.IGNITION_GLOVES.get());
                 output.accept(Registration.REIGNITION_SPARK_PLUG.get());
                 output.accept(Registration.EMBERS.get());
+                output.accept(Registration.BLOOD_FLAME_BLADE.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

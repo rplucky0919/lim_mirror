@@ -228,6 +228,9 @@ public class Registration {
     public static final RegistryObject<Item> EMBERS = ITEMS.register("embers",
             () -> new Embers(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> BLOOD_FLAME_BLADE = ITEMS.register("blood_flame_blade",
+            () -> new BloodFlameBlade(new Item.Properties().stacksTo(1)));
+
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
         ITEMS.register(modEventBus);

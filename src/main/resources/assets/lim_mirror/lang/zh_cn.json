@@ -81,5 +81,6 @@
   "item.lim_mirror.unhatched_sparks": "未孵化的火种",
   "item.lim_mirror.ignition_gloves": "点火手套",
   "item.lim_mirror.reignition_spark_plug": "重燃火花塞",
-  "item.lim_mirror.embers": "余火"
+  "item.lim_mirror.embers": "余火",
+  "item.lim_mirror.blood_flame_blade": "血炎刀"
 }
