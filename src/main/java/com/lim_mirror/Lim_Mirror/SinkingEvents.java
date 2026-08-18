@@ -55,10 +55,7 @@ public class SinkingEvents {
         if (entity.level().isClientSide()) return;
 
         MobEffectInstance sinking = entity.getEffect(Registration.SINKING.get());
-        if (sinking == null) {
-            entity.removeEffect(MobEffects.WEAKNESS);
-            return;
-        }
+        if (sinking == null) return;
 
         int level = sinking.getAmplifier() + 1;
 
@@ -70,8 +67,6 @@ public class SinkingEvents {
                     false,
                     false
             ));
-        } else {
-            entity.removeEffect(MobEffects.WEAKNESS);
         }
     }
 

@@ -16,6 +16,11 @@ public class Registration {
     public static final RegistryObject<MobEffect> POISE = EFFECTS.register("poise", Poise::new);
     public static final RegistryObject<MobEffect> BLEED = EFFECTS.register("bleed", BleedEffect::new);
     public static final RegistryObject<MobEffect> SINKING = EFFECTS.register("sinking", SinkingEffect::new);
+    public static final RegistryObject<MobEffect> RUPTURE = EFFECTS.register("rupture", RuptureEffect::new);
+    public static final RegistryObject<MobEffect> BURN = EFFECTS.register("burn", BurnEffect::new);
+
+    // ==================== 震颤 ====================
+    public static final RegistryObject<MobEffect> TREMOR = EFFECTS.register("tremor", TremorEffect::new);
 
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, lim_mirror.MODID);
@@ -86,6 +91,16 @@ public class Registration {
     public static final RegistryObject<Enchantment> SINKING_TOUCH =
             ENCHANTMENTS.register("sinking_touch", SinkingTouchEnchantment::new);
 
+    public static final RegistryObject<Enchantment> SHADOW_BEAST =
+            ENCHANTMENTS.register("shadow_beast", ShadowBeastEnchantment::new);
+
+    public static final RegistryObject<Enchantment> MATCH_FLAME =
+            ENCHANTMENTS.register("match_flame", MatchFlameEnchantment::new);
+
+    // ==================== 沸腾腐蚀 ====================
+    public static final RegistryObject<Enchantment> BOILING_CORROSION =
+            ENCHANTMENTS.register("boiling_corrosion", BoilingCorrosionEnchantment::new);
+
     public static final RegistryObject<Item> COMMAND_SANCTUARY = ITEMS.register("command_sanctuary",
             () -> new CommandSanctuary(new Item.Properties().stacksTo(1)));
 
@@ -128,18 +143,8 @@ public class Registration {
     public static final RegistryObject<Item> STIFLED_BREATH = ITEMS.register("stifled_breath",
             () -> new StifledBreath(new Item.Properties().stacksTo(1)));
 
-    public static final RegistryObject<MobEffect> RUPTURE = EFFECTS.register("rupture", RuptureEffect::new);
-
-    public static final RegistryObject<Enchantment> SHADOW_BEAST =
-            ENCHANTMENTS.register("shadow_beast", ShadowBeastEnchantment::new);
-
     public static final RegistryObject<Item> MOON_IN_WATER = ITEMS.register("moon_in_water",
             () -> new MoonInWater(new Item.Properties().stacksTo(1)));
-
-    public static final RegistryObject<MobEffect> BURN = EFFECTS.register("burn", BurnEffect::new);
-
-    public static final RegistryObject<Enchantment> MATCH_FLAME =
-            ENCHANTMENTS.register("match_flame", MatchFlameEnchantment::new);
 
     public static final RegistryObject<Item> HELL_BUTTERFLY_DREAM = ITEMS.register("hell_butterfly_dream",
             () -> new HellButterflyDream(new Item.Properties().stacksTo(1)));
@@ -230,6 +235,37 @@ public class Registration {
 
     public static final RegistryObject<Item> BLOOD_FLAME_BLADE = ITEMS.register("blood_flame_blade",
             () -> new BloodFlameBlade(new Item.Properties().stacksTo(1)));
+
+    // ==================== 膏血 ====================
+    public static final RegistryObject<Item> GAO_XUE = ITEMS.register("gao_xue",
+            () -> new GaoXue(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> GREEN_LIGHT_FRUIT = ITEMS.register("green_light_fruit",
+            () -> new GreenLightFruit(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> MELTED_EYEBALL = ITEMS.register("melted_eyeball",
+            () -> new MeltedEyeball(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> GLOW_VARIATOR = ITEMS.register("glow_variator",
+            () -> new GlowVariator(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SHOCK_BRACELET = ITEMS.register("shock_bracelet",
+            () -> new ShockBracelet(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> RAINSTORM = ITEMS.register("rainstorm",
+            () -> new Rainstorm(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> ECHO = ITEMS.register("echo",
+            () -> new Echo(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> TRUTH_CLOCK = ITEMS.register("truth_clock",
+            () -> new TruthClock(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> TREMOR_COUPLING = ITEMS.register("tremor_coupling",
+            () -> new TremorCoupling(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> BIO_TOXIN_VIAL = ITEMS.register("bio_toxin_vial",
+            () -> new BioToxinVial(new Item.Properties().stacksTo(1)));
 
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);

@@ -5,7 +5,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
@@ -112,10 +114,29 @@ public class lim_mirror {
                 output.accept(Registration.BLOOD_FLAME_BLADE.get());
             }).build());
 
+    // ==================== 震颤饰品创造栏 ====================
+    public static final RegistryObject<CreativeModeTab> TREMOR_TAB = CREATIVE_MODE_TABS.register("tremor_tab", () -> CreativeModeTab.builder()
+            .withTabsBefore(CreativeModeTabs.COMBAT)
+            .icon(() -> new ItemStack(Registration.GAO_XUE.get()))
+            .title(net.minecraft.network.chat.Component.literal("震颤饰品"))
+            .displayItems((parameters, output) -> {
+                output.accept(Registration.GAO_XUE.get());
+                output.accept(Registration.GREEN_LIGHT_FRUIT.get());
+                output.accept(Registration.MELTED_EYEBALL.get());
+                output.accept(Registration.GLOW_VARIATOR.get());
+                output.accept(Registration.SHOCK_BRACELET.get());
+                output.accept(Registration.RAINSTORM.get());
+                output.accept(Registration.ECHO.get());
+                output.accept(Registration.TRUTH_CLOCK.get());
+                output.accept(Registration.TREMOR_COUPLING.get());
+                output.accept(Registration.BIO_TOXIN_VIAL.get());
+            }).build());
+
     public lim_mirror(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
 
         Registration.init(modEventBus);
+        Sounds.init(modEventBus);
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
@@ -135,7 +156,14 @@ public class lim_mirror {
         Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
+    // ==================== 附魔书放入原材料创造栏 ====================
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            ItemStack boilingCorrosionBook = EnchantedBookItem.createForEnchantment(
+                    new EnchantmentInstance(Registration.BOILING_CORROSION.get(), 1)
+            );
+            event.accept(boilingCorrosionBook);
+        }
     }
 
     @SubscribeEvent

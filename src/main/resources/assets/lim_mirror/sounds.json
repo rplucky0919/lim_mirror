@@ -1,0 +1,11 @@
+{
+  "tremor_explode": {
+    "subtitle": "subtitles.lim_mirror.tremor_explode",
+    "sounds": [
+      {
+        "name": "lim_mirror:tremor_explode",
+        "stream": false
+      }
+    ]
+  }
+}

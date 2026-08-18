@@ -82,5 +82,19 @@
   "item.lim_mirror.ignition_gloves": "点火手套",
   "item.lim_mirror.reignition_spark_plug": "重燃火花塞",
   "item.lim_mirror.embers": "余火",
-  "item.lim_mirror.blood_flame_blade": "血炎刀"
+  "item.lim_mirror.blood_flame_blade": "血炎刀",
+  "effect.lim_mirror.tremor": "震颤",
+  "effect.lim_mirror.tremor": "震颤",
+  "enchantment.lim_mirror.boiling_corrosion": "沸腾腐蚀",
+  "subtitles.lim_mirror.tremor_explode": "震颤：引爆",
+  "item.lim_mirror.gao_xue": "膏血",
+  "item.lim_mirror.green_light_fruit": "绿光果实",
+  "item.lim_mirror.melted_eyeball": "熔化的眼球",
+  "item.lim_mirror.glow_variator": "辉光变动仪",
+  "item.lim_mirror.shock_bracelet": "震荡手环",
+  "item.lim_mirror.rainstorm": "暴雨",
+  "item.lim_mirror.echo": "残响",
+  "item.lim_mirror.truth_clock": "真理之钟",
+  "item.lim_mirror.tremor_coupling": "震颤耦合",
+  "item.lim_mirror.bio_toxin_vial": "生物剧毒药瓶"
 }
