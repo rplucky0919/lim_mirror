@@ -130,6 +130,15 @@ public class lim_mirror {
                 output.accept(Registration.TRUTH_CLOCK.get());
                 output.accept(Registration.TREMOR_COUPLING.get());
                 output.accept(Registration.BIO_TOXIN_VIAL.get());
+                output.accept(Registration.TOXIC_SKIN.get());
+                output.accept(Registration.SOUR_WINE_AROMA.get());
+                output.accept(Registration.MIRROR_TACTILE_SYNESTHESIA.get());
+                output.accept(Registration.GEAR_SPRING.get());
+                output.accept(Registration.GEM_PENDULUM.get());
+                output.accept(Registration.SHAKING_BARREL.get());
+                output.accept(Registration.MESHED_GEAR.get());
+                output.accept(Registration.EPICENTER.get());
+                output.accept(Registration.EIGHT_DIRECTION_BELL.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

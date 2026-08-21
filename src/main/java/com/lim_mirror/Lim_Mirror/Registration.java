@@ -267,6 +267,33 @@ public class Registration {
     public static final RegistryObject<Item> BIO_TOXIN_VIAL = ITEMS.register("bio_toxin_vial",
             () -> new BioToxinVial(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> TOXIC_SKIN = ITEMS.register("toxic_skin",
+            () -> new ToxicSkin(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SOUR_WINE_AROMA = ITEMS.register("sour_wine_aroma",
+            () -> new SourWineAroma(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> MIRROR_TACTILE_SYNESTHESIA = ITEMS.register("mirror_tactile_synesthesia",
+            () -> new MirrorTactileSynesthesia(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> GEAR_SPRING = ITEMS.register("gear_spring",
+            () -> new GearSpring(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> GEM_PENDULUM = ITEMS.register("gem_pendulum",
+            () -> new GemPendulum(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SHAKING_BARREL = ITEMS.register("shaking_barrel",
+            () -> new ShakingBarrel(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> MESHED_GEAR = ITEMS.register("meshed_gear",
+            () -> new MeshedGear(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> EPICENTER = ITEMS.register("epicenter",
+            () -> new Epicenter(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> EIGHT_DIRECTION_BELL = ITEMS.register("eight_direction_bell",
+            () -> new EightDirectionBell(new Item.Properties().stacksTo(1)));
+
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
         ITEMS.register(modEventBus);

@@ -85,7 +85,7 @@
   "item.lim_mirror.blood_flame_blade": "血炎刀",
   "effect.lim_mirror.tremor": "震颤",
   "effect.lim_mirror.tremor": "震颤",
-  "enchantment.lim_mirror.boiling_corrosion": "沸腾腐蚀",
+  "enchantment.lim_mirror.boiling_corrosion": "震颤爆发",
   "subtitles.lim_mirror.tremor_explode": "震颤：引爆",
   "item.lim_mirror.gao_xue": "膏血",
   "item.lim_mirror.green_light_fruit": "绿光果实",
@@ -96,5 +96,14 @@
   "item.lim_mirror.echo": "残响",
   "item.lim_mirror.truth_clock": "真理之钟",
   "item.lim_mirror.tremor_coupling": "震颤耦合",
-  "item.lim_mirror.bio_toxin_vial": "生物剧毒药瓶"
+  "item.lim_mirror.bio_toxin_vial": "生物剧毒药瓶",
+  "item.lim_mirror.toxic_skin": "剧毒外皮",
+  "item.lim_mirror.sour_wine_aroma": "酸味的酒香",
+  "item.lim_mirror.mirror_tactile_synesthesia": "镜触觉通感",
+  "item.lim_mirror.gear_spring": "齿轮发条",
+  "item.lim_mirror.gem_pendulum": "宝石振子",
+  "item.lim_mirror.shaking_barrel": "摇晃的酒桶",
+  "item.lim_mirror.meshed_gear": "嵌合的齿轮",
+  "item.lim_mirror.epicenter": "震中",
+  "item.lim_mirror.eight_direction_bell": "无振八方钟"
 }
