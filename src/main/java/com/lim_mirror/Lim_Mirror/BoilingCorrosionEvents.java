@@ -980,8 +980,8 @@ public class BoilingCorrosionEvents {
         int tremorDuration = selfTremor.getDuration();
         float durationSeconds = tremorDuration / 20.0f;
 
-        float extraDamage1 = (1 + durationSeconds * EIGHT_DIRECTION_BELL_MULTIPLIER) * EIGHT_DIRECTION_BELL_BASE_DAMAGE;
-        float extraDamage2 = (durationSeconds + tremorLevel + 5) / 100.0f;
+        float extraDamage1 = Math.min((1 + durationSeconds * EIGHT_DIRECTION_BELL_MULTIPLIER) * EIGHT_DIRECTION_BELL_BASE_DAMAGE, 240.0f);
+        float extraDamage2 = Math.min((durationSeconds + tremorLevel + 5) / 100.0f, 0.5f);
 
         event.setAmount(event.getAmount() + extraDamage1);
         event.setAmount(event.getAmount() * (1 + extraDamage2));
