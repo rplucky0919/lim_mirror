@@ -139,6 +139,13 @@ public class lim_mirror {
                 output.accept(Registration.MESHED_GEAR.get());
                 output.accept(Registration.EPICENTER.get());
                 output.accept(Registration.EIGHT_DIRECTION_BELL.get());
+                output.accept(Registration.CLAP_CLAP.get());
+                output.accept(Registration.HEATING_HAMMER.get());
+                output.accept(Registration.ONE_MORE_DRINK.get());
+                output.accept(Registration.IMPERFECT_FORESIGHT_EYE.get());
+                output.accept(Registration.OFFERING_CIGAR.get());
+                output.accept(Registration.OFFERING_CIGAR.get());
+                output.accept(Registration.CUSTOM_MADE.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {
@@ -172,6 +179,12 @@ public class lim_mirror {
                     new EnchantmentInstance(Registration.BOILING_CORROSION.get(), 1)
             );
             event.accept(boilingCorrosionBook);
+
+            // ==================== 空间撕裂附魔书 ====================
+            ItemStack spaceTearBook = EnchantedBookItem.createForEnchantment(
+                    new EnchantmentInstance(Registration.SPACE_TEAR.get(), 1)
+            );
+            event.accept(spaceTearBook);
         }
     }
 

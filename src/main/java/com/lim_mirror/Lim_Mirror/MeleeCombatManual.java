@@ -5,7 +5,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -37,7 +36,8 @@ public class MeleeCombatManual extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7物品栏有无限附魔弓箭时伤害×1.6"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7射出箭时增加3秒呼吸法和3级呼吸法强度"));
+        tooltip.add(net.minecraft.network.chat.Component.literal("§7消耗弹药时："));
+        tooltip.add(net.minecraft.network.chat.Component.literal("§7  伤害×1.2，持续30秒"));
+        tooltip.add(net.minecraft.network.chat.Component.literal("§7  获得2秒3级呼吸法"));
     }
 }

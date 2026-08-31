@@ -24,9 +24,13 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = lim_mirror.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BurnEvents {
 
-    public static int CURRENT_MAX_LEVELS = 99;
     private static final int INTERVAL_TICKS = 20;
     private static final float DAMAGE_PER_LEVEL = 1.0f;
+
+    private static final int BASE_MAX_LEVELS = 99;
+    private static final int BURNING_FATE_MAX_LEVELS = 129;
+    private static final int SCORCHING_COPPER_PIPE_MAX_LEVELS = 120;
+    private static final int BOTH_MAX_LEVELS = 150;
 
     // 未孵化的火种：冷却时间 600秒 = 12000 ticks
     private static final long UNHATCHED_SPARKS_COOLDOWN = 20 * 600;
@@ -40,26 +44,31 @@ public class BurnEvents {
     // 血炎刀：充能间隔30秒 = 600 ticks
     private static final int BLOOD_FLAME_BLADE_INTERVAL = 20 * 30;
 
-    public static void updateMaxLevels(Player player) {
-        if (player == null) {
-            CURRENT_MAX_LEVELS = 99;
-            return;
-        }
+    /**
+     * 根据攻击者佩戴的饰品动态计算烧伤上限
+     */
+    public static int getMaxBurnLevels(Player player) {
+        if (player == null) return BASE_MAX_LEVELS;
+
         boolean hasBurningFate = player.getPersistentData().getBoolean("hasBurningFate");
         boolean hasScorchingCopperPipe = player.getPersistentData().getBoolean("hasScorchingCopperPipe");
 
         if (hasBurningFate && hasScorchingCopperPipe) {
-            CURRENT_MAX_LEVELS = 150;
+            return BOTH_MAX_LEVELS;
         } else if (hasBurningFate) {
-            CURRENT_MAX_LEVELS = 129;
+            return BURNING_FATE_MAX_LEVELS;
         } else if (hasScorchingCopperPipe) {
-            CURRENT_MAX_LEVELS = 120;
-        } else {
-            CURRENT_MAX_LEVELS = 99;
+            return SCORCHING_COPPER_PIPE_MAX_LEVELS;
         }
+        return BASE_MAX_LEVELS;
     }
 
+    /**
+     * 施加烧伤时，根据攻击者上限限制层数
+     */
     private static void applyBurn(LivingEntity target, Player attacker, int addAmplifier, int addDuration) {
+        int maxLevels = getMaxBurnLevels(attacker);
+
         MobEffectInstance currentBurn = target.getEffect(Registration.BURN.get());
         int currentAmplifier = 0;
         int currentDuration = 0;
@@ -73,7 +82,7 @@ public class BurnEvents {
         target.addEffect(new MobEffectInstance(
                 Registration.BURN.get(),
                 totalDuration,
-                Math.min(currentAmplifier, CURRENT_MAX_LEVELS - 1),
+                Math.min(currentAmplifier, maxLevels - 1),
                 false,
                 false
         ));
@@ -83,7 +92,7 @@ public class BurnEvents {
         MobEffectInstance burn = target.getEffect(Registration.BURN.get());
         if (burn == null) return;
 
-        int level = Math.min(burn.getAmplifier() + 1, CURRENT_MAX_LEVELS);
+        int level = burn.getAmplifier() + 1;
         float damage = level * DAMAGE_PER_LEVEL;
 
         if (target.getAbsorptionAmount() > 0) {
@@ -222,6 +231,8 @@ public class BurnEvents {
 
         if (currentTick - lastTrigger < EMBERS_INTERVAL) return;
 
+        int maxLevels = getMaxBurnLevels(player);
+
         AABB aabb = new AABB(player.blockPosition()).inflate(EMBERS_RADIUS);
         List<LivingEntity> targets = player.level().getEntitiesOfClass(
                 LivingEntity.class, aabb,
@@ -236,8 +247,8 @@ public class BurnEvents {
                 target.removeEffect(Registration.BURN.get());
                 target.addEffect(new MobEffectInstance(
                         Registration.BURN.get(),
-                        Math.min(newDuration, Integer.MAX_VALUE),
-                        Math.min(currentAmplifier, CURRENT_MAX_LEVELS - 1),
+                        newDuration,
+                        Math.min(currentAmplifier, maxLevels - 1),
                         false,
                         false
                 ));
@@ -245,7 +256,7 @@ public class BurnEvents {
                 target.addEffect(new MobEffectInstance(
                         Registration.BURN.get(),
                         40,
-                        Math.min(0, CURRENT_MAX_LEVELS - 1),
+                        0,
                         false,
                         false
                 ));
@@ -283,7 +294,7 @@ public class BurnEvents {
                         target.addEffect(new MobEffectInstance(
                                 Registration.BURN.get(),
                                 newDuration,
-                                Math.min(burn.getAmplifier(), CURRENT_MAX_LEVELS - 1),
+                                burn.getAmplifier(),
                                 false,
                                 false
                         ));
@@ -308,6 +319,8 @@ public class BurnEvents {
         ItemStack weapon = attacker.getMainHandItem();
         int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
         if (enchantLevel <= 0) return;
+
+        int maxLevels = getMaxBurnLevels(attacker);
 
         MobEffectInstance currentBurn = target.getEffect(Registration.BURN.get());
         int currentAmplifier = 0;
@@ -368,6 +381,8 @@ public class BurnEvents {
         if (currentBurn != null) {
             currentAmplifier = currentBurn.getAmplifier() + addAmplifier;
             currentDuration = currentBurn.getDuration();
+        } else {
+            currentAmplifier = addAmplifier - 1;
         }
         int totalDuration = currentDuration + addDuration;
 
@@ -375,7 +390,7 @@ public class BurnEvents {
         target.addEffect(new MobEffectInstance(
                 Registration.BURN.get(),
                 totalDuration,
-                Math.min(currentAmplifier, CURRENT_MAX_LEVELS - 1),
+                Math.min(currentAmplifier, maxLevels - 1),
                 false,
                 false
         ));
@@ -388,8 +403,6 @@ public class BurnEvents {
         if (!(event.getSource().getEntity() instanceof Player player)) return;
         LivingEntity target = event.getEntity();
         if (target == null) return;
-
-        // ⚠️ 不检测火柴之焰：所有玩家伤害都享受乘算
 
         float multiplier = 1.0f;
 
@@ -427,7 +440,7 @@ public class BurnEvents {
         MobEffectInstance burn = target.getEffect(Registration.BURN.get());
         if (burn != null && player.getPersistentData().getBoolean("hasSinglePointLogicCircuit")) {
             int level = burn.getAmplifier() + 1;
-            if (level >= CURRENT_MAX_LEVELS) {
+            if (level >= 99) {
                 multiplier *= 1.1f;
             }
         }
@@ -465,14 +478,12 @@ public class BurnEvents {
 
         float multiplier = 1.0f;
 
-        // ⚠️ ×1.5 需要检测火柴之焰（描述："有火柴之焰时×1.5"）
         ItemStack weapon = player.getMainHandItem();
         int matchLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
         if (matchLevel > 0) {
             multiplier *= 1.5f;
         }
 
-        // ⚠️ ×1.2 不检测火柴之焰，所有伤害都生效（最终×1.2）
         multiplier *= 1.2f;
 
         if (multiplier != 1.0f) {
@@ -539,7 +550,6 @@ public class BurnEvents {
 
             if (!player.getPersistentData().getBoolean("hasBurningFate")) return;
 
-            // ✅ 添加火柴之焰检查
             ItemStack weapon = player.getMainHandItem();
             int matchLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
             if (matchLevel <= 0) return;
@@ -588,10 +598,8 @@ public class BurnEvents {
 
             if (!player.getPersistentData().getBoolean("hasUniformSixAssociation")) return;
 
-            // 基础伤害+8（不需要火柴之焰）
             event.setAmount(event.getAmount() + 8.0f);
 
-            // 有火柴之焰额外+4
             ItemStack weapon = player.getMainHandItem();
             int matchLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
             if (matchLevel > 0) {
@@ -706,6 +714,8 @@ public class BurnEvents {
             ItemStack weapon = player.getMainHandItem();
             int matchLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
 
+            int maxLevels = getMaxBurnLevels(player);
+
             int addAmplifier = matchLevel > 0 ? 8 : 5;
             int newAmplifier = currentBurn.getAmplifier() + addAmplifier;
             int currentDuration = currentBurn.getDuration();
@@ -715,7 +725,7 @@ public class BurnEvents {
             target.addEffect(new MobEffectInstance(
                     Registration.BURN.get(),
                     totalDuration,
-                    Math.min(newAmplifier, CURRENT_MAX_LEVELS - 1),
+                    Math.min(newAmplifier, maxLevels - 1),
                     false,
                     false
             ));
@@ -734,12 +744,14 @@ public class BurnEvents {
             int matchLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
             if (matchLevel <= 0) return;
 
+            int maxLevels = getMaxBurnLevels(player);
+
             MobEffectInstance currentBurn = target.getEffect(Registration.BURN.get());
             if (currentBurn == null) {
                 target.addEffect(new MobEffectInstance(
                         Registration.BURN.get(),
                         20 * 2,
-                        Math.min(3, CURRENT_MAX_LEVELS - 1),
+                        3,
                         false,
                         false
                 ));
@@ -754,7 +766,7 @@ public class BurnEvents {
             target.addEffect(new MobEffectInstance(
                     Registration.BURN.get(),
                     totalDuration,
-                    Math.min(newAmplifier, CURRENT_MAX_LEVELS - 1),
+                    Math.min(newAmplifier, maxLevels - 1),
                     false,
                     false
             ));
@@ -773,12 +785,14 @@ public class BurnEvents {
             int smiteLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SMITE, weapon);
             if (smiteLevel <= 0) return;
 
+            int maxLevels = getMaxBurnLevels(player);
+
             MobEffectInstance currentBurn = target.getEffect(Registration.BURN.get());
             if (currentBurn == null) {
                 target.addEffect(new MobEffectInstance(
                         Registration.BURN.get(),
                         20 * 2,
-                        Math.min(0, CURRENT_MAX_LEVELS - 1),
+                        0,
                         false,
                         false
                 ));
@@ -793,7 +807,7 @@ public class BurnEvents {
             target.addEffect(new MobEffectInstance(
                     Registration.BURN.get(),
                     totalDuration,
-                    Math.min(newAmplifier, CURRENT_MAX_LEVELS - 1),
+                    Math.min(newAmplifier, maxLevels - 1),
                     false,
                     false
             ));
@@ -974,11 +988,13 @@ public class BurnEvents {
         }
         int totalDuration = currentDuration + 20;
 
+        int maxLevels = getMaxBurnLevels(player);
+
         attacker.removeEffect(Registration.BURN.get());
         attacker.addEffect(new MobEffectInstance(
                 Registration.BURN.get(),
                 totalDuration,
-                Math.min(currentAmplifier, CURRENT_MAX_LEVELS - 1),
+                Math.min(currentAmplifier, maxLevels - 1),
                 false,
                 false
         ));
@@ -1034,7 +1050,7 @@ public class BurnEvents {
         long currentTick = target.level().getGameTime();
         if (currentTick % INTERVAL_TICKS != 0) return;
 
-        int level = Math.min(burn.getAmplifier() + 1, CURRENT_MAX_LEVELS);
+        int level = burn.getAmplifier() + 1;
         float damage = level * DAMAGE_PER_LEVEL;
 
         if (target.getAbsorptionAmount() > 0) {

@@ -22,6 +22,9 @@ public class Registration {
     // ==================== 震颤 ====================
     public static final RegistryObject<MobEffect> TREMOR = EFFECTS.register("tremor", TremorEffect::new);
 
+    // ==================== 充能 ====================
+    public static final RegistryObject<MobEffect> CHARGE = EFFECTS.register("charge", ChargeEffect::new);
+
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, lim_mirror.MODID);
 
@@ -293,6 +296,40 @@ public class Registration {
 
     public static final RegistryObject<Item> EIGHT_DIRECTION_BELL = ITEMS.register("eight_direction_bell",
             () -> new EightDirectionBell(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<MobEffect> TREMOR_BURN = EFFECTS.register("tremor_burn", TremorBurnEffect::new);
+
+    public static final RegistryObject<MobEffect> TREMOR_BLEED = EFFECTS.register("tremor_bleed", TremorBleedEffect::new);
+
+    public static final RegistryObject<MobEffect> TREMOR_ECHO = EFFECTS.register("tremor_echo", TremorEchoEffect::new);
+
+    public static final RegistryObject<MobEffect> TREMOR_COLLAPSE = EFFECTS.register("tremor_collapse", TremorCollapseEffect::new);
+
+    public static final RegistryObject<MobEffect> TREMOR_CHAIN = EFFECTS.register("tremor_chain", TremorChainEffect::new);
+
+    public static final RegistryObject<Item> CLAP_CLAP = ITEMS.register("clap_clap",
+            () -> new ClapClap(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> HEATING_HAMMER = ITEMS.register("heating_hammer",
+            () -> new HeatingHammer(new Item.Properties().stacksTo(1)));
+
+    // ==================== 空间撕裂附魔 ====================
+    public static final RegistryObject<Enchantment> SPACE_TEAR = ENCHANTMENTS.register("space_tear",
+            SpaceTearEnchantment::new);
+
+    public static final RegistryObject<Item> ONE_MORE_DRINK = ITEMS.register("one_more_drink",
+            () -> new OneMoreDrink(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<MobEffect> INSTANT_FORESIGHT = EFFECTS.register("instant_foresight", InstantForesightEffect::new);
+
+    public static final RegistryObject<Item> IMPERFECT_FORESIGHT_EYE = ITEMS.register("imperfect_foresight_eye",
+            () -> new ImperfectForesightEye(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> OFFERING_CIGAR = ITEMS.register("offering_cigar",
+            () -> new OfferingCigar(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> CUSTOM_MADE = ITEMS.register("custom_made",
+            () -> new CustomMade(new Item.Properties().stacksTo(1)));
 
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);

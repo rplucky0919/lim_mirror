@@ -38,6 +38,6 @@ public class MeltedEyeball extends Item implements ICurioItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.literal("§7敌方被震颤引爆时，增加10秒和1级虚弱"));
-        tooltip.add(Component.literal("§710秒内玩家造成伤害×1.1"));
+        tooltip.add(Component.literal("§710秒内玩家造成伤害×2.5"));
     }
 }

@@ -24,11 +24,7 @@ public class ScorchingCopperPipe extends Item implements ICurioItem {
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         LivingEntity living = slotContext.entity();
         if (living instanceof Player player && !player.level().isClientSide()) {
-            boolean wasEquipped = player.getPersistentData().getBoolean("hasScorchingCopperPipe");
-            if (!wasEquipped) {
-                player.getPersistentData().putBoolean("hasScorchingCopperPipe", true);
-                BurnEvents.updateMaxLevels(player);
-            }
+            player.getPersistentData().putBoolean("hasScorchingCopperPipe", true);
         }
     }
 
@@ -37,7 +33,6 @@ public class ScorchingCopperPipe extends Item implements ICurioItem {
         LivingEntity living = slotContext.entity();
         if (living instanceof Player player) {
             player.getPersistentData().putBoolean("hasScorchingCopperPipe", false);
-            BurnEvents.updateMaxLevels(player);
         }
     }
 

@@ -105,5 +105,19 @@
   "item.lim_mirror.shaking_barrel": "摇晃的酒桶",
   "item.lim_mirror.meshed_gear": "嵌合的齿轮",
   "item.lim_mirror.epicenter": "震中",
-  "item.lim_mirror.eight_direction_bell": "无振八方钟"
+  "item.lim_mirror.eight_direction_bell": "无振八方钟",
+  "effect.lim_mirror.charge": "充能",
+  "effect.lim_mirror.tremor_burn": "震颤-灼热",
+  "effect.lim_mirror.tremor_bleed": "震颤-大出血",
+  "effect.lim_mirror.tremor_echo": "震颤-回响",
+  "effect.lim_mirror.tremor_collapse": "震颤-崩坏",
+  "effect.lim_mirror.tremor_chain": "震颤-锁链",
+  "item.lim_mirror.clap_clap": "拍手啪啪！",
+  "item.lim_mirror.heating_hammer": "加热锤",
+  "enchantment.lim_mirror.space_tear": "空间撕裂",
+  "item.lim_mirror.one_more_drink": "再来一杯",
+  "item.lim_mirror.imperfect_foresight_eye": "不完善的预知眼",
+  "effect.lim_mirror.instant_foresight": "瞬间的预知",
+  "item.lim_mirror.offering_cigar": "奉纳的雪茄",
+  "item.lim_mirror.custom_made": "定制"
 }

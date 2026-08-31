@@ -40,7 +40,7 @@ public class OldWoodenFigurine extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7暴击时对敌方施加可叠加的凋零"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7最高5级"));
+        tooltip.add(net.minecraft.network.chat.Component.literal("§7暴击时使目标受伤 +10%"));
+        tooltip.add(net.minecraft.network.chat.Component.literal("§7最高叠加至 +60%，持续 30 秒"));
     }
 }

@@ -77,6 +77,12 @@
     "lim_mirror:shaking_barrel",
     "lim_mirror:meshed_gear",
     "lim_mirror:epicenter",
-    "lim_mirror:eight_direction_bell"
+    "lim_mirror:eight_direction_bell",
+    "lim_mirror:clap_clap",
+    "lim_mirror:heating_hammer",
+    "lim_mirror:one_more_drink",
+    "lim_mirror:imperfect_foresight_eye",
+    "lim_mirror:offering_cigar",
+    "lim_mirror:custom_made"
   ]
 }

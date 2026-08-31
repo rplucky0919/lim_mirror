@@ -1,5 +1,6 @@
 package com.lim_mirror.Lim_Mirror;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -8,14 +9,24 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.ArrowNockEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = lim_mirror.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class PoiseEvents {
+
+    private static final int OLD_WOODEN_FIGURINE_MAX_STACK = 60;
+    private static final int OLD_WOODEN_FIGURINE_ADD_PER_CRIT = 10;
+    private static final int OLD_WOODEN_FIGURINE_DURATION = 20 * 30;
+
+    private static final int MELEE_COMBAT_MANUAL_BOOST_DURATION = 20 * 30;
+    private static final float MELEE_COMBAT_MANUAL_DAMAGE_MULTIPLIER = 1.2f;
+    private static final int MELEE_COMBAT_MANUAL_ADD_POISE_LEVEL = 3;
+    private static final int MELEE_COMBAT_MANUAL_ADD_POISE_DURATION = 20 * 2;
 
     @SubscribeEvent
     public static void onAttack(LivingHurtEvent event) {
@@ -36,6 +47,9 @@ public class PoiseEvents {
                 float critChance = Math.min(level * 0.05f, 1.0f);
                 boolean hasBambooHat = player.getPersistentData().getBoolean("hasBrokenBambooHat");
                 boolean isCrit = hasBambooHat || player.getRandom().nextFloat() < critChance;
+
+                // ===== 标记暴击状态（供不完善的预知眼检测） =====
+                player.getPersistentData().putBoolean("poiseCritThisAttack", isCrit);
 
                 if (isCrit) {
                     float baseDamage = event.getAmount();
@@ -303,26 +317,14 @@ public class PoiseEvents {
                         }
                     }
 
+                    // ===== 陈旧的木雕人偶：暴击时目标受伤+10%（最高60%） =====
                     if (player.getPersistentData().getBoolean("hasOldWoodenFigurine")) {
                         LivingEntity target = event.getEntity();
-                        if (target instanceof LivingEntity) {
-                            MobEffectInstance currentWither = target.getEffect(MobEffects.WITHER);
-                            int newAmplifier = 0;
-                            int currentDurationWither = 0;
-                            if (currentWither != null) {
-                                newAmplifier = Math.min(currentWither.getAmplifier() + 1, 4);
-                                currentDurationWither = currentWither.getDuration();
-                            }
-                            int totalDuration = currentDurationWither + 20 * 3;
-
-                            target.removeEffect(MobEffects.WITHER);
-                            target.addEffect(new MobEffectInstance(
-                                    MobEffects.WITHER,
-                                    totalDuration,
-                                    newAmplifier,
-                                    false,
-                                    false
-                            ));
+                        if (target != null) {
+                            int currentStack = target.getPersistentData().getInt("oldWoodenFigurineStack");
+                            int newStack = Math.min(currentStack + OLD_WOODEN_FIGURINE_ADD_PER_CRIT, OLD_WOODEN_FIGURINE_MAX_STACK);
+                            target.getPersistentData().putInt("oldWoodenFigurineStack", newStack);
+                            target.getPersistentData().putLong("oldWoodenFigurineEnd", target.level().getGameTime() + OLD_WOODEN_FIGURINE_DURATION);
                         }
                     }
                 } else {
@@ -399,23 +401,6 @@ public class PoiseEvents {
                             event.setAmount(event.getAmount() * 1.32f);
                         }
                     }
-                }
-            }
-
-            // ===== 近身格斗教材：物品栏有无限弓时伤害×1.6（独立于暴击） =====
-            if (player.getPersistentData().getBoolean("hasMeleeCombatManual")) {
-                boolean hasInfinityBow = false;
-                for (ItemStack stack : player.getInventory().items) {
-                    if (!stack.isEmpty()) {
-                        int infinityLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, stack);
-                        if (infinityLevel > 0) {
-                            hasInfinityBow = true;
-                            break;
-                        }
-                    }
-                }
-                if (hasInfinityBow) {
-                    event.setAmount(event.getAmount() * 1.6f);
                 }
             }
 
@@ -564,33 +549,6 @@ public class PoiseEvents {
                 }
             }
 
-            // ===== 近身格斗教材：射出箭时获得呼吸法 =====
-            if (player.getPersistentData().getBoolean("hasMeleeCombatManual")) {
-                if (event.getSource().getMsgId() != null && event.getSource().getMsgId().equals("arrow")) {
-                    MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
-                    int newAmplifier;
-                    if (currentPoise != null) {
-                        newAmplifier = currentPoise.getAmplifier() + 3;
-                    } else {
-                        newAmplifier = 0;
-                    }
-                    int currentDuration = 0;
-                    if (currentPoise != null) {
-                        currentDuration = currentPoise.getDuration();
-                    }
-                    int totalDuration = currentDuration + 20 * 3;
-
-                    player.removeEffect(Registration.POISE.get());
-                    player.addEffect(new MobEffectInstance(
-                            Registration.POISE.get(),
-                            totalDuration,
-                            newAmplifier,
-                            false,
-                            false
-                    ));
-                }
-            }
-
             int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BREATH_SMOOTH.get(), mainHand);
 
             if (enchantLevel > 0) {
@@ -639,6 +597,71 @@ public class PoiseEvents {
         }
     }
 
+    // ===== 近战格斗教材：消耗弹药获得30秒伤害加成和呼吸法 =====
+
+    @SubscribeEvent
+    public static void onArrowNock(ArrowNockEvent event) {
+        Player player = event.getEntity();
+        if (player == null) return;
+        if (player.level().isClientSide()) return;
+
+        if (!player.getPersistentData().getBoolean("hasMeleeCombatManual")) return;
+
+        ItemStack bow = event.getBow();
+        if (bow.isEmpty()) return;
+
+        boolean hasArrow = !player.getProjectile(bow).isEmpty() || player.getAbilities().instabuild;
+        if (!hasArrow) return;
+
+        // 给予30秒伤害加成标记
+        player.getPersistentData().putLong("meleeCombatManualDamageBoostEnd",
+                player.level().getGameTime() + MELEE_COMBAT_MANUAL_BOOST_DURATION);
+
+        // 给予2秒3级呼吸法
+        MobEffectInstance currentPoise = player.getEffect(Registration.POISE.get());
+        int newAmplifier;
+        if (currentPoise != null) {
+            newAmplifier = currentPoise.getAmplifier() + MELEE_COMBAT_MANUAL_ADD_POISE_LEVEL;
+        } else {
+            newAmplifier = MELEE_COMBAT_MANUAL_ADD_POISE_LEVEL - 1;
+        }
+        int currentDuration = 0;
+        if (currentPoise != null) {
+            currentDuration = currentPoise.getDuration();
+        }
+        int totalDuration = currentDuration + MELEE_COMBAT_MANUAL_ADD_POISE_DURATION;
+
+        player.removeEffect(Registration.POISE.get());
+        player.addEffect(new MobEffectInstance(
+                Registration.POISE.get(),
+                totalDuration,
+                newAmplifier,
+                false,
+                false
+        ));
+
+        player.displayClientMessage(
+                Component.literal("§a[近身格斗教材] 伤害×1.2持续30秒，呼吸法+3级+2秒！"),
+                true
+        );
+    }
+
+    // ===== 近战格斗教材：30秒伤害×1.2 =====
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtMeleeCombatManualBoost(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+
+        if (!player.getPersistentData().getBoolean("hasMeleeCombatManual")) return;
+
+        long boostEnd = player.getPersistentData().getLong("meleeCombatManualDamageBoostEnd");
+        long currentTick = player.level().getGameTime();
+
+        if (currentTick <= boostEnd) {
+            event.setAmount(event.getAmount() * MELEE_COMBAT_MANUAL_DAMAGE_MULTIPLIER);
+        }
+    }
+
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {
         if (event.getSource().getEntity() instanceof Player player) {
@@ -684,6 +707,25 @@ public class PoiseEvents {
                         false,
                         false
                 ));
+            }
+        }
+    }
+
+    // ===== 陈旧的木雕人偶：受伤加成 =====
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtOldWoodenFigurine(LivingHurtEvent event) {
+        LivingEntity target = event.getEntity();
+        if (target == null) return;
+
+        long endTime = target.getPersistentData().getLong("oldWoodenFigurineEnd");
+        long currentTick = target.level().getGameTime();
+
+        if (currentTick <= endTime) {
+            int stack = target.getPersistentData().getInt("oldWoodenFigurineStack");
+            if (stack > 0) {
+                float multiplier = 1.0f + (stack / 100.0f);
+                event.setAmount(event.getAmount() * multiplier);
             }
         }
     }
