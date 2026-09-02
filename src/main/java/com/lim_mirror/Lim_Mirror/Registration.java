@@ -331,6 +331,63 @@ public class Registration {
     public static final RegistryObject<Item> CUSTOM_MADE = ITEMS.register("custom_made",
             () -> new CustomMade(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> HAND_MIRROR = ITEMS.register("hand_mirror",
+            () -> new HandMirror(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> OILY_WRENCH = ITEMS.register("oily_wrench",
+            () -> new OilyWrench(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SILVER_WATCH_CASE = ITEMS.register("silver_watch_case",
+            () -> new SilverWatchCase(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> FADED_WATCH_CASE = ITEMS.register("faded_watch_case",
+            () -> new FadedWatchCase(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> ETCHED_HAND = ITEMS.register("etched_hand",
+            () -> new EtchedHand(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> RUSTED_HAND = ITEMS.register("rusted_hand",
+            () -> new RustedHand(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> TRICKLE_CUP = ITEMS.register("trickle_cup",
+            () -> new TrickleCup(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> POCKET_WATCH_TYPE_L = ITEMS.register("pocket_watch_type_l",
+            () -> new PocketWatchTypeL(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> POCKET_WATCH_TYPE_E = ITEMS.register("pocket_watch_type_e",
+            () -> new PocketWatchTypeE(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> POCKET_WATCH_TYPE_Y = ITEMS.register("pocket_watch_type_y",
+            () -> new PocketWatchTypeY(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> POCKET_WATCH_TYPE_P = ITEMS.register("pocket_watch_type_p",
+            () -> new PocketWatchTypeP(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> EXTINGUISHED_LANTERN = ITEMS.register("extinguished_lantern",
+            () -> new ExtinguishedLantern(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SHADOW_MONSTER = ITEMS.register("shadow_monster",
+            () -> new ShadowMonster(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> INTERTWINED_TIME = ITEMS.register("intertwined_time",
+            () -> new IntertwinedTime(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> FORCED_ENTANGLEMENT_SEQUENCER = ITEMS.register("forced_entanglement_sequencer",
+            () -> new ForcedEntanglementSequencer(new Item.Properties().stacksTo(1)));
+    // ==================== 精密时间加速效果 ====================
+    public static final RegistryObject<MobEffect> PRECISION_TIME_ACCELERATION = EFFECTS.register("precision_time_acceleration", PrecisionTimeAccelerationEffect::new);
+
+    // ==================== 超精密时间加速装置 ====================
+    public static final RegistryObject<Item> ULTRA_PRECISION_TIME_ACCELERATOR = ITEMS.register("ultra_precision_time_accelerator",
+            () -> new UltraPrecisionTimeAccelerator(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> BLACK_IRON_BARDING = ITEMS.register("black_iron_barding",
+            () -> new BlackIronBarding(new Item.Properties().stacksTo(1)));
+
+    // ===== 新增：为了指挥官 =====
+    public static final RegistryObject<Item> FOR_THE_COMMANDER = ITEMS.register("for_the_commander",
+            () -> new ForTheCommander(new Item.Properties().stacksTo(1)));
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
         ITEMS.register(modEventBus);

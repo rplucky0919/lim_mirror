@@ -83,6 +83,23 @@
     "lim_mirror:one_more_drink",
     "lim_mirror:imperfect_foresight_eye",
     "lim_mirror:offering_cigar",
-    "lim_mirror:custom_made"
+    "lim_mirror:custom_made",
+    "lim_mirror:hand_mirror",
+    "lim_mirror:oily_wrench",
+    "lim_mirror:silver_watch_case",
+    "lim_mirror:faded_watch_case",
+    "lim_mirror:etched_hand",
+    "lim_mirror:rusted_hand",
+    "lim_mirror:trickle_cup",
+    "lim_mirror:pocket_watch_type_l",
+    "lim_mirror:pocket_watch_type_e",
+    "lim_mirror:pocket_watch_type_y",
+    "lim_mirror:pocket_watch_type_p",
+    "lim_mirror:extinguished_lantern",
+    "lim_mirror:shadow_monster",
+    "lim_mirror:intertwined_time",
+    "lim_mirror:forced_entanglement_sequencer",
+    "lim_mirror:ultra_precision_time_accelerator",
+    "lim_mirror:black_iron_barding"
   ]
 }

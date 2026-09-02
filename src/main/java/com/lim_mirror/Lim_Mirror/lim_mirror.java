@@ -146,6 +146,24 @@ public class lim_mirror {
                 output.accept(Registration.OFFERING_CIGAR.get());
                 output.accept(Registration.OFFERING_CIGAR.get());
                 output.accept(Registration.CUSTOM_MADE.get());
+                output.accept(Registration.HAND_MIRROR.get());
+                output.accept(Registration.OILY_WRENCH.get());
+                output.accept(Registration.SILVER_WATCH_CASE.get());
+                output.accept(Registration.FADED_WATCH_CASE.get());
+                output.accept(Registration.ETCHED_HAND.get());
+                output.accept(Registration.RUSTED_HAND.get());
+                output.accept(Registration.TRICKLE_CUP.get());
+                output.accept(Registration.POCKET_WATCH_TYPE_L.get());
+                output.accept(Registration.POCKET_WATCH_TYPE_E.get());
+                output.accept(Registration.POCKET_WATCH_TYPE_Y.get());
+                output.accept(Registration.POCKET_WATCH_TYPE_P.get());
+                output.accept(Registration.EXTINGUISHED_LANTERN.get());
+                output.accept(Registration.SHADOW_MONSTER.get());
+                output.accept(Registration.INTERTWINED_TIME.get());
+                output.accept(Registration.FORCED_ENTANGLEMENT_SEQUENCER.get());
+                output.accept(Registration.ULTRA_PRECISION_TIME_ACCELERATOR.get());
+                output.accept(Registration.BLACK_IRON_BARDING.get());
+                output.accept(Registration.FOR_THE_COMMANDER.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = lim_mirror.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class BoilingCorrosionEvents {
+public class TremorEvents {
 
     private static final int COOLDOWN_TICKS = 20 * 5;
     private static final double EXPLODE_RADIUS = 5.0;
@@ -95,9 +95,6 @@ public class BoilingCorrosionEvents {
 
     private static final float MELTED_EYEBALL_MULTIPLIER = 2.5f;
 
-    private static final int TREMOR_BURN_REDUCE = 2;
-    private static final int TREMOR_BLEED_REDUCE = 2;
-
     private static final int TREMOR_CHAIN_INTERVAL = 10;
     private static final int TREMOR_CHAIN_MAX_WEAKNESS = 3;
     private static final int TREMOR_CHAIN_DURATION = 20 * 60;
@@ -144,7 +141,51 @@ public class BoilingCorrosionEvents {
     private static final int CUSTOM_MADE_RESISTANCE_DURATION = 20 * 5;
     private static final float CUSTOM_MADE_DAMAGE_MULTIPLIER = 1.2f;
 
-    private static boolean hasAnyTremorEffect(LivingEntity target) {
+    // ==================== 手镜 ====================
+    private static final int HAND_MIRROR_SLOW_DURATION = 20 * 30;
+    private static final int HAND_MIRROR_SLOW_AMPLIFIER = 4;
+    private static final int HAND_MIRROR_DAMAGE_DURATION = 20 * 30;
+    private static final float HAND_MIRROR_DAMAGE_MULTIPLIER = 1.3f;
+    private static final int HAND_MIRROR_TREMOR_DOUBLE_DURATION = 20 * 60;
+
+    // ==================== 沾染油污的扳手 ====================
+    private static final int OILY_WRENCH_ADD_TREMOR_LEVEL = 2;
+    private static final int OILY_WRENCH_TREMOR_DURATION = 20;
+    private static final float OILY_WRENCH_DAMAGE_MULTIPLIER = 1.1f;
+
+    // ==================== 银色的表壳 ====================
+    private static final float SILVER_WATCH_CASE_DAMAGE_MULTIPLIER = 1.1f;
+    private static final int SILVER_WATCH_CASE_ADD_TREMOR_DURATION = 20 * 4;
+    private static final int SILVER_WATCH_CASE_COOLDOWN = 20 * 5;
+
+    // ==================== 褪色的表壳 ====================
+    private static final float FADED_WATCH_CASE_ADD_DAMAGE = 3.0f;
+    private static final int FADED_WATCH_CASE_ADD_TREMOR_LEVEL = 3;
+    private static final int FADED_WATCH_CASE_ADD_TREMOR_DURATION = 20 * 4;
+    private static final int FADED_WATCH_CASE_COOLDOWN = 20 * 10;
+
+    // ==================== 蚀刻的指针 ====================
+    private static final int ETCHED_HAND_INTERVAL = 20 * 30;
+    private static final int ETCHED_HAND_RADIUS = 10;
+    private static final int ETCHED_HAND_ADD_TREMOR_LEVEL = 3;
+    private static final int ETCHED_HAND_TREMOR_DURATION = 20;
+    private static final int ETCHED_HAND_TREMOR_THRESHOLD = 12;
+    private static final float ETCHED_HAND_DAMAGE_MULTIPLIER = 1.1f;
+
+    // ==================== 锈蚀的指针 ====================
+    private static final int RUSTED_HAND_ADD_TREMOR_LEVEL = 8;
+    private static final int RUSTED_HAND_ADD_TREMOR_DURATION = 20 * 8;
+    private static final int RUSTED_HAND_COOLDOWN = 20 * 30;
+    private static final int RUSTED_HAND_TREMOR_THRESHOLD = 12;
+    private static final float RUSTED_HAND_DAMAGE_REDUCTION = 0.9f;
+
+    // ==================== 熄灭的提灯 ====================
+    private static final int EXTINGUISHED_LANTERN_SLOT = 6;
+    private static final int EXTINGUISHED_LANTERN_EXTRA_DURATION = 20;
+
+    // ==================== 判断是否有任何震颤效果（public static，供TremorEvents2调用） ====================
+
+    public static boolean hasAnyTremorEffect(LivingEntity target) {
         if (target == null) return false;
         return target.hasEffect(Registration.TREMOR.get())
                 || target.hasEffect(Registration.TREMOR_BURN.get())
@@ -152,6 +193,39 @@ public class BoilingCorrosionEvents {
                 || target.hasEffect(Registration.TREMOR_ECHO.get())
                 || target.hasEffect(Registration.TREMOR_COLLAPSE.get())
                 || target.hasEffect(Registration.TREMOR_CHAIN.get());
+    }
+
+    // ==================== 熄灭的提灯：快捷栏第7格有武器时自身震颤额外+1秒 ====================
+
+    public static boolean shouldExtendSelfTremor(Player player) {
+        if (player == null) return false;
+
+        if (!player.getPersistentData().getBoolean("hasExtinguishedLantern")) return false;
+
+        ItemStack slotStack = player.getInventory().getItem(EXTINGUISHED_LANTERN_SLOT);
+        return !slotStack.isEmpty();
+    }
+
+    public static void addSelfTremor(Player player, int baseDuration, int amplifier) {
+        int duration = baseDuration;
+        if (shouldExtendSelfTremor(player)) {
+            duration += EXTINGUISHED_LANTERN_EXTRA_DURATION;
+        }
+
+        MobEffectInstance existing = player.getEffect(Registration.TREMOR.get());
+        int newDuration = (existing != null) ? existing.getDuration() + duration : duration;
+        int newAmplifier = (existing != null) ? existing.getAmplifier() : amplifier;
+
+        newAmplifier = Math.max(0, newAmplifier);
+
+        player.removeEffect(Registration.TREMOR.get());
+        player.addEffect(new MobEffectInstance(
+                Registration.TREMOR.get(),
+                newDuration,
+                newAmplifier,
+                false,
+                false
+        ));
     }
 
     @SubscribeEvent
@@ -168,7 +242,7 @@ public class BoilingCorrosionEvents {
 
         MobEffectInstance currentTremor = target.getEffect(Registration.TREMOR.get());
 
-        int newAmplifier = 1;
+        int newAmplifier = 0;
         int newDuration = 20;
 
         if (currentTremor != null) {
@@ -224,6 +298,8 @@ public class BoilingCorrosionEvents {
             newDuration += TOXIC_SKIN_ADD_DURATION;
         }
 
+        newAmplifier = Math.max(0, newAmplifier);
+
         target.addEffect(new MobEffectInstance(
                 Registration.TREMOR.get(),
                 newDuration,
@@ -239,7 +315,7 @@ public class BoilingCorrosionEvents {
             MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
             if (tremor != null) {
                 int newDurationGem = tremor.getDuration() + 20 * 6;
-                int newAmplifierGem = tremor.getAmplifier();
+                int newAmplifierGem = Math.max(0, tremor.getAmplifier());
                 target.removeEffect(Registration.TREMOR.get());
                 target.addEffect(new MobEffectInstance(
                         Registration.TREMOR.get(),
@@ -262,7 +338,7 @@ public class BoilingCorrosionEvents {
         if (hasMirrorTactileSynesthesia && currentTick - mirrorLastTrigger >= MIRROR_TACTILE_SYNESTHESIA_INTERVAL) {
             MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
             if (tremor != null) {
-                int currentAmplifier = tremor.getAmplifier() + 1;
+                int currentAmplifier = Math.max(0, tremor.getAmplifier() + 1);
                 int addAmplifier = Math.max(currentAmplifier / 2, 1);
                 int newAmplifierMirror = Math.min(currentAmplifier + addAmplifier - 1, MAX_TREMOR_LEVEL - 1);
                 int duration = tremor.getDuration();
@@ -298,7 +374,7 @@ public class BoilingCorrosionEvents {
         if (hasEpicenter && currentTick - epicenterLastTrigger >= EPICENTER_INTERVAL) {
             MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
             int newDurationEpi = (tremor == null) ? EPICENTER_ADD_DURATION : tremor.getDuration() + EPICENTER_ADD_DURATION;
-            int newAmplifierEpi = (tremor == null) ? 0 : tremor.getAmplifier();
+            int newAmplifierEpi = (tremor == null) ? 0 : Math.max(0, tremor.getAmplifier());
             target.removeEffect(Registration.TREMOR.get());
             target.addEffect(new MobEffectInstance(
                     Registration.TREMOR.get(),
@@ -320,7 +396,7 @@ public class BoilingCorrosionEvents {
         if (hasEightDirectionBell) {
             MobEffectInstance targetTremor = target.getEffect(Registration.TREMOR.get());
             int newDurationTarget = (targetTremor == null) ? EIGHT_DIRECTION_BELL_ADD_DURATION : targetTremor.getDuration() + EIGHT_DIRECTION_BELL_ADD_DURATION;
-            int newAmplifierTarget = (targetTremor == null) ? EIGHT_DIRECTION_BELL_ADD_AMPLIFIER - 1 : Math.min(targetTremor.getAmplifier() + EIGHT_DIRECTION_BELL_ADD_AMPLIFIER, MAX_TREMOR_LEVEL - 1);
+            int newAmplifierTarget = (targetTremor == null) ? EIGHT_DIRECTION_BELL_ADD_AMPLIFIER - 1 : Math.min(Math.max(0, targetTremor.getAmplifier() + EIGHT_DIRECTION_BELL_ADD_AMPLIFIER), MAX_TREMOR_LEVEL - 1);
             target.removeEffect(Registration.TREMOR.get());
             target.addEffect(new MobEffectInstance(
                     Registration.TREMOR.get(),
@@ -331,16 +407,8 @@ public class BoilingCorrosionEvents {
             ));
 
             MobEffectInstance selfTremor = player.getEffect(Registration.TREMOR.get());
-            int newDurationSelf = (selfTremor == null) ? EIGHT_DIRECTION_BELL_SELF_DURATION : selfTremor.getDuration() + EIGHT_DIRECTION_BELL_SELF_DURATION;
-            int newAmplifierSelf = (selfTremor == null) ? 0 : selfTremor.getAmplifier();
-            player.removeEffect(Registration.TREMOR.get());
-            player.addEffect(new MobEffectInstance(
-                    Registration.TREMOR.get(),
-                    newDurationSelf,
-                    newAmplifierSelf,
-                    false,
-                    false
-            ));
+            int amplifier = (selfTremor == null) ? 0 : Math.max(0, selfTremor.getAmplifier());
+            addSelfTremor(player, EIGHT_DIRECTION_BELL_SELF_DURATION, amplifier);
         }
 
         // ==================== 加热锤 ====================
@@ -377,11 +445,11 @@ public class BoilingCorrosionEvents {
         for (LivingEntity target : targets) {
             MobEffectInstance currentTremor = target.getEffect(Registration.TREMOR.get());
 
-            int newAmplifier = Math.min(10 - 1, MAX_TREMOR_LEVEL - 1);
+            int newAmplifier = 9;
             int newDuration = RAINSTORM_ADD_DURATION;
 
             if (currentTremor != null) {
-                newAmplifier = Math.min(currentTremor.getAmplifier() + 10 - 1, MAX_TREMOR_LEVEL - 1);
+                newAmplifier = Math.min(Math.max(0, currentTremor.getAmplifier() + 10 - 1), MAX_TREMOR_LEVEL - 1);
                 newDuration = currentTremor.getDuration() + RAINSTORM_ADD_DURATION;
             }
 
@@ -398,7 +466,7 @@ public class BoilingCorrosionEvents {
             if (!hasAnyTremorEffect(target)) continue;
 
             MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
-            int level = (tremor != null) ? tremor.getAmplifier() + 1 : 0;
+            int level = (tremor != null) ? Math.max(0, tremor.getAmplifier() + 1) : 0;
             int duration = (tremor != null) ? tremor.getDuration() : 0;
 
             float damage = level;
@@ -416,19 +484,20 @@ public class BoilingCorrosionEvents {
                     target.addEffect(new MobEffectInstance(
                             Registration.TREMOR.get(),
                             newDuration,
-                            tremor.getAmplifier(),
+                            Math.max(0, tremor.getAmplifier()),
                             false,
                             false
                     ));
                 }
             }
 
-            // ===== 特殊震颤时间消耗 1 秒 =====
             reduceSpecialTremorDuration(target, Registration.TREMOR_BURN.get(), 20);
             reduceSpecialTremorDuration(target, Registration.TREMOR_BLEED.get(), 20);
             reduceSpecialTremorDuration(target, Registration.TREMOR_ECHO.get(), 20);
             reduceSpecialTremorDuration(target, Registration.TREMOR_COLLAPSE.get(), 20);
             reduceSpecialTremorDuration(target, Registration.TREMOR_CHAIN.get(), 20);
+
+            applySilverWatchCaseTremorBoost(player, target);
 
             if (hasTruthClock) {
                 target.getPersistentData().putLong("truthClockEnd", currentTick + TRUTH_CLOCK_DURATION);
@@ -493,7 +562,7 @@ public class BoilingCorrosionEvents {
             if (!hasAnyTremorEffect(target)) continue;
 
             MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
-            int level = (tremor != null) ? tremor.getAmplifier() + 1 : 0;
+            int level = (tremor != null) ? Math.max(0, tremor.getAmplifier() + 1) : 0;
             int duration = (tremor != null) ? tremor.getDuration() : 0;
 
             float damage = level;
@@ -511,19 +580,20 @@ public class BoilingCorrosionEvents {
                     target.addEffect(new MobEffectInstance(
                             Registration.TREMOR.get(),
                             newDuration,
-                            tremor.getAmplifier(),
+                            Math.max(0, tremor.getAmplifier()),
                             false,
                             false
                     ));
                 }
             }
 
-            // ===== 特殊震颤时间消耗 1 秒 =====
             reduceSpecialTremorDuration(target, Registration.TREMOR_BURN.get(), 20);
             reduceSpecialTremorDuration(target, Registration.TREMOR_BLEED.get(), 20);
             reduceSpecialTremorDuration(target, Registration.TREMOR_ECHO.get(), 20);
             reduceSpecialTremorDuration(target, Registration.TREMOR_COLLAPSE.get(), 20);
             reduceSpecialTremorDuration(target, Registration.TREMOR_CHAIN.get(), 20);
+
+            applySilverWatchCaseTremorBoost(player, target);
 
             if (hasTruthClock) {
                 target.getPersistentData().putLong("truthClockEnd", currentTick + TRUTH_CLOCK_DURATION);
@@ -548,9 +618,6 @@ public class BoilingCorrosionEvents {
         );
     }
 
-    /**
-     * 消耗特殊震颤效果的持续时间
-     */
     private static void reduceSpecialTremorDuration(LivingEntity target, MobEffect effect, int reduceTicks) {
         if (target == null || effect == null) return;
 
@@ -565,14 +632,47 @@ public class BoilingCorrosionEvents {
             target.addEffect(new MobEffectInstance(
                     effect,
                     newDuration,
-                    instance.getAmplifier(),
+                    Math.max(0, instance.getAmplifier()),
                     false,
                     false
             ));
         }
     }
 
-    // ==================== 加热锤 ====================
+    private static void applySilverWatchCaseTremorBoost(Player player, LivingEntity target) {
+        if (player == null || target == null) return;
+
+        if (!player.getPersistentData().getBoolean("hasSilverWatchCase")) return;
+
+        long lastTrigger = player.getPersistentData().getLong("silverWatchCaseLastTrigger");
+        long currentTick = target.level().getGameTime();
+
+        if (currentTick - lastTrigger < SILVER_WATCH_CASE_COOLDOWN) return;
+
+        MobEffectInstance targetTremor = target.getEffect(Registration.TREMOR.get());
+        if (targetTremor != null) {
+            int newDuration = targetTremor.getDuration() + SILVER_WATCH_CASE_ADD_TREMOR_DURATION;
+            int amplifier = Math.max(0, targetTremor.getAmplifier());
+            target.removeEffect(Registration.TREMOR.get());
+            target.addEffect(new MobEffectInstance(
+                    Registration.TREMOR.get(),
+                    newDuration,
+                    amplifier,
+                    false,
+                    false
+            ));
+        } else {
+            target.addEffect(new MobEffectInstance(
+                    Registration.TREMOR.get(),
+                    SILVER_WATCH_CASE_ADD_TREMOR_DURATION,
+                    0,
+                    false,
+                    false
+            ));
+        }
+
+        player.getPersistentData().putLong("silverWatchCaseLastTrigger", currentTick);
+    }
 
     private static void applyHeatingHammer(Player player, LivingEntity target) {
         if (target == null) return;
@@ -583,10 +683,10 @@ public class BoilingCorrosionEvents {
         if (tremorBurn == null) return;
 
         MobEffectInstance burn = target.getEffect(Registration.BURN.get());
-        int burnAmplifier = (burn != null) ? burn.getAmplifier() + 1 : 0;
+        int burnAmplifier = (burn != null) ? Math.max(0, burn.getAmplifier() + 1) : 0;
         int burnDuration = (burn != null) ? burn.getDuration() + 20 : 20;
 
-        int tremorBurnLevel = tremorBurn.getAmplifier() + 1;
+        int tremorBurnLevel = Math.max(0, tremorBurn.getAmplifier() + 1);
         if (tremorBurnLevel >= HEATING_HAMMER_TREMOR_BURN_THRESHOLD) {
             burnAmplifier += 1;
         }
@@ -610,7 +710,7 @@ public class BoilingCorrosionEvents {
         MobEffectInstance burn = target.getEffect(Registration.BURN.get());
         if (burn == null) return 1.0f;
 
-        int burnLevel = burn.getAmplifier() + 1;
+        int burnLevel = Math.max(0, burn.getAmplifier() + 1);
         float bonus = Math.min(burnLevel / (float) HEATING_HAMMER_BURN_INTERVAL / 100.0f, HEATING_HAMMER_MAX_BONUS);
 
         return 1.0f + bonus;
@@ -621,7 +721,7 @@ public class BoilingCorrosionEvents {
 
         MobEffectInstance currentTremor = target.getEffect(Registration.TREMOR.get());
         if (currentTremor != null) {
-            int newAmplifier = Math.min(currentTremor.getAmplifier() + TREMOR_COUPLING_EXPLODE_ADD_AMPLIFIER - 1, MAX_TREMOR_LEVEL - 1);
+            int newAmplifier = Math.min(Math.max(0, currentTremor.getAmplifier() + TREMOR_COUPLING_EXPLODE_ADD_AMPLIFIER - 1), MAX_TREMOR_LEVEL - 1);
             int newDuration = currentTremor.getDuration() + 20;
             target.removeEffect(Registration.TREMOR.get());
             target.addEffect(new MobEffectInstance(
@@ -676,76 +776,36 @@ public class BoilingCorrosionEvents {
         }
     }
 
+    // ==================== 震颤-灼热：单吃烧伤 ====================
+
     private static void applyTremorBurn(Player player, LivingEntity target) {
         if (target == null) return;
 
-        MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
         MobEffectInstance burn = target.getEffect(Registration.BURN.get());
+        if (burn == null) return;
 
-        if (tremor == null && burn == null) return;
+        int burnLevel = Math.max(0, burn.getAmplifier() + 1);
+        if (burnLevel <= 0) return;
 
-        int tremorLevel = (tremor != null) ? tremor.getAmplifier() + 1 : 0;
-        int burnLevel = (burn != null) ? burn.getAmplifier() + 1 : 0;
-
-        int total = tremorLevel + burnLevel;
-        float damage = total / 2.0f;
-
-        if (damage > 0) {
-            damage *= getHeatingHammerExplodeMultiplier(player, target);
-            target.hurt(target.damageSources().onFire(), damage);
-        }
-
-        if (burn != null) {
-            int newDuration = Math.max(burn.getDuration() - 20 * TREMOR_BURN_REDUCE, 0);
-            if (newDuration <= 0) {
-                target.removeEffect(Registration.BURN.get());
-            } else {
-                target.removeEffect(Registration.BURN.get());
-                target.addEffect(new MobEffectInstance(
-                        Registration.BURN.get(),
-                        newDuration,
-                        burn.getAmplifier(),
-                        false,
-                        false
-                ));
-            }
-        }
+        float damage = burnLevel;
+        damage *= getHeatingHammerExplodeMultiplier(player, target);
+        target.hurt(target.damageSources().onFire(), damage);
     }
+
+    // ==================== 震颤-大出血：单吃流血 ====================
 
     private static void applyTremorBleed(Player player, LivingEntity target) {
         if (target == null) return;
 
-        MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
         MobEffectInstance bleed = target.getEffect(Registration.BLEED.get());
+        if (bleed == null) return;
 
-        if (tremor == null && bleed == null) return;
+        int bleedLevel = Math.max(0, bleed.getAmplifier() + 1);
+        if (bleedLevel <= 0) return;
 
-        int tremorLevel = (tremor != null) ? tremor.getAmplifier() + 1 : 0;
-        int bleedLevel = (bleed != null) ? bleed.getAmplifier() + 1 : 0;
-
-        int total = tremorLevel + bleedLevel;
-        float damage = total / 2.0f;
-
-        if (damage > 0) {
-            damage *= getHeatingHammerExplodeMultiplier(player, target);
-            target.hurt(target.damageSources().wither(), damage);
-        }
-
-        if (bleed != null) {
-            int newDuration = Math.max(bleed.getDuration() - 20 * TREMOR_BLEED_REDUCE, 0);
-            if (newDuration <= 0) {
-                target.removeEffect(Registration.BLEED.get());
-            } else {
-                target.removeEffect(Registration.BLEED.get());
-                target.addEffect(new MobEffectInstance(
-                        Registration.BLEED.get(),
-                        newDuration,
-                        bleed.getAmplifier(),
-                        false,
-                        false
-                ));
-            }
-        }
+        float damage = bleedLevel;
+        damage *= getHeatingHammerExplodeMultiplier(player, target);
+        target.hurt(target.damageSources().wither(), damage);
     }
 
     private static void applyTremorEcho(Player player, LivingEntity target) {
@@ -754,7 +814,7 @@ public class BoilingCorrosionEvents {
         MobEffectInstance tremorEcho = target.getEffect(Registration.TREMOR_ECHO.get());
         if (tremorEcho == null) return;
 
-        int amplifier = tremorEcho.getAmplifier();
+        int amplifier = Math.max(0, tremorEcho.getAmplifier());
         int damage = amplifier + 1;
 
         if (damage > 0) {
@@ -772,7 +832,7 @@ public class BoilingCorrosionEvents {
         MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
         if (tremor == null) return;
 
-        int tremorLevel = tremor.getAmplifier() + 1;
+        int tremorLevel = Math.max(0, tremor.getAmplifier() + 1);
         float multiplier = tremorLevel / 40.0f;
 
         if (multiplier > 1.0f) {
@@ -790,7 +850,7 @@ public class BoilingCorrosionEvents {
         MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
         if (tremor == null) return;
 
-        int tremorLevel = tremor.getAmplifier() + 1;
+        int tremorLevel = Math.max(0, tremor.getAmplifier() + 1);
         int weaknessLevel = Math.min(tremorLevel / TREMOR_CHAIN_INTERVAL, TREMOR_CHAIN_MAX_WEAKNESS);
 
         if (weaknessLevel > 0) {
@@ -813,6 +873,7 @@ public class BoilingCorrosionEvents {
         int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BOILING_CORROSION.get(), weapon);
         if (enchantLevel <= 0) return;
 
+        // ===== 1. 减少基础震颤2秒 =====
         MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
         if (tremor != null) {
             int newDuration = Math.max(tremor.getDuration() - CLAP_CLAP_REDUCE_DURATION, 0);
@@ -823,13 +884,14 @@ public class BoilingCorrosionEvents {
                 target.addEffect(new MobEffectInstance(
                         Registration.TREMOR.get(),
                         newDuration,
-                        tremor.getAmplifier(),
+                        Math.max(0, tremor.getAmplifier()),
                         false,
                         false
                 ));
             }
         }
 
+        // ===== 2. 随机选择特殊震颤 =====
         MobEffect[] specials = new MobEffect[]{
                 Registration.TREMOR_BURN.get(),
                 Registration.TREMOR_BLEED.get(),
@@ -841,29 +903,72 @@ public class BoilingCorrosionEvents {
         MobEffect selected = specials[index];
 
         MobEffectInstance current = target.getEffect(selected);
-        int newAmplifier = (current != null) ? Math.min(current.getAmplifier() + 1, CLAP_CLAP_MAX_LEVEL - 1) : 0;
-        int newDuration = (current != null) ? current.getDuration() + CLAP_CLAP_ADD_DURATION : CLAP_CLAP_ADD_DURATION;
 
-        target.removeEffect(selected);
-        target.addEffect(new MobEffectInstance(
+        float specialMultiplier = 1.0f;
+        if (player.getPersistentData().getBoolean("hasPocketWatchTypeL")) {
+            specialMultiplier = 1.5f;
+        }
+
+        int newAmplifier;
+        int newDuration;
+
+        if (current != null) {
+            newAmplifier = Math.min((int)((Math.max(0, current.getAmplifier()) + 1) * specialMultiplier), CLAP_CLAP_MAX_LEVEL - 1);
+            newDuration = (int)((current.getDuration() + CLAP_CLAP_ADD_DURATION) * specialMultiplier);
+        } else {
+            newAmplifier = Math.min((int)(1 * specialMultiplier) - 1, CLAP_CLAP_MAX_LEVEL - 1);
+            newDuration = (int)(CLAP_CLAP_ADD_DURATION * specialMultiplier);
+        }
+
+        newAmplifier = Math.max(0, newAmplifier);
+
+        // ===== 3. 触发转化事件 =====
+        TremorConversionEvent conversionEvent = new TremorConversionEvent(
+                target,
+                player,
+                TremorConversionEvent.ConversionSource.CLAP_CLAP,
+                Registration.TREMOR.get(),
+                target.getEffect(Registration.TREMOR.get()),
                 selected,
-                newDuration,
                 newAmplifier,
-                false,
-                false
-        ));
-
-        String effectName = "";
-        if (selected == Registration.TREMOR_BURN.get()) effectName = "震颤-灼热";
-        else if (selected == Registration.TREMOR_BLEED.get()) effectName = "震颤-大出血";
-        else if (selected == Registration.TREMOR_ECHO.get()) effectName = "震颤-回响";
-        else if (selected == Registration.TREMOR_COLLAPSE.get()) effectName = "震颤-崩坏";
-        else if (selected == Registration.TREMOR_CHAIN.get()) effectName = "震颤-锁链";
-
-        player.displayClientMessage(
-                Component.literal("§a[拍手啪啪！] §f" + effectName + " §a+" + (newAmplifier + 1) + "级！"),
-                true
+                newDuration,
+                specialMultiplier
         );
+
+        if (!net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(conversionEvent)) {
+            conversionEvent.applyConversion();
+
+            String effectName = getSpecialTremorName(selected);
+            player.displayClientMessage(
+                    Component.literal("§a[拍手啪啪！] §f" + effectName + " §a+" + (conversionEvent.getTargetAmplifier() + 1) + "级！"),
+                    true
+            );
+
+            // ===== 4. 交织的时间：转化后引爆 =====
+            if (player.getPersistentData().getBoolean("hasIntertwinedTime")) {
+                if (hasAnyTremorEffect(target)) {
+                    explodeSingleTarget(player, target, player.level().getGameTime());
+                    player.displayClientMessage(
+                            Component.literal("§d[交织的时间] 引爆触发！"),
+                            true
+                    );
+                }
+            }
+        } else {
+            player.displayClientMessage(
+                    Component.literal("§7[拍手啪啪！] 转化被阻止"),
+                    true
+            );
+        }
+    }
+
+    private static String getSpecialTremorName(MobEffect effect) {
+        if (effect == Registration.TREMOR_BURN.get()) return "震颤-灼热";
+        if (effect == Registration.TREMOR_BLEED.get()) return "震颤-大出血";
+        if (effect == Registration.TREMOR_ECHO.get()) return "震颤-回响";
+        if (effect == Registration.TREMOR_COLLAPSE.get()) return "震颤-崩坏";
+        if (effect == Registration.TREMOR_CHAIN.get()) return "震颤-锁链";
+        return "未知";
     }
 
     // ==================== 再来一杯：每30秒自动充能和震颤 ====================
@@ -881,11 +986,10 @@ public class BoilingCorrosionEvents {
 
         if (currentTick - lastTrigger < ONE_MORE_DRINK_INTERVAL) return;
 
-        // 增加15秒充能（只加时间）
         MobEffectInstance charge = player.getEffect(Registration.CHARGE.get());
         if (charge != null) {
             int newDuration = Math.min(charge.getDuration() + ONE_MORE_DRINK_ADD_DURATION, 20 * 60);
-            int amplifier = charge.getAmplifier();
+            int amplifier = Math.max(0, charge.getAmplifier());
             player.removeEffect(Registration.CHARGE.get());
             player.addEffect(new MobEffectInstance(
                     Registration.CHARGE.get(),
@@ -904,28 +1008,7 @@ public class BoilingCorrosionEvents {
             ));
         }
 
-        // 增加15秒震颤（只加时间）
-        MobEffectInstance tremor = player.getEffect(Registration.TREMOR.get());
-        if (tremor != null) {
-            int newDuration = tremor.getDuration() + ONE_MORE_DRINK_ADD_DURATION;
-            int amplifier = tremor.getAmplifier();
-            player.removeEffect(Registration.TREMOR.get());
-            player.addEffect(new MobEffectInstance(
-                    Registration.TREMOR.get(),
-                    newDuration,
-                    amplifier,
-                    false,
-                    false
-            ));
-        } else {
-            player.addEffect(new MobEffectInstance(
-                    Registration.TREMOR.get(),
-                    ONE_MORE_DRINK_ADD_DURATION,
-                    0,
-                    false,
-                    false
-            ));
-        }
+        addSelfTremor(player, ONE_MORE_DRINK_ADD_DURATION, 0);
 
         player.getPersistentData().putLong("oneMoreDrinkLastTrigger", currentTick);
         player.displayClientMessage(
@@ -933,8 +1016,6 @@ public class BoilingCorrosionEvents {
                 true
         );
     }
-
-    // ==================== 再来一杯：伤害加成 ====================
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingHurtOneMoreDrink(LivingHurtEvent event) {
@@ -953,8 +1034,6 @@ public class BoilingCorrosionEvents {
         }
     }
 
-    // ==================== 定制：每30秒震颤 + 每10秒抗性提升 ====================
-
     @SubscribeEvent
     public static void onLivingTickCustomMade(LivingEvent.LivingTickEvent event) {
         LivingEntity entity = event.getEntity();
@@ -965,34 +1044,12 @@ public class BoilingCorrosionEvents {
 
         long currentTick = player.level().getGameTime();
 
-        // 每30秒给玩家增加6秒震颤
         long lastTremor = player.getPersistentData().getLong("customMadeLastTremor");
         if (currentTick - lastTremor >= CUSTOM_MADE_TREMOR_INTERVAL) {
-            MobEffectInstance tremor = player.getEffect(Registration.TREMOR.get());
-            if (tremor != null) {
-                int newDuration = tremor.getDuration() + CUSTOM_MADE_TREMOR_DURATION;
-                int amplifier = tremor.getAmplifier();
-                player.removeEffect(Registration.TREMOR.get());
-                player.addEffect(new MobEffectInstance(
-                        Registration.TREMOR.get(),
-                        newDuration,
-                        amplifier,
-                        false,
-                        false
-                ));
-            } else {
-                player.addEffect(new MobEffectInstance(
-                        Registration.TREMOR.get(),
-                        CUSTOM_MADE_TREMOR_DURATION,
-                        0,
-                        false,
-                        false
-                ));
-            }
+            addSelfTremor(player, CUSTOM_MADE_TREMOR_DURATION, 0);
             player.getPersistentData().putLong("customMadeLastTremor", currentTick);
         }
 
-        // 每10秒给玩家增加5秒抗性提升I
         long lastResistance = player.getPersistentData().getLong("customMadeLastResistance");
         if (currentTick - lastResistance >= CUSTOM_MADE_RESISTANCE_INTERVAL) {
             player.addEffect(new MobEffectInstance(
@@ -1006,8 +1063,6 @@ public class BoilingCorrosionEvents {
         }
     }
 
-    // ==================== 定制：伤害×1.2 ====================
-
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingHurtCustomMade(LivingHurtEvent event) {
         if (!(event.getSource().getEntity() instanceof Player player)) return;
@@ -1019,8 +1074,6 @@ public class BoilingCorrosionEvents {
 
         event.setAmount(event.getAmount() * CUSTOM_MADE_DAMAGE_MULTIPLIER);
     }
-
-    // ==================== 不完善的预知眼：转化冷却引爆 ====================
 
     @SubscribeEvent
     public static void onLivingHurtImperfectEyeConvert(LivingHurtEvent event) {
@@ -1036,40 +1089,76 @@ public class BoilingCorrosionEvents {
 
         if (currentTick - lastConvert < IMPERFECT_EYE_CONVERT_COOLDOWN) return;
 
-        // 将所有震颤转化为震颤-灼热
         MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
         if (tremor != null) {
-            int tremorLevel = tremor.getAmplifier();
+            int tremorLevel = Math.max(0, tremor.getAmplifier());
             int tremorDuration = tremor.getDuration();
 
             MobEffectInstance tremorBurn = target.getEffect(Registration.TREMOR_BURN.get());
-            int burnLevel = (tremorBurn != null) ? tremorBurn.getAmplifier() : -1;
+            int burnLevel = (tremorBurn != null) ? Math.max(0, tremorBurn.getAmplifier()) : -1;
             int burnDuration = (tremorBurn != null) ? tremorBurn.getDuration() : 0;
+
+            float specialMultiplier = 1.0f;
+            if (player.getPersistentData().getBoolean("hasPocketWatchTypeL")) {
+                specialMultiplier = 1.5f;
+            }
+
+            int newBurnLevel = Math.min((int)((tremorLevel + burnLevel + 1) * specialMultiplier), MAX_TREMOR_LEVEL - 1);
+            int newBurnDuration = (int)(Math.max(tremorDuration, burnDuration) * specialMultiplier);
+            newBurnLevel = Math.max(0, newBurnLevel);
+
+            TremorConversionEvent conversionEvent = new TremorConversionEvent(
+                    target,
+                    player,
+                    TremorConversionEvent.ConversionSource.IMPERFECT_EYE,
+                    Registration.TREMOR.get(),
+                    tremor,
+                    Registration.TREMOR_BURN.get(),
+                    newBurnLevel,
+                    newBurnDuration,
+                    specialMultiplier
+            );
 
             target.removeEffect(Registration.TREMOR.get());
             target.removeEffect(Registration.TREMOR_BURN.get());
 
-            int newBurnLevel = Math.min(tremorLevel + burnLevel + 1, MAX_TREMOR_LEVEL - 1);
-            int newBurnDuration = Math.max(tremorDuration, burnDuration);
+            if (!net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(conversionEvent)) {
+                conversionEvent.applyConversion();
+                player.displayClientMessage(
+                        Component.literal("§a[不完善的预知眼] 转化成功！"),
+                        true
+                );
 
-            target.addEffect(new MobEffectInstance(
-                    Registration.TREMOR_BURN.get(),
-                    newBurnDuration,
-                    newBurnLevel,
-                    false,
-                    false
-            ));
+                if (player.getPersistentData().getBoolean("hasIntertwinedTime")) {
+                    if (hasAnyTremorEffect(target)) {
+                        explodeSingleTarget(player, target, currentTick);
+                        player.displayClientMessage(
+                                Component.literal("§d[交织的时间] 引爆触发！"),
+                                true
+                        );
+                    }
+                }
+            } else {
+                target.addEffect(new MobEffectInstance(
+                        Registration.TREMOR.get(),
+                        tremorDuration,
+                        Math.max(0, tremor.getAmplifier()),
+                        false,
+                        false
+                ));
+                player.displayClientMessage(
+                        Component.literal("§7[不完善的预知眼] 转化被阻止"),
+                        true
+                );
+            }
         }
 
-        // 立即引爆一次
         if (hasAnyTremorEffect(target)) {
             explodeSingleTarget(player, target, currentTick);
         }
 
         player.getPersistentData().putLong("imperfectEyeLastConvert", currentTick);
     }
-
-    // ==================== 不完善的预知眼：暴击引爆 ====================
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingHurtImperfectEyeCritExplode(LivingHurtEvent event) {
@@ -1087,8 +1176,6 @@ public class BoilingCorrosionEvents {
         }
     }
 
-    // ==================== 不完善的预知眼：伤害加成 ====================
-
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingHurtImperfectEyeDamage(LivingHurtEvent event) {
         if (!(event.getSource().getEntity() instanceof Player player)) return;
@@ -1104,8 +1191,6 @@ public class BoilingCorrosionEvents {
         }
     }
 
-    // ==================== 瞬间的预知：buff效果 ====================
-
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingHurtInstantForesight(LivingHurtEvent event) {
         if (!(event.getSource().getEntity() instanceof Player player)) return;
@@ -1115,15 +1200,12 @@ public class BoilingCorrosionEvents {
 
         if (!player.hasEffect(Registration.INSTANT_FORESIGHT.get())) return;
 
-        // 伤害+30
         event.setAmount(event.getAmount() + IMPERFECT_EYE_BUFF_ADD_DAMAGE);
 
-        // 最终伤害×1.2
         event.setAmount(event.getAmount() * IMPERFECT_EYE_BUFF_FINAL_MULTIPLIER);
 
-        // 攻击时对目标+2级烧伤+2级震颤
         MobEffectInstance burn = target.getEffect(Registration.BURN.get());
-        int burnAmplifier = (burn != null) ? burn.getAmplifier() + IMPERFECT_EYE_BUFF_ADD_BURN_LEVEL : IMPERFECT_EYE_BUFF_ADD_BURN_LEVEL - 1;
+        int burnAmplifier = (burn != null) ? Math.max(0, burn.getAmplifier() + IMPERFECT_EYE_BUFF_ADD_BURN_LEVEL) : IMPERFECT_EYE_BUFF_ADD_BURN_LEVEL - 1;
         int burnDuration = (burn != null) ? burn.getDuration() + 20 : 20;
         int maxBurn = BurnEvents.getMaxBurnLevels(player);
         target.removeEffect(Registration.BURN.get());
@@ -1136,7 +1218,7 @@ public class BoilingCorrosionEvents {
         ));
 
         MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
-        int tremorAmplifier = (tremor != null) ? tremor.getAmplifier() + IMPERFECT_EYE_BUFF_ADD_TREMOR_LEVEL : IMPERFECT_EYE_BUFF_ADD_TREMOR_LEVEL - 1;
+        int tremorAmplifier = (tremor != null) ? Math.max(0, tremor.getAmplifier() + IMPERFECT_EYE_BUFF_ADD_TREMOR_LEVEL) : IMPERFECT_EYE_BUFF_ADD_TREMOR_LEVEL - 1;
         int tremorDuration = (tremor != null) ? tremor.getDuration() + 20 : 20;
         target.removeEffect(Registration.TREMOR.get());
         target.addEffect(new MobEffectInstance(
@@ -1148,14 +1230,13 @@ public class BoilingCorrosionEvents {
         ));
     }
 
-    /**
-     * 单目标引爆（供不完善的预知眼使用）
-     */
-    private static void explodeSingleTarget(Player player, LivingEntity target, long currentTick) {
+    // ==================== 单目标引爆（public static，供TremorEvents2调用） ====================
+
+    public static void explodeSingleTarget(Player player, LivingEntity target, long currentTick) {
         if (target == null || player == null) return;
 
         MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
-        int level = (tremor != null) ? tremor.getAmplifier() + 1 : 0;
+        int level = (tremor != null) ? Math.max(0, tremor.getAmplifier() + 1) : 0;
         int duration = (tremor != null) ? tremor.getDuration() : 0;
 
         float damage = level;
@@ -1173,7 +1254,7 @@ public class BoilingCorrosionEvents {
                 target.addEffect(new MobEffectInstance(
                         Registration.TREMOR.get(),
                         newDuration,
-                        tremor.getAmplifier(),
+                        Math.max(0, tremor.getAmplifier()),
                         false,
                         false
                 ));
@@ -1185,6 +1266,8 @@ public class BoilingCorrosionEvents {
         reduceSpecialTremorDuration(target, Registration.TREMOR_ECHO.get(), 20);
         reduceSpecialTremorDuration(target, Registration.TREMOR_COLLAPSE.get(), 20);
         reduceSpecialTremorDuration(target, Registration.TREMOR_CHAIN.get(), 20);
+
+        applySilverWatchCaseTremorBoost(player, target);
 
         applyTremorBurn(player, target);
         applyTremorBleed(player, target);
@@ -1201,13 +1284,10 @@ public class BoilingCorrosionEvents {
                 1.0f
         );
 
-        // ===== 奉纳的雪茄：引爆后下次攻击+6 =====
         if (player.getPersistentData().getBoolean("hasOfferingCigar")) {
             player.getPersistentData().putBoolean("offeringCigarNextAttackBoost", true);
         }
     }
-
-    // ==================== 奉纳的雪茄：伤害加成 ====================
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingHurtOfferingCigar(LivingHurtEvent event) {
@@ -1218,22 +1298,18 @@ public class BoilingCorrosionEvents {
 
         if (!player.getPersistentData().getBoolean("hasOfferingCigar")) return;
 
-        // 造成伤害 ×1.1
         event.setAmount(event.getAmount() * OFFERING_CIGAR_DAMAGE_MULTIPLIER);
 
-        // 造成伤害 +12
         event.setAmount(event.getAmount() + OFFERING_CIGAR_ADD_DAMAGE);
 
-        // 目标震颤-灼热≥20级：造成伤害 +20%
         MobEffectInstance tremorBurn = target.getEffect(Registration.TREMOR_BURN.get());
         if (tremorBurn != null) {
-            int level = tremorBurn.getAmplifier() + 1;
+            int level = Math.max(0, tremorBurn.getAmplifier() + 1);
             if (level >= OFFERING_CIGAR_TREMOR_BURN_THRESHOLD) {
                 event.setAmount(event.getAmount() * OFFERING_CIGAR_TREMOR_BURN_MULTIPLIER);
             }
         }
 
-        // 消耗弹药后30秒内：造成伤害+20%，最终伤害×1.2
         long ammoBoostEnd = player.getPersistentData().getLong("meleeCombatManualDamageBoostEnd");
         long currentTick = player.level().getGameTime();
         if (currentTick <= ammoBoostEnd) {
@@ -1241,14 +1317,296 @@ public class BoilingCorrosionEvents {
             event.setAmount(event.getAmount() * OFFERING_CIGAR_AMMO_FINAL_MULTIPLIER);
         }
 
-        // 触发震颤引爆后下次攻击伤害+6
         if (player.getPersistentData().getBoolean("offeringCigarNextAttackBoost")) {
             event.setAmount(event.getAmount() + OFFERING_CIGAR_EXPLODE_NEXT_ATTACK_ADD);
             player.getPersistentData().putBoolean("offeringCigarNextAttackBoost", false);
         }
 
-        // 最终伤害 ×1.2
         event.setAmount(event.getAmount() * OFFERING_CIGAR_FINAL_MULTIPLIER);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtSilverWatchCase(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+        LivingEntity target = event.getEntity();
+        if (target == null) return;
+        if (target == player) return;
+
+        if (!player.getPersistentData().getBoolean("hasSilverWatchCase")) return;
+
+        ItemStack weapon = player.getMainHandItem();
+        int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.BOILING_CORROSION.get(), weapon);
+        if (enchantLevel <= 0) return;
+
+        event.setAmount(event.getAmount() * SILVER_WATCH_CASE_DAMAGE_MULTIPLIER);
+    }
+
+    @SubscribeEvent
+    public static void onLivingHurtHandMirror(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+        LivingEntity target = event.getEntity();
+        if (target == null) return;
+        if (target == player) return;
+
+        if (!player.getPersistentData().getBoolean("hasHandMirror")) return;
+
+        long currentTick = player.level().getGameTime();
+
+        target.addEffect(new MobEffectInstance(
+                MobEffects.MOVEMENT_SLOWDOWN,
+                HAND_MIRROR_SLOW_DURATION,
+                HAND_MIRROR_SLOW_AMPLIFIER,
+                false,
+                false
+        ));
+
+        target.getPersistentData().putLong("handMirrorDamageEnd", currentTick + HAND_MIRROR_DAMAGE_DURATION);
+
+        if (target.hasEffect(MobEffects.WEAKNESS)) {
+            MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
+            if (tremor != null) {
+                int currentLevel = Math.max(0, tremor.getAmplifier() + 1);
+                int doubledLevel = Math.min(currentLevel * 2, MAX_TREMOR_LEVEL);
+                target.removeEffect(Registration.TREMOR.get());
+                target.addEffect(new MobEffectInstance(
+                        Registration.TREMOR.get(),
+                        HAND_MIRROR_TREMOR_DOUBLE_DURATION,
+                        doubledLevel - 1,
+                        false,
+                        false
+                ));
+            }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtHandMirrorDamageBoost(LivingHurtEvent event) {
+        LivingEntity target = event.getEntity();
+        if (target == null) return;
+
+        long endTime = target.getPersistentData().getLong("handMirrorDamageEnd");
+        long currentTick = target.level().getGameTime();
+
+        if (currentTick <= endTime) {
+            event.setAmount(event.getAmount() * HAND_MIRROR_DAMAGE_MULTIPLIER);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingHurtOilyWrench(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+        LivingEntity target = event.getEntity();
+        if (target == null) return;
+        if (target == player) return;
+
+        if (!player.getPersistentData().getBoolean("hasOilyWrench")) return;
+
+        if (!player.getMainHandItem().isEmpty()) return;
+
+        MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
+        if (tremor != null) {
+            int newAmplifier = Math.min(Math.max(0, tremor.getAmplifier() + OILY_WRENCH_ADD_TREMOR_LEVEL), MAX_TREMOR_LEVEL - 1);
+            int newDuration = tremor.getDuration();
+            target.removeEffect(Registration.TREMOR.get());
+            target.addEffect(new MobEffectInstance(
+                    Registration.TREMOR.get(),
+                    newDuration,
+                    newAmplifier,
+                    false,
+                    false
+            ));
+        } else {
+            target.addEffect(new MobEffectInstance(
+                    Registration.TREMOR.get(),
+                    OILY_WRENCH_TREMOR_DURATION,
+                    OILY_WRENCH_ADD_TREMOR_LEVEL - 1,
+                    false,
+                    false
+            ));
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtOilyWrenchDamage(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+        LivingEntity target = event.getEntity();
+        if (target == null) return;
+        if (target == player) return;
+
+        if (!player.getPersistentData().getBoolean("hasOilyWrench")) return;
+
+        if (!player.getMainHandItem().isEmpty()) return;
+
+        event.setAmount(event.getAmount() * OILY_WRENCH_DAMAGE_MULTIPLIER);
+    }
+
+    @SubscribeEvent
+    public static void onLivingHurtFadedWatchCase(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+        LivingEntity target = event.getEntity();
+        if (target == null) return;
+        if (target == player) return;
+
+        if (!player.getPersistentData().getBoolean("hasFadedWatchCase")) return;
+
+        if (!player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) return;
+
+        event.setAmount(event.getAmount() + FADED_WATCH_CASE_ADD_DAMAGE);
+
+        long lastTrigger = player.getPersistentData().getLong("fadedWatchCaseLastTrigger");
+        long currentTick = player.level().getGameTime();
+
+        if (currentTick - lastTrigger >= FADED_WATCH_CASE_COOLDOWN) {
+            MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
+            int newAmplifier = (tremor != null)
+                    ? Math.min(Math.max(0, tremor.getAmplifier() + FADED_WATCH_CASE_ADD_TREMOR_LEVEL), MAX_TREMOR_LEVEL - 1)
+                    : FADED_WATCH_CASE_ADD_TREMOR_LEVEL - 1;
+            int newDuration = (tremor != null) ? tremor.getDuration() + FADED_WATCH_CASE_ADD_TREMOR_DURATION : FADED_WATCH_CASE_ADD_TREMOR_DURATION;
+
+            target.removeEffect(Registration.TREMOR.get());
+            target.addEffect(new MobEffectInstance(
+                    Registration.TREMOR.get(),
+                    newDuration,
+                    newAmplifier,
+                    false,
+                    false
+            ));
+
+            player.getPersistentData().putLong("fadedWatchCaseLastTrigger", currentTick);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingTickEtchedHand(LivingEvent.LivingTickEvent event) {
+        LivingEntity entity = event.getEntity();
+        if (!(entity instanceof Player player)) return;
+        if (player.level().isClientSide()) return;
+
+        if (!player.getPersistentData().getBoolean("hasEtchedHand")) return;
+
+        long currentTick = player.level().getGameTime();
+        long lastTrigger = player.getPersistentData().getLong("etchedHandLastTrigger");
+
+        if (currentTick - lastTrigger < ETCHED_HAND_INTERVAL) return;
+
+        AABB aabb = new AABB(player.blockPosition()).inflate(ETCHED_HAND_RADIUS);
+        List<LivingEntity> targets = player.level().getEntitiesOfClass(
+                LivingEntity.class, aabb,
+                e -> e != player && e.isAlive()
+        );
+
+        if (targets.isEmpty()) return;
+
+        for (LivingEntity target : targets) {
+            MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
+            if (tremor != null) {
+                int newAmplifier = Math.min(Math.max(0, tremor.getAmplifier() + ETCHED_HAND_ADD_TREMOR_LEVEL), MAX_TREMOR_LEVEL - 1);
+                int newDuration = tremor.getDuration();
+                target.removeEffect(Registration.TREMOR.get());
+                target.addEffect(new MobEffectInstance(
+                        Registration.TREMOR.get(),
+                        newDuration,
+                        newAmplifier,
+                        false,
+                        false
+                ));
+            } else {
+                target.addEffect(new MobEffectInstance(
+                        Registration.TREMOR.get(),
+                        ETCHED_HAND_TREMOR_DURATION,
+                        ETCHED_HAND_ADD_TREMOR_LEVEL - 1,
+                        false,
+                        false
+                ));
+            }
+        }
+
+        player.getPersistentData().putLong("etchedHandLastTrigger", currentTick);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtEtchedHand(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+        LivingEntity target = event.getEntity();
+        if (target == null) return;
+        if (target == player) return;
+
+        if (!player.getPersistentData().getBoolean("hasEtchedHand")) return;
+
+        MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
+        int tremorLevel = (tremor != null) ? Math.max(0, tremor.getAmplifier() + 1) : 0;
+
+        int specialLevel = 0;
+        MobEffectInstance tremorBurn = target.getEffect(Registration.TREMOR_BURN.get());
+        if (tremorBurn != null) specialLevel = Math.max(specialLevel, Math.max(0, tremorBurn.getAmplifier() + 1));
+        MobEffectInstance tremorBleed = target.getEffect(Registration.TREMOR_BLEED.get());
+        if (tremorBleed != null) specialLevel = Math.max(specialLevel, Math.max(0, tremorBleed.getAmplifier() + 1));
+        MobEffectInstance tremorEcho = target.getEffect(Registration.TREMOR_ECHO.get());
+        if (tremorEcho != null) specialLevel = Math.max(specialLevel, Math.max(0, tremorEcho.getAmplifier() + 1));
+        MobEffectInstance tremorCollapse = target.getEffect(Registration.TREMOR_COLLAPSE.get());
+        if (tremorCollapse != null) specialLevel = Math.max(specialLevel, Math.max(0, tremorCollapse.getAmplifier() + 1));
+        MobEffectInstance tremorChain = target.getEffect(Registration.TREMOR_CHAIN.get());
+        if (tremorChain != null) specialLevel = Math.max(specialLevel, Math.max(0, tremorChain.getAmplifier() + 1));
+
+        int maxLevel = Math.max(tremorLevel, specialLevel);
+
+        if (maxLevel >= ETCHED_HAND_TREMOR_THRESHOLD) {
+            event.setAmount(event.getAmount() * ETCHED_HAND_DAMAGE_MULTIPLIER);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingHurtRustedHandApply(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+        LivingEntity target = event.getEntity();
+        if (target == null) return;
+        if (target == player) return;
+
+        if (!player.getPersistentData().getBoolean("hasRustedHand")) return;
+
+        long lastTrigger = player.getPersistentData().getLong("rustedHandLastTrigger");
+        long currentTick = player.level().getGameTime();
+
+        if (currentTick - lastTrigger < RUSTED_HAND_COOLDOWN) return;
+
+        MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
+        int newAmplifier = (tremor != null)
+                ? Math.min(Math.max(0, tremor.getAmplifier() + RUSTED_HAND_ADD_TREMOR_LEVEL), MAX_TREMOR_LEVEL - 1)
+                : RUSTED_HAND_ADD_TREMOR_LEVEL - 1;
+        int newDuration = (tremor != null)
+                ? tremor.getDuration() + RUSTED_HAND_ADD_TREMOR_DURATION
+                : RUSTED_HAND_ADD_TREMOR_DURATION;
+
+        target.removeEffect(Registration.TREMOR.get());
+        target.addEffect(new MobEffectInstance(
+                Registration.TREMOR.get(),
+                newDuration,
+                newAmplifier,
+                false,
+                false
+        ));
+
+        player.getPersistentData().putLong("rustedHandLastTrigger", currentTick);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtRustedHandReduce(LivingHurtEvent event) {
+        LivingEntity target = event.getEntity();
+        if (!(target instanceof Player player)) return;
+
+        if (!player.getPersistentData().getBoolean("hasRustedHand")) return;
+
+        LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity
+                ? (LivingEntity) event.getSource().getEntity()
+                : null;
+        if (attacker == null) return;
+
+        MobEffectInstance tremor = attacker.getEffect(Registration.TREMOR.get());
+        int tremorLevel = (tremor != null) ? Math.max(0, tremor.getAmplifier() + 1) : 0;
+
+        if (tremorLevel >= RUSTED_HAND_TREMOR_THRESHOLD) {
+            event.setAmount(event.getAmount() * RUSTED_HAND_DAMAGE_REDUCTION);
+        }
     }
 
     @SubscribeEvent
@@ -1279,7 +1637,7 @@ public class BoilingCorrosionEvents {
             int newDuration = TREMOR_COUPLING_ADD_DURATION;
 
             if (currentTremor != null) {
-                newAmplifier = Math.min(currentTremor.getAmplifier() + TREMOR_COUPLING_ADD_AMPLIFIER - 1, MAX_TREMOR_LEVEL - 1);
+                newAmplifier = Math.min(Math.max(0, currentTremor.getAmplifier() + TREMOR_COUPLING_ADD_AMPLIFIER - 1), MAX_TREMOR_LEVEL - 1);
                 newDuration = currentTremor.getDuration() + TREMOR_COUPLING_ADD_DURATION;
             }
 
@@ -1341,7 +1699,7 @@ public class BoilingCorrosionEvents {
             }
 
             MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
-            int level = (tremor != null) ? tremor.getAmplifier() + 1 : 0;
+            int level = (tremor != null) ? Math.max(0, tremor.getAmplifier() + 1) : 0;
             int duration = (tremor != null) ? tremor.getDuration() : 0;
 
             float damage = level;
@@ -1359,19 +1717,20 @@ public class BoilingCorrosionEvents {
                     target.addEffect(new MobEffectInstance(
                             Registration.TREMOR.get(),
                             newDuration,
-                            tremor.getAmplifier(),
+                            Math.max(0, tremor.getAmplifier()),
                             false,
                             false
                     ));
                 }
             }
 
-            // ===== 特殊震颤时间消耗 1 秒 =====
             reduceSpecialTremorDuration(target, Registration.TREMOR_BURN.get(), 20);
             reduceSpecialTremorDuration(target, Registration.TREMOR_BLEED.get(), 20);
             reduceSpecialTremorDuration(target, Registration.TREMOR_ECHO.get(), 20);
             reduceSpecialTremorDuration(target, Registration.TREMOR_COLLAPSE.get(), 20);
             reduceSpecialTremorDuration(target, Registration.TREMOR_CHAIN.get(), 20);
+
+            applySilverWatchCaseTremorBoost(player, target);
 
             if (hasMeltedEyeball) {
                 target.addEffect(new MobEffectInstance(
@@ -1418,7 +1777,6 @@ public class BoilingCorrosionEvents {
 
         player.getPersistentData().putLong("boilingCorrosionLastTrigger", currentTick);
 
-        // ===== 奉纳的雪茄：引爆后下次攻击+6 =====
         if (player.getPersistentData().getBoolean("hasOfferingCigar")) {
             player.getPersistentData().putBoolean("offeringCigarNextAttackBoost", true);
         }
@@ -1475,7 +1833,7 @@ public class BoilingCorrosionEvents {
         MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
         if (tremor == null) return;
 
-        int tremorLevel = tremor.getAmplifier() + 1;
+        int tremorLevel = Math.max(0, tremor.getAmplifier() + 1);
         float multiplier = 1.0f;
 
         if (tremorLevel >= 5 && tremorLevel <= 10) {
@@ -1588,7 +1946,7 @@ public class BoilingCorrosionEvents {
         MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
         if (tremor == null) return;
 
-        int tremorLevel = tremor.getAmplifier() + 1;
+        int tremorLevel = Math.max(0, tremor.getAmplifier() + 1);
         int tremorDuration = tremor.getDuration();
 
         float durationSeconds = tremorDuration / 20.0f;
@@ -1613,7 +1971,7 @@ public class BoilingCorrosionEvents {
 
         MobEffectInstance tremor = target.getEffect(Registration.TREMOR.get());
         if (tremor != null) {
-            int tremorLevel = tremor.getAmplifier() + 1;
+            int tremorLevel = Math.max(0, tremor.getAmplifier() + 1);
             int tremorDuration = tremor.getDuration();
             float durationSeconds = tremorDuration / 20.0f;
             float extraDamage = (durationSeconds + tremorLevel) + GEAR_SPRING_BONUS;
@@ -1636,7 +1994,7 @@ public class BoilingCorrosionEvents {
         MobEffectInstance tremor = player.getEffect(Registration.TREMOR.get());
         if (tremor == null) return;
 
-        int tremorLevel = tremor.getAmplifier() + 1;
+        int tremorLevel = Math.max(0, tremor.getAmplifier() + 1);
         if (tremorLevel >= SHAKING_BARREL_MIN_TREMOR_LEVEL) {
             event.setAmount(event.getAmount() + SHAKING_BARREL_ADD_DAMAGE);
         }
@@ -1664,7 +2022,7 @@ public class BoilingCorrosionEvents {
 
         if (addDuration > 0) {
             int newDuration = duration + addDuration;
-            int amplifier = tremor.getAmplifier();
+            int amplifier = Math.max(0, tremor.getAmplifier());
             player.removeEffect(Registration.TREMOR.get());
             player.addEffect(new MobEffectInstance(
                     Registration.TREMOR.get(),
@@ -1726,7 +2084,7 @@ public class BoilingCorrosionEvents {
 
         int duration = tremor.getDuration();
         int newDuration = duration + EPICENTER_ADD_DURATION;
-        int amplifier = tremor.getAmplifier();
+        int amplifier = Math.max(0, tremor.getAmplifier());
 
         player.removeEffect(Registration.TREMOR.get());
         player.addEffect(new MobEffectInstance(
@@ -1741,8 +2099,6 @@ public class BoilingCorrosionEvents {
                 true
         );
     }
-
-    // ==================== 无振八方钟：伤害加成（需要沸腾腐蚀附魔） ====================
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingHurtEightDirectionBell(LivingHurtEvent event) {
@@ -1759,7 +2115,7 @@ public class BoilingCorrosionEvents {
         MobEffectInstance selfTremor = player.getEffect(Registration.TREMOR.get());
         if (selfTremor == null) return;
 
-        int tremorLevel = selfTremor.getAmplifier() + 1;
+        int tremorLevel = Math.max(0, selfTremor.getAmplifier() + 1);
         int tremorDuration = selfTremor.getDuration();
         float durationSeconds = tremorDuration / 20.0f;
 
@@ -1769,8 +2125,6 @@ public class BoilingCorrosionEvents {
         event.setAmount(event.getAmount() + extraDamage1);
         event.setAmount(event.getAmount() * (1 + extraDamage2));
     }
-
-    // ==================== 无振八方钟：击杀延长震颤（不需要附魔） ====================
 
     @SubscribeEvent
     public static void onLivingDeathEightDirectionBell(LivingDeathEvent event) {
@@ -1786,19 +2140,26 @@ public class BoilingCorrosionEvents {
 
         int duration = tremor.getDuration();
         int newDuration = duration + EIGHT_DIRECTION_BELL_KILL_DURATION;
-        int amplifier = tremor.getAmplifier();
+        int amplifier = Math.max(0, tremor.getAmplifier());
 
-        player.removeEffect(Registration.TREMOR.get());
-        player.addEffect(new MobEffectInstance(
-                Registration.TREMOR.get(),
-                newDuration,
-                amplifier,
-                false,
-                false
-        ));
+        addSelfTremor(player, EIGHT_DIRECTION_BELL_KILL_DURATION, amplifier);
         player.displayClientMessage(
                 Component.literal("§a[无振八方钟] 自身震颤+6秒！"),
                 true
         );
+    }
+
+    // ==================== 强制纠缠定序器：伤害+5 ====================
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtForcedEntanglementSequencer(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+        LivingEntity target = event.getEntity();
+        if (target == null) return;
+        if (target == player) return;
+
+        if (!player.getPersistentData().getBoolean("hasForcedEntanglementSequencer")) return;
+
+        event.setAmount(event.getAmount() + 5.0f);
     }
 }
