@@ -27,26 +27,27 @@ public class BurnEvents {
     private static final int INTERVAL_TICKS = 20;
     private static final float DAMAGE_PER_LEVEL = 1.0f;
 
-    private static final int BASE_MAX_LEVELS = 99;
+    public static final int BASE_MAX_LEVELS = 99;
     private static final int BURNING_FATE_MAX_LEVELS = 129;
     private static final int SCORCHING_COPPER_PIPE_MAX_LEVELS = 120;
     private static final int BOTH_MAX_LEVELS = 150;
 
-    // 未孵化的火种：冷却时间 600秒 = 12000 ticks
+    // 烧伤维持时间：60 秒（不攻击时保持在当前等级）
+    private static final long BURN_MAINTAIN_DURATION = 20 * 60;
+
+    // 未孵化的火种
     private static final long UNHATCHED_SPARKS_COOLDOWN = 20 * 600;
-    // 未孵化的火种：锁定持续时间 5秒 = 100 ticks
     private static final long UNHATCHED_SPARKS_DURATION = 20 * 5;
 
-    // 余火：范围30格，间隔30秒 = 600 ticks
+    // 余火
     private static final int EMBERS_RADIUS = 30;
     private static final int EMBERS_INTERVAL = 20 * 30;
 
-    // 血炎刀：充能间隔30秒 = 600 ticks
+    // 血炎刀
     private static final int BLOOD_FLAME_BLADE_INTERVAL = 20 * 30;
 
-    /**
-     * 根据攻击者佩戴的饰品动态计算烧伤上限
-     */
+    // ==================== 上限相关 ====================
+
     public static int getMaxBurnLevels(Player player) {
         if (player == null) return BASE_MAX_LEVELS;
 
@@ -63,11 +64,25 @@ public class BurnEvents {
         return BASE_MAX_LEVELS;
     }
 
-    /**
-     * 施加烧伤时，根据攻击者上限限制层数
-     */
+    private static int getStoredBurnMaxLevel(LivingEntity target) {
+        if (target == null) return BASE_MAX_LEVELS;
+        int stored = target.getPersistentData().getInt("burnMaxLevel");
+        return stored > 0 ? stored : BASE_MAX_LEVELS;
+    }
+
+    private static void setStoredBurnMaxLevel(LivingEntity target, int maxLevel) {
+        if (target == null) return;
+        target.getPersistentData().putInt("burnMaxLevel", maxLevel);
+    }
+
+    private static void clearStoredBurnMaxLevel(LivingEntity target) {
+        if (target == null) return;
+        target.getPersistentData().remove("burnMaxLevel");
+    }
+
     private static void applyBurn(LivingEntity target, Player attacker, int addAmplifier, int addDuration) {
         int maxLevels = getMaxBurnLevels(attacker);
+        setStoredBurnMaxLevel(target, maxLevels);
 
         MobEffectInstance currentBurn = target.getEffect(Registration.BURN.get());
         int currentAmplifier = 0;
@@ -86,6 +101,9 @@ public class BurnEvents {
                 false,
                 false
         ));
+
+        target.getPersistentData().putLong("burnLastAttackTick", target.level().getGameTime());
+        target.getPersistentData().putLong("burnLastAttackPlayerTick", target.level().getGameTime());
     }
 
     private static void triggerBurnDamage(LivingEntity target) {
@@ -189,7 +207,7 @@ public class BurnEvents {
         player.displayClientMessage(Component.literal("§6[未孵化的火种] §a恢复" + percent + "体力！"), true);
     }
 
-    // ==================== 血炎刀：充能系统 ====================
+    // ==================== 血炎刀 ====================
 
     @SubscribeEvent
     public static void onLivingTickBloodFlameBladeCharge(LivingEvent.LivingTickEvent event) {
@@ -252,6 +270,9 @@ public class BurnEvents {
                         false,
                         false
                 ));
+                setStoredBurnMaxLevel(target, maxLevels);
+                target.getPersistentData().putLong("burnLastAttackTick", currentTick);
+                target.getPersistentData().putLong("burnLastAttackPlayerTick", currentTick);
             } else {
                 target.addEffect(new MobEffectInstance(
                         Registration.BURN.get(),
@@ -260,6 +281,9 @@ public class BurnEvents {
                         false,
                         false
                 ));
+                setStoredBurnMaxLevel(target, maxLevels);
+                target.getPersistentData().putLong("burnLastAttackTick", currentTick);
+                target.getPersistentData().putLong("burnLastAttackPlayerTick", currentTick);
             }
         }
 
@@ -289,12 +313,14 @@ public class BurnEvents {
                     int newDuration = Math.max(burn.getDuration() - 20, 0);
                     if (newDuration <= 0) {
                         target.removeEffect(Registration.BURN.get());
+                        clearStoredBurnMaxLevel(target);
                     } else {
+                        int maxLevels = getStoredBurnMaxLevel(target);
                         target.removeEffect(Registration.BURN.get());
                         target.addEffect(new MobEffectInstance(
                                 Registration.BURN.get(),
                                 newDuration,
-                                burn.getAmplifier(),
+                                Math.min(burn.getAmplifier(), maxLevels - 1),
                                 false,
                                 false
                         ));
@@ -308,7 +334,7 @@ public class BurnEvents {
         }
     }
 
-    // ==================== 核心烧伤施加逻辑（含血炎刀） ====================
+    // ==================== 核心烧伤施加 ====================
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
@@ -321,6 +347,7 @@ public class BurnEvents {
         if (enchantLevel <= 0) return;
 
         int maxLevels = getMaxBurnLevels(attacker);
+        setStoredBurnMaxLevel(target, maxLevels);
 
         MobEffectInstance currentBurn = target.getEffect(Registration.BURN.get());
         int currentAmplifier = 0;
@@ -328,24 +355,20 @@ public class BurnEvents {
         int addAmplifier = 1;
         int addDuration = 20;
 
-        // 镇魂：火柴之焰改为+2秒+2层
         if (attacker.getPersistentData().getBoolean("hasRequiem")) {
             addAmplifier = 2;
             addDuration = 40;
         }
 
-        // 点火手套：额外+2秒，+2层
         if (attacker.getPersistentData().getBoolean("hasIgnitionGloves")) {
             addAmplifier += 2;
             addDuration += 40;
         }
 
-        // 重燃火花塞：额外+1秒
         if (attacker.getPersistentData().getBoolean("hasReignitionSparkPlug")) {
             addDuration += 20;
         }
 
-        // ============ 血炎刀：充能 +5 层 ============
         if (attacker.getPersistentData().getBoolean("hasBloodFlameBlade")) {
             if (attacker.getPersistentData().getBoolean("bloodFlameBladeCharged")) {
                 addAmplifier += 5;
@@ -355,17 +378,14 @@ public class BurnEvents {
             }
         }
 
-        // 烹饪秘诀书：额外+2层
         if (attacker.getPersistentData().getBoolean("hasCookingSecretsBook")) {
             addAmplifier += 2;
         }
 
-        // 火热多汁琵琶腿：额外+3层
         if (attacker.getPersistentData().getBoolean("hasSpicyDrumstick")) {
             addAmplifier += 3;
         }
 
-        // 熔化的石蜡：额外 + 武器伤害/2 层
         if (attacker.getPersistentData().getBoolean("hasMeltedWax")) {
             float weaponDamage = 0;
             if (weapon.getItem() instanceof SwordItem sword) {
@@ -394,9 +414,13 @@ public class BurnEvents {
                 false,
                 false
         ));
+
+        target.getPersistentData().putLong("burnLastAttackTick", target.level().getGameTime());
+        target.getPersistentData().putLong("burnLastAttackPlayerTick", target.level().getGameTime());
+        target.getPersistentData().putString("burnLastAttacker", attacker.getStringUUID());
     }
 
-    // ==================== 独立乘算伤害（所有玩家伤害生效，不检测火柴之焰） ====================
+    // ==================== 伤害倍率 ====================
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingHurtDamageMultipliers(LivingHurtEvent event) {
@@ -406,37 +430,30 @@ public class BurnEvents {
 
         float multiplier = 1.0f;
 
-        // 重燃火花塞：×1.2
         if (player.getPersistentData().getBoolean("hasReignitionSparkPlug")) {
             multiplier *= 1.2f;
         }
 
-        // 灼热的铜管：×1.3
         if (player.getPersistentData().getBoolean("hasScorchingCopperPipe")) {
             multiplier *= 1.3f;
         }
 
-        // 偏振光：×1.2
         if (player.getPersistentData().getBoolean("hasPolarizedLight")) {
             multiplier *= 1.2f;
         }
 
-        // 盗来的火焰：×1.2
         if (player.getPersistentData().getBoolean("hasStolenFlame")) {
             multiplier *= 1.2f;
         }
 
-        // 烹饪秘诀书：×1.1
         if (player.getPersistentData().getBoolean("hasCookingSecretsBook")) {
             multiplier *= 1.1f;
         }
 
-        // 炽热智慧：×1.2
         if (player.getPersistentData().getLong("blazingWisdomBoost") > 0) {
             multiplier *= 1.2f;
         }
 
-        // 单点逻辑电路（烧伤≥99层）：×1.1
         MobEffectInstance burn = target.getEffect(Registration.BURN.get());
         if (burn != null && player.getPersistentData().getBoolean("hasSinglePointLogicCircuit")) {
             int level = burn.getAmplifier() + 1;
@@ -445,7 +462,6 @@ public class BurnEvents {
             }
         }
 
-        // 皇家蜂王浆（烧伤≥60层）：×1.2
         if (burn != null && player.getPersistentData().getBoolean("hasRoyalJellyPerfume")) {
             int level = burn.getAmplifier() + 1;
             if (level >= 60) {
@@ -453,7 +469,6 @@ public class BurnEvents {
             }
         }
 
-        // 红灾提取（生命≤70%）：×1.3
         if (player.getPersistentData().getBoolean("hasRedDisasterExtract")) {
             float healthPercent = (player.getHealth() / player.getMaxHealth()) * 100;
             if (healthPercent <= 70.0f) {
@@ -465,8 +480,6 @@ public class BurnEvents {
             event.setAmount(event.getAmount() * multiplier);
         }
     }
-
-    // ==================== 统一六协会制服：独立乘算 ====================
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingHurtUniformSixAssociationMultiplier(LivingHurtEvent event) {
@@ -491,7 +504,7 @@ public class BurnEvents {
         }
     }
 
-    // ==================== 各饰品加算伤害（需要检测火柴之焰） ====================
+    // ==================== 加算伤害 ====================
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingHurtIgnitionGlovesDamage(LivingHurtEvent event) {
@@ -659,7 +672,7 @@ public class BurnEvents {
         }
     }
 
-    // ==================== 烧伤触发（灼热的铜管、燃烧的命运等） ====================
+    // ==================== 烧伤触发 ====================
 
     @SubscribeEvent
     public static void onLivingHurtScorchingCopperPipeExtraDamage(LivingHurtEvent event) {
@@ -698,7 +711,7 @@ public class BurnEvents {
         }
     }
 
-    // ==================== 其他事件 ====================
+    // ==================== 各饰品烧伤叠加 ====================
 
     @SubscribeEvent
     public static void onLivingHurtBurnBoost(LivingHurtEvent event) {
@@ -715,6 +728,7 @@ public class BurnEvents {
             int matchLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.MATCH_FLAME.get(), weapon);
 
             int maxLevels = getMaxBurnLevels(player);
+            setStoredBurnMaxLevel(target, maxLevels);
 
             int addAmplifier = matchLevel > 0 ? 8 : 5;
             int newAmplifier = currentBurn.getAmplifier() + addAmplifier;
@@ -729,6 +743,9 @@ public class BurnEvents {
                     false,
                     false
             ));
+
+            target.getPersistentData().putLong("burnLastAttackTick", target.level().getGameTime());
+            target.getPersistentData().putLong("burnLastAttackPlayerTick", target.level().getGameTime());
         }
     }
 
@@ -745,6 +762,7 @@ public class BurnEvents {
             if (matchLevel <= 0) return;
 
             int maxLevels = getMaxBurnLevels(player);
+            setStoredBurnMaxLevel(target, maxLevels);
 
             MobEffectInstance currentBurn = target.getEffect(Registration.BURN.get());
             if (currentBurn == null) {
@@ -755,6 +773,8 @@ public class BurnEvents {
                         false,
                         false
                 ));
+                target.getPersistentData().putLong("burnLastAttackTick", target.level().getGameTime());
+                target.getPersistentData().putLong("burnLastAttackPlayerTick", target.level().getGameTime());
                 return;
             }
 
@@ -770,6 +790,9 @@ public class BurnEvents {
                     false,
                     false
             ));
+
+            target.getPersistentData().putLong("burnLastAttackTick", target.level().getGameTime());
+            target.getPersistentData().putLong("burnLastAttackPlayerTick", target.level().getGameTime());
         }
     }
 
@@ -786,6 +809,7 @@ public class BurnEvents {
             if (smiteLevel <= 0) return;
 
             int maxLevels = getMaxBurnLevels(player);
+            setStoredBurnMaxLevel(target, maxLevels);
 
             MobEffectInstance currentBurn = target.getEffect(Registration.BURN.get());
             if (currentBurn == null) {
@@ -796,6 +820,8 @@ public class BurnEvents {
                         false,
                         false
                 ));
+                target.getPersistentData().putLong("burnLastAttackTick", target.level().getGameTime());
+                target.getPersistentData().putLong("burnLastAttackPlayerTick", target.level().getGameTime());
                 return;
             }
 
@@ -811,6 +837,9 @@ public class BurnEvents {
                     false,
                     false
             ));
+
+            target.getPersistentData().putLong("burnLastAttackTick", target.level().getGameTime());
+            target.getPersistentData().putLong("burnLastAttackPlayerTick", target.level().getGameTime());
         }
     }
 
@@ -979,6 +1008,9 @@ public class BurnEvents {
         LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity ? (LivingEntity) event.getSource().getEntity() : null;
         if (attacker == null) return;
 
+        int maxLevels = getMaxBurnLevels(player);
+        setStoredBurnMaxLevel(attacker, maxLevels);
+
         MobEffectInstance currentBurn = attacker.getEffect(Registration.BURN.get());
         int currentAmplifier = 0;
         int currentDuration = 0;
@@ -988,8 +1020,6 @@ public class BurnEvents {
         }
         int totalDuration = currentDuration + 20;
 
-        int maxLevels = getMaxBurnLevels(player);
-
         attacker.removeEffect(Registration.BURN.get());
         attacker.addEffect(new MobEffectInstance(
                 Registration.BURN.get(),
@@ -998,6 +1028,10 @@ public class BurnEvents {
                 false,
                 false
         ));
+
+        attacker.getPersistentData().putLong("burnLastAttackTick", attacker.level().getGameTime());
+        attacker.getPersistentData().putLong("burnLastAttackPlayerTick", attacker.level().getGameTime());
+        attacker.getPersistentData().putString("burnLastAttacker", player.getStringUUID());
     }
 
     @SubscribeEvent
@@ -1038,6 +1072,8 @@ public class BurnEvents {
         }
     }
 
+    // ==================== 核心烧伤 Tick ====================
+
     @SubscribeEvent
     public static void onLivingTick(LivingEvent.LivingTickEvent event) {
         LivingEntity target = event.getEntity();
@@ -1045,12 +1081,76 @@ public class BurnEvents {
         if (target.level().isClientSide()) return;
 
         MobEffectInstance burn = target.getEffect(Registration.BURN.get());
-        if (burn == null) return;
+        if (burn == null) {
+            clearStoredBurnMaxLevel(target);
+            return;
+        }
 
         long currentTick = target.level().getGameTime();
-        if (currentTick % INTERVAL_TICKS != 0) return;
 
-        int level = burn.getAmplifier() + 1;
+        // ===== 1. 修正等级到存储的上限 =====
+        int storedMax = getStoredBurnMaxLevel(target);
+        int currentAmplifier = burn.getAmplifier();
+        int maxAmplifier = storedMax - 1;
+
+        if (currentAmplifier > maxAmplifier) {
+            target.removeEffect(Registration.BURN.get());
+            target.addEffect(new MobEffectInstance(
+                    Registration.BURN.get(),
+                    burn.getDuration(),
+                    maxAmplifier,
+                    false,
+                    false
+            ));
+            burn = target.getEffect(Registration.BURN.get());
+            if (burn == null) return;
+            currentAmplifier = maxAmplifier;
+        }
+
+        // ===== 2. 每 60 秒根据最后攻击者饰品刷新上限 =====
+        long lastRefresh = target.getPersistentData().getLong("burnLastRefreshTick");
+        if (lastRefresh == 0) {
+            lastRefresh = target.getPersistentData().getLong("burnLastAttackTick");
+        }
+
+        if (currentTick - lastRefresh >= BURN_MAINTAIN_DURATION) {
+            String attackerUUID = target.getPersistentData().getString("burnLastAttacker");
+            int newMax = BASE_MAX_LEVELS;
+
+            if (!attackerUUID.isEmpty() && target.level().getServer() != null) {
+                Player attacker = target.level().getServer().getPlayerList().getPlayer(java.util.UUID.fromString(attackerUUID));
+                if (attacker != null) {
+                    newMax = getMaxBurnLevels(attacker);
+                }
+            }
+
+            setStoredBurnMaxLevel(target, newMax);
+
+            target.getPersistentData().putLong("burnLastRefreshTick", currentTick);
+
+            burn = target.getEffect(Registration.BURN.get());
+            if (burn == null) return;
+
+            currentAmplifier = burn.getAmplifier();
+            maxAmplifier = newMax - 1;
+
+            if (currentAmplifier > maxAmplifier) {
+                target.removeEffect(Registration.BURN.get());
+                target.addEffect(new MobEffectInstance(
+                        Registration.BURN.get(),
+                        burn.getDuration(),
+                        maxAmplifier,
+                        false,
+                        false
+                ));
+                burn = target.getEffect(Registration.BURN.get());
+                if (burn == null) return;
+                currentAmplifier = maxAmplifier;
+            }
+        }
+
+        // ===== 3. 伤害 =====
+        int level = currentAmplifier + 1;
         float damage = level * DAMAGE_PER_LEVEL;
 
         if (target.getAbsorptionAmount() > 0) {

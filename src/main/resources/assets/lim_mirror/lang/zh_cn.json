@@ -138,5 +138,17 @@
   "item.lim_mirror.ultra_precision_time_accelerator": "超精密时间加速装置",
   "effect.lim_mirror.precision_time_acceleration": "精密时间加速",
   "item.lim_mirror.black_iron_barding": "黑铁马胄",
-  "item.lim_mirror.for_the_commander": "为了指挥官"
+  "item.lim_mirror.for_the_commander": "为了指挥官",
+  "effect.lim_mirror.slashing_power": "斩击威力提升",
+  "item.lim_mirror.dreaming_electric_sheep": "梦中的电子羊",
+  "item.lim_mirror.surgical_knife": "手术用刀",
+  "item.lim_mirror.vain_peace": "虚饰的和平",
+  "item.lim_mirror.tailors_scissors": "裁缝用剪刀",
+  "item.lim_mirror.resolve": "决意",
+  "item.lim_mirror.moment_of_judgment": "宣判之刻",
+  "item.lim_mirror.severed_memory": "切开的记忆",
+  "item.lim_mirror.worn_whetstone": "磨损的砥石",
+  "item.lim_mirror.cane_sword": "拐杖短剑",
+  "item.lim_mirror.cloud_patterned_crane_neck_vase": "云纹鹤颈瓶",
+  "item.lim_mirror.shattered_greatsword": "破碎的大剑"
 }

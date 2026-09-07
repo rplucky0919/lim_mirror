@@ -388,6 +388,43 @@ public class Registration {
     // ===== 新增：为了指挥官 =====
     public static final RegistryObject<Item> FOR_THE_COMMANDER = ITEMS.register("for_the_commander",
             () -> new ForTheCommander(new Item.Properties().stacksTo(1)));
+
+    // ==================== 斩击威力提升 ====================
+    public static final RegistryObject<MobEffect> SLASHING_POWER = EFFECTS.register("slashing_power", SlashingPowerEffect::new);
+
+    public static final RegistryObject<Item> DREAMING_ELECTRIC_SHEEP = ITEMS.register("dreaming_electric_sheep",
+            () -> new DreamingElectricSheep(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SURGICAL_KNIFE = ITEMS.register("surgical_knife",
+            () -> new SurgicalKnife(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> VAIN_PEACE = ITEMS.register("vain_peace",
+            () -> new VainPeace(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> TAILORS_SCISSORS = ITEMS.register("tailors_scissors",
+            () -> new TailorsScissors(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> RESOLVE = ITEMS.register("resolve",
+            () -> new Resolve(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> MOMENT_OF_JUDGMENT = ITEMS.register("moment_of_judgment",
+            () -> new MomentOfJudgment(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SEVERED_MEMORY = ITEMS.register("severed_memory",
+            () -> new SeveredMemory(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> WORN_WHETSTONE = ITEMS.register("worn_whetstone",
+            () -> new WornWhetstone(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> CANE_SWORD = ITEMS.register("cane_sword",
+            () -> new CaneSword(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> CLOUD_PATTERNED_CRANE_NECK_VASE = ITEMS.register("cloud_patterned_crane_neck_vase",
+            () -> new CloudPatternedCraneNeckVase(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SHATTERED_GREATSWORD = ITEMS.register("shattered_greatsword",
+            () -> new ShatteredGreatsword(new Item.Properties().stacksTo(1)));
+
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
         ITEMS.register(modEventBus);

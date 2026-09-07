@@ -166,6 +166,24 @@ public class lim_mirror {
                 output.accept(Registration.FOR_THE_COMMANDER.get());
             }).build());
 
+    public static final RegistryObject<CreativeModeTab> SLASHING_TAB = CREATIVE_MODE_TABS.register("slashing_tab", () -> CreativeModeTab.builder()
+            .withTabsBefore(CreativeModeTabs.COMBAT)
+            .icon(() -> new ItemStack(Registration.DREAMING_ELECTRIC_SHEEP.get()))
+            .title(net.minecraft.network.chat.Component.literal("斩击饰品"))
+            .displayItems((parameters, output) -> {
+                output.accept(Registration.DREAMING_ELECTRIC_SHEEP.get());
+                output.accept(Registration.SURGICAL_KNIFE.get());
+                output.accept(Registration.VAIN_PEACE.get());
+                output.accept(Registration.TAILORS_SCISSORS.get());
+                output.accept(Registration.RESOLVE.get());
+                output.accept(Registration.MOMENT_OF_JUDGMENT.get());
+                output.accept(Registration.SEVERED_MEMORY.get());
+                output.accept(Registration.WORN_WHETSTONE.get());
+                output.accept(Registration.CANE_SWORD.get());
+                output.accept(Registration.CLOUD_PATTERNED_CRANE_NECK_VASE.get());
+                output.accept(Registration.SHATTERED_GREATSWORD.get());
+            }).build());
+
     public lim_mirror(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
 

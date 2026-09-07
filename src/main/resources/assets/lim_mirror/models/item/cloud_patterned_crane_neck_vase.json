@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "lim_mirror:item/cloud_patterned_crane_neck_vase"
+  }
+}
