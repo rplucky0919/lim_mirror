@@ -15,7 +15,9 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = lim_mirror.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class SinkingEvents {
 
-    private static final int WEAKNESS_TRIGGER_LEVEL = 14;
+    private static final int WEAKNESS_TRIGGER_LEVEL = 45;
+
+    // ==================== 沉沦之触附魔：攻击时施加沉沦 ====================
 
     @SubscribeEvent
     public static void onAttack(LivingHurtEvent event) {
@@ -48,6 +50,8 @@ public class SinkingEvents {
         }
     }
 
+    // ==================== 沉沦：层数 ≥ 45 触发虚弱 I ====================
+
     @SubscribeEvent
     public static void onLivingTick(LivingEvent.LivingTickEvent event) {
         LivingEntity entity = event.getEntity();
@@ -60,15 +64,20 @@ public class SinkingEvents {
         int level = sinking.getAmplifier() + 1;
 
         if (level >= WEAKNESS_TRIGGER_LEVEL) {
-            entity.addEffect(new MobEffectInstance(
-                    MobEffects.WEAKNESS,
-                    20 * 2,
-                    0,
-                    false,
-                    false
-            ));
+            MobEffectInstance existingWeakness = entity.getEffect(MobEffects.WEAKNESS);
+            if (existingWeakness == null || existingWeakness.getDuration() < 40) {
+                entity.addEffect(new MobEffectInstance(
+                        MobEffects.WEAKNESS,
+                        20 * 5,
+                        0,
+                        false,
+                        false
+                ));
+            }
         }
     }
+
+    // ==================== 沉沦：被攻击时额外溺水伤害 ====================
 
     @SubscribeEvent
     public static void onLivingDamage(LivingDamageEvent event) {
@@ -76,17 +85,13 @@ public class SinkingEvents {
         if (target == null) return;
         if (target.level().isClientSide()) return;
 
-        if (event.getSource() != null && event.getSource().getMsgId() != null &&
-                event.getSource().getMsgId().equals("sinking")) {
-            return;
-        }
-
         MobEffectInstance sinking = target.getEffect(Registration.SINKING.get());
         if (sinking == null) return;
 
         int level = sinking.getAmplifier() + 1;
-        float extraDamage = level;
-
-        event.setAmount(event.getAmount() + extraDamage);
+        if (level > 0) {
+            // 额外伤害 = 层数 × 1（溺水伤害）
+            target.hurt(target.damageSources().drown(), level);
+        }
     }
 }

@@ -1,5 +1,8 @@
 package com.lim_mirror.Lim_Mirror;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -9,6 +12,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class Registration {
+
+    // ==================== 打击武器标签 ====================
+    public static final TagKey<Item> STRIKE_WEAPONS_TAG =
+            ItemTags.create(ResourceLocation.fromNamespaceAndPath(lim_mirror.MODID, "strike_weapons"));
 
     public static final DeferredRegister<MobEffect> EFFECTS =
             DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, lim_mirror.MODID);
@@ -424,6 +431,76 @@ public class Registration {
 
     public static final RegistryObject<Item> SHATTERED_GREATSWORD = ITEMS.register("shattered_greatsword",
             () -> new ShatteredGreatsword(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SWORD_OF_CALAMUS = ITEMS.register("sword_of_calamus",
+            () -> new SwordOfCalamus(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SHATTERED_WOODEN_TORTURE_DEVICE = ITEMS.register("shattered_wooden_torture_device",
+            () -> new ShatteredWoodenTortureDevice(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> UNADORNED_TSUBA = ITEMS.register("unadorned_tsuba",
+            () -> new UnadornedTsuba(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> NATIVE_SWORD_MANUAL = ITEMS.register("native_sword_manual",
+            () -> new NativeSwordManual(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> RUSTY_HANDLE = ITEMS.register("rusty_handle",
+            () -> new RustyHandle(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> RED_TASSEL = ITEMS.register("red_tassel",
+            () -> new RedTassel(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> MAGNIFICENT = ITEMS.register("magnificent",
+            () -> new Magnificent(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> IMMOVABLE = ITEMS.register("immovable",
+            () -> new Immovable(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> OLD_ROBE = ITEMS.register("old_robe",
+            () -> new OldRobe(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> OLD_HANDLE = ITEMS.register("old_handle",
+            () -> new OldHandle(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> POLISHING = ITEMS.register("polishing",
+            () -> new Polishing(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> MURAKUMO = ITEMS.register("murakumo",
+            () -> new Murakumo(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SHADOW_WOVEN_HAT = ITEMS.register("shadow_woven_hat",
+            () -> new ShadowWovenHat(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> BLINDING_RED_CLOTH = ITEMS.register("blinding_red_cloth",
+            () -> new BlindingRedCloth(new Item.Properties().stacksTo(1)));
+
+    // ==================== 打击威力提升 ====================
+    public static final RegistryObject<MobEffect> STRIKE_POWER = EFFECTS.register("strike_power", StrikePowerEffect::new);
+
+    public static final RegistryObject<Item> EXPRESSION_OF_THIS_MOMENT = ITEMS.register("expression_of_this_moment",
+            () -> new ExpressionOfThisMoment(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> STAR_OF_THE_VALLEY = ITEMS.register("star_of_the_valley",
+            () -> new StarOfTheValley(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> HAUNTING = ITEMS.register("haunting",
+            () -> new Haunting(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> COMPRESSION_BANDAGE = ITEMS.register("compression_bandage",
+            () -> new CompressionBandage(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> CHAINS_OF_TIME = ITEMS.register("chains_of_time",
+            () -> new ChainsOfTime(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> CLENCHED_STATUE = ITEMS.register("clenched_statue",
+            () -> new ClenchedStatue(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SHATTERED_MEMORY_STRIKE = ITEMS.register("shattered_memory_strike",
+            () -> new ShatteredMemoryStrike(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> DIMENSIONAL_SORTING_RECYCLING_BIN = ITEMS.register("dimensional_sorting_recycling_bin",
+            () -> new DimensionalSortingRecyclingBin(new Item.Properties().stacksTo(1)));
+
 
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);

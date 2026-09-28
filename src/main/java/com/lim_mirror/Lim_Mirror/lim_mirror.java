@@ -7,6 +7,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -182,6 +183,37 @@ public class lim_mirror {
                 output.accept(Registration.CANE_SWORD.get());
                 output.accept(Registration.CLOUD_PATTERNED_CRANE_NECK_VASE.get());
                 output.accept(Registration.SHATTERED_GREATSWORD.get());
+                output.accept(Registration.SWORD_OF_CALAMUS.get());
+                output.accept(Registration.SHATTERED_WOODEN_TORTURE_DEVICE.get());
+                output.accept(Registration.UNADORNED_TSUBA.get());
+                output.accept(Registration.NATIVE_SWORD_MANUAL.get());
+                output.accept(Registration.RUSTY_HANDLE.get());
+                output.accept(Registration.RED_TASSEL.get());
+                output.accept(Registration.RED_TASSEL.get());
+                output.accept(Registration.MAGNIFICENT.get());
+                output.accept(Registration.IMMOVABLE.get());
+                output.accept(Registration.OLD_ROBE.get());
+                output.accept(Registration.OLD_HANDLE.get());
+                output.accept(Registration.POLISHING.get());
+                output.accept(Registration.MURAKUMO.get());
+                output.accept(Registration.SHADOW_WOVEN_HAT.get());
+                output.accept(Registration.BLINDING_RED_CLOTH.get());
+            }).build());
+
+    // ==================== 打击饰品创造栏 ====================
+    public static final RegistryObject<CreativeModeTab> STRIKE_TAB = CREATIVE_MODE_TABS.register("strike_tab", () -> CreativeModeTab.builder()
+            .withTabsBefore(CreativeModeTabs.COMBAT)
+            .icon(() -> new ItemStack(Registration.EXPRESSION_OF_THIS_MOMENT.get()))
+            .title(net.minecraft.network.chat.Component.literal("打击饰品"))
+            .displayItems((parameters, output) -> {
+                output.accept(Registration.EXPRESSION_OF_THIS_MOMENT.get());
+                output.accept(Registration.STAR_OF_THE_VALLEY.get());
+                output.accept(Registration.HAUNTING.get());
+                output.accept(Registration.COMPRESSION_BANDAGE.get());
+                output.accept(Registration.CHAINS_OF_TIME.get());
+                output.accept(Registration.CLENCHED_STATUE.get());
+                output.accept(Registration.SHATTERED_MEMORY_STRIKE.get());
+                output.accept(Registration.DIMENSIONAL_SORTING_RECYCLING_BIN.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

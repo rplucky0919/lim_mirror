@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "lim_mirror:uniform_six_association"
+    "lim_mirror:uniform_six_association",
+    "lim_mirror:old_robe"
   ]
 }
