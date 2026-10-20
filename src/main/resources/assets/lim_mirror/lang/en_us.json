@@ -694,6 +694,12 @@
   "tooltip.lim_mirror.bloody_iron_spike.2": "§7  Target gains §cBleed I§7 and loses §c2 armor§7 (non-stacking)",
   "tooltip.lim_mirror.bloody_iron_spike.3": "§7If the target already bleeds:",
   "tooltip.lim_mirror.bloody_iron_spike.4": "§7  Instead gains §cBleed III",
+  "item.lim_mirror.white_cotton": "White Cotton",
+  "tooltip.lim_mirror.white_cotton.1": "§7Removes §7Weakness §7from enemies",
+  "tooltip.lim_mirror.white_cotton.2": "§7Every 30s: to creatures within 5 blocks",
+  "tooltip.lim_mirror.white_cotton.3": "§7  Inflict §c1s of Bleed XII",
+  "tooltip.lim_mirror.white_cotton.4": "§7  Those creatures, after 30s:",
+  "tooltip.lim_mirror.white_cotton.5": "§7    Deal §a−6 §7damage to you, take §c+6 §7damage",
   "creativeTab.lim_mirror.bleed_tab": "Bleed Curios",
 
   "creativeTab.lim_mirror.poise_tab": "Poise Curios",

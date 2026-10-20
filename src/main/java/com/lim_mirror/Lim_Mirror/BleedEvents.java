@@ -7,6 +7,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -135,5 +136,88 @@ public class BleedEvents {
             target.getAttribute(Attributes.ARMOR).removeModifier(BloodyIronSpike.ARMOR_REDUCE);
             target.getAttribute(Attributes.ARMOR).addTransientModifier(BloodyIronSpike.ARMOR_REDUCE);
         }
+    }
+
+    // ==================== 白棉花 ====================
+
+    private static final int WHITE_COTTON_INTERVAL = 20 * 30;   // 每 30 秒
+    private static final double WHITE_COTTON_RADIUS = 5.0;
+    private static final int WHITE_COTTON_BLEED_DURATION = 20;  // 1 秒
+    private static final int WHITE_COTTON_BLEED_AMPLIFIER = 11;  // 12 级
+    private static final long WHITE_COTTON_MARK_DURATION = 20L * 30; // 标记 30 秒
+    private static final float WHITE_COTTON_DAMAGE_MOD = 6.0f;
+
+    /** 30 秒周期：解除自身虚弱 + 对 5 格内生物施加 1 秒 12 级流血并打上标记 */
+    @SubscribeEvent
+    public static void onLivingTickWhiteCotton(LivingEvent.LivingTickEvent event) {
+        LivingEntity entity = event.getEntity();
+        if (!(entity instanceof Player player)) return;
+        if (player.level().isClientSide()) return;
+        if (!player.getPersistentData().getBoolean("hasWhiteCotton")) return;
+
+        long currentTick = player.level().getGameTime();
+        long lastTrigger = player.getPersistentData().getLong("whiteCottonLastTrigger");
+
+        // 首次装备只记录时间，不立刻触发
+        if (lastTrigger == 0) {
+            player.getPersistentData().putLong("whiteCottonLastTrigger", currentTick);
+            return;
+        }
+        if (currentTick - lastTrigger < WHITE_COTTON_INTERVAL) return;
+        player.getPersistentData().putLong("whiteCottonLastTrigger", currentTick);
+
+        // 解除自身的虚弱（"解除敌方虚弱"——虚弱本就是压制我方输出的减益）
+        if (player.hasEffect(MobEffects.WEAKNESS)) {
+            player.removeEffect(MobEffects.WEAKNESS);
+        }
+
+        AABB area = new AABB(player.blockPosition()).inflate(WHITE_COTTON_RADIUS);
+        for (LivingEntity target : player.level().getEntitiesOfClass(LivingEntity.class, area,
+                e -> e != player && e.isAlive() && !(e instanceof Player))) {
+
+            // 对范围内生物施加 1 秒 12 级流血
+            target.removeEffect(Registration.BLEED.get());
+            target.addEffect(new MobEffectInstance(
+                    Registration.BLEED.get(),
+                    WHITE_COTTON_BLEED_DURATION,
+                    WHITE_COTTON_BLEED_AMPLIFIER,
+                    false,
+                    false
+            ));
+
+            // 记录标记施加时刻：30 秒后进入"易伤/减伤"状态
+            target.getPersistentData().putLong("whiteCottonMarkCreated", currentTick);
+        }
+    }
+
+    private static boolean isWhiteCottonMarkActive(LivingEntity entity) {
+        long createdAt = entity.getPersistentData().getLong("whiteCottonMarkCreated");
+        if (createdAt == 0) return false;
+        long now = entity.level().getGameTime();
+        long elapsed = now - createdAt;
+        // 30 秒后开始生效，持续 30 秒
+        return elapsed >= WHITE_COTTON_MARK_DURATION && elapsed <= WHITE_COTTON_MARK_DURATION * 2;
+    }
+
+    /** 被标记的生物攻击玩家：伤害 −6 */
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtWhiteCottonAttacker(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof LivingEntity attacker)) return;
+        if (!(event.getEntity() instanceof Player)) return;
+
+        if (!isWhiteCottonMarkActive(attacker)) return;
+
+        event.setAmount(Math.max(0.0f, event.getAmount() - WHITE_COTTON_DAMAGE_MOD));
+    }
+
+    /** 被标记的生物受到伤害：+6 */
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtWhiteCottonVictim(LivingHurtEvent event) {
+        LivingEntity target = event.getEntity();
+        if (target instanceof Player) return;
+
+        if (!isWhiteCottonMarkActive(target)) return;
+
+        event.setAmount(event.getAmount() + WHITE_COTTON_DAMAGE_MOD);
     }
 }

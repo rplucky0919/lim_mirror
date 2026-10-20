@@ -564,6 +564,10 @@ public class Registration {
     public static final RegistryObject<Item> BLOODY_IRON_SPIKE = ITEMS.register("bloody_iron_spike",
             () -> new BloodyIronSpike(new Item.Properties().stacksTo(1)));
 
+    // ==================== 白棉花 ====================
+    public static final RegistryObject<Item> WHITE_COTTON = ITEMS.register("white_cotton",
+            () -> new WhiteCotton(new Item.Properties().stacksTo(1)));
+
 
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);

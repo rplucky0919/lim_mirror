@@ -702,6 +702,13 @@
   "tooltip.lim_mirror.bloody_iron_spike.3": "§7若目标已带有流血：",
   "tooltip.lim_mirror.bloody_iron_spike.4": "§7  改为获得 §c3 级流血强度",
 
+  "item.lim_mirror.white_cotton": "白棉花",
+  "tooltip.lim_mirror.white_cotton.1": "§7解除敌方的 §7虚弱 §7效果",
+  "tooltip.lim_mirror.white_cotton.2": "§7每 30 秒：对自身 5 格范围内的生物",
+  "tooltip.lim_mirror.white_cotton.3": "§7  施加 §c1 秒 12 级流血",
+  "tooltip.lim_mirror.white_cotton.4": "§7  这些生物 30 秒后：",
+  "tooltip.lim_mirror.white_cotton.5": "§7    对自身造成伤害 §a−6§7，受到伤害 §c+6",
+
   "creativeTab.lim_mirror.bleed_tab": "流血饰品",
 
   "creativeTab.lim_mirror.poise_tab": "呼吸法饰品",

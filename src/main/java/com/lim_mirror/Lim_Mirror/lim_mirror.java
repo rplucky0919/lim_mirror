@@ -237,6 +237,7 @@ public class lim_mirror {
             .displayItems((parameters, output) -> {
                 output.accept(Registration.MIMIC_WOUND_BUG.get());
                 output.accept(Registration.BLOODY_IRON_SPIKE.get());
+                output.accept(Registration.WHITE_COTTON.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {
