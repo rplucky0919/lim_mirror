@@ -689,6 +689,11 @@
   "item.lim_mirror.mimic_wound_bug": "Mimic Wound Bug",
   "tooltip.lim_mirror.mimic_wound_bug.1": "§7While the main-hand weapon has §cSancho Blood§7:",
   "tooltip.lim_mirror.mimic_wound_bug.2": "§7Hits inflict §c4s §7of §cBleed V",
+  "item.lim_mirror.bloody_iron_spike": "Bloody Iron Spike",
+  "tooltip.lim_mirror.bloody_iron_spike.1": "§7On dealing damage:",
+  "tooltip.lim_mirror.bloody_iron_spike.2": "§7  Target gains §cBleed I§7 and loses §c2 armor§7 (non-stacking)",
+  "tooltip.lim_mirror.bloody_iron_spike.3": "§7If the target already bleeds:",
+  "tooltip.lim_mirror.bloody_iron_spike.4": "§7  Instead gains §cBleed III",
   "creativeTab.lim_mirror.bleed_tab": "Bleed Curios",
 
   "creativeTab.lim_mirror.poise_tab": "Poise Curios",

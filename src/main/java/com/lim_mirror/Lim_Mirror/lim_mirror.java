@@ -236,6 +236,7 @@ public class lim_mirror {
             .title(net.minecraft.network.chat.Component.translatable("creativeTab.lim_mirror.bleed_tab"))
             .displayItems((parameters, output) -> {
                 output.accept(Registration.MIMIC_WOUND_BUG.get());
+                output.accept(Registration.BLOODY_IRON_SPIKE.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

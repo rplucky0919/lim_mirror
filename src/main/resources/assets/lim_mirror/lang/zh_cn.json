@@ -696,6 +696,12 @@
   "tooltip.lim_mirror.mimic_wound_bug.1": "§7主手武器带有 §c桑丘之血 §7附魔时：",
   "tooltip.lim_mirror.mimic_wound_bug.2": "§7命中使目标获得 §c4 秒 §75 级 §c流血",
 
+  "item.lim_mirror.bloody_iron_spike": "染血铁钉",
+  "tooltip.lim_mirror.bloody_iron_spike.1": "§7造成伤害时：",
+  "tooltip.lim_mirror.bloody_iron_spike.2": "§7  使目标获得 §c1 级流血强度§7，并降低其护甲 §c2 点§7（不叠加）",
+  "tooltip.lim_mirror.bloody_iron_spike.3": "§7若目标已带有流血：",
+  "tooltip.lim_mirror.bloody_iron_spike.4": "§7  改为获得 §c3 级流血强度",
+
   "creativeTab.lim_mirror.bleed_tab": "流血饰品",
 
   "creativeTab.lim_mirror.poise_tab": "呼吸法饰品",

@@ -560,6 +560,10 @@ public class Registration {
     public static final RegistryObject<Item> MIMIC_WOUND_BUG = ITEMS.register("mimic_wound_bug",
             () -> new MimicWoundBug(new Item.Properties().stacksTo(1)));
 
+    // ==================== 染血铁钉 ====================
+    public static final RegistryObject<Item> BLOODY_IRON_SPIKE = ITEMS.register("bloody_iron_spike",
+            () -> new BloodyIronSpike(new Item.Properties().stacksTo(1)));
+
 
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
