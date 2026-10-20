@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +37,7 @@ public class OneMoreDrink extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7若武器带震颤爆发或空间撕裂，伤害+20%"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每30秒自动增加15秒充能和震颤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.one_more_drink.1", "§7若武器带震颤爆发或空间撕裂，伤害+20%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.one_more_drink.2", "§7每30秒自动增加15秒充能和震颤"));
     }
 }

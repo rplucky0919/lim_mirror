@@ -37,8 +37,8 @@ public class DimensionalSortingRecyclingBin extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7空手或携带打击武器时："));
-        tooltip.add(Component.literal("§7造成伤害 §c+3"));
-        tooltip.add(Component.literal("§7最终伤害 §c+25%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.dimensional_sorting_recycling_bin.1", "§7空手或携带打击武器时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.dimensional_sorting_recycling_bin.2", "§7造成伤害 §c+3"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.dimensional_sorting_recycling_bin.3", "§7最终伤害 §c+25%"));
     }
 }

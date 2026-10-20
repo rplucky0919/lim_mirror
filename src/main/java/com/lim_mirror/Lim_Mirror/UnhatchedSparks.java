@@ -37,9 +37,9 @@ public class UnhatchedSparks extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7受到致死伤害时，攻击期间内体力固定为1点(5s)"));
-        tooltip.add(Component.literal("§7该攻击结束后使自身恢复体力上限20%的体力(每600s最多1次)"));
-        tooltip.add(Component.literal("§7若自身带有烧伤，则恢复体力上限40%的体力(合计每600s最多1次)"));
-        tooltip.add(Component.literal("§c冷却时间：600秒"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.unhatched_sparks.1", "§7受到致死伤害时，攻击期间内体力固定为1点(5s)"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.unhatched_sparks.2", "§7该攻击结束后使自身恢复体力上限20%的体力(每600s最多1次)"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.unhatched_sparks.3", "§7若自身带有烧伤，则恢复体力上限40%的体力(合计每600s最多1次)"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.unhatched_sparks.4", "§c冷却时间：600秒"));
     }
 }

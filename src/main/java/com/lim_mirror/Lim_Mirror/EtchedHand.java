@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +37,7 @@ public class EtchedHand extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每30秒对10格内敌人+3级震颤"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7震颤或特殊震颤≥12级的目标，受到你的伤害+10%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.etched_hand.1", "§7每30秒对10格内敌人+3级震颤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.etched_hand.2", "§7震颤或特殊震颤≥12级的目标，受到你的伤害+10%"));
     }
 }

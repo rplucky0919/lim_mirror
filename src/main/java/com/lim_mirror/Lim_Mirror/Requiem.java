@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -80,8 +81,8 @@ public class Requiem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每30秒对30格内生物增加12秒15级烧伤"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7有火柴之焰时攻击力+6"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7火柴之焰改为每次攻击+2秒+2层烧伤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.requiem.1", "§7每30秒对30格内生物增加12秒15级烧伤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.requiem.2", "§7有火柴之焰时攻击力+6"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.requiem.3", "§7火柴之焰改为每次攻击+2秒+2层烧伤"));
     }
 }

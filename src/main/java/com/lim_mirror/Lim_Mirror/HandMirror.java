@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,8 +37,8 @@ public class HandMirror extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7攻击时：目标缓慢V，持续30秒"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7目标受到伤害+30%，持续30秒"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7攻击有虚弱的目标：震颤强度翻倍，持续60秒"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.hand_mirror.1", "§7攻击时：目标缓慢V，持续30秒"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.hand_mirror.2", "§7目标受到伤害+30%，持续30秒"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.hand_mirror.3", "§7攻击有虚弱的目标：震颤强度翻倍，持续60秒"));
     }
 }

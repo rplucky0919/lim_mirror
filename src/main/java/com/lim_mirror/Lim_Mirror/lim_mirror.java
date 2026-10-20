@@ -40,7 +40,7 @@ public class lim_mirror {
     public static final RegistryObject<CreativeModeTab> POISE_TAB = CREATIVE_MODE_TABS.register("poise_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> new ItemStack(Registration.PIPE.get()))
-            .title(net.minecraft.network.chat.Component.literal("呼吸法饰品"))
+            .title(net.minecraft.network.chat.Component.translatable("creativeTab.lim_mirror.poise_tab"))
             .displayItems((parameters, output) -> {
                 output.accept(Registration.PIPE.get());
                 output.accept(Registration.STONE_MOUND.get());
@@ -81,7 +81,7 @@ public class lim_mirror {
     public static final RegistryObject<CreativeModeTab> BURN_TAB = CREATIVE_MODE_TABS.register("burn_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> new ItemStack(Registration.HELL_BUTTERFLY_DREAM.get()))
-            .title(net.minecraft.network.chat.Component.literal("烧伤饰品"))
+            .title(net.minecraft.network.chat.Component.translatable("creativeTab.lim_mirror.burn_tab"))
             .displayItems((parameters, output) -> {
                 output.accept(Registration.HELL_BUTTERFLY_DREAM.get());
                 output.accept(Registration.DUST_TO_DUST.get());
@@ -119,7 +119,7 @@ public class lim_mirror {
     public static final RegistryObject<CreativeModeTab> TREMOR_TAB = CREATIVE_MODE_TABS.register("tremor_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> new ItemStack(Registration.GAO_XUE.get()))
-            .title(net.minecraft.network.chat.Component.literal("震颤饰品"))
+            .title(net.minecraft.network.chat.Component.translatable("creativeTab.lim_mirror.tremor_tab"))
             .displayItems((parameters, output) -> {
                 output.accept(Registration.GAO_XUE.get());
                 output.accept(Registration.GREEN_LIGHT_FRUIT.get());
@@ -170,7 +170,7 @@ public class lim_mirror {
     public static final RegistryObject<CreativeModeTab> SLASHING_TAB = CREATIVE_MODE_TABS.register("slashing_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> new ItemStack(Registration.DREAMING_ELECTRIC_SHEEP.get()))
-            .title(net.minecraft.network.chat.Component.literal("斩击饰品"))
+            .title(net.minecraft.network.chat.Component.translatable("creativeTab.lim_mirror.slashing_tab"))
             .displayItems((parameters, output) -> {
                 output.accept(Registration.DREAMING_ELECTRIC_SHEEP.get());
                 output.accept(Registration.SURGICAL_KNIFE.get());
@@ -204,7 +204,7 @@ public class lim_mirror {
     public static final RegistryObject<CreativeModeTab> STRIKE_TAB = CREATIVE_MODE_TABS.register("strike_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> new ItemStack(Registration.EXPRESSION_OF_THIS_MOMENT.get()))
-            .title(net.minecraft.network.chat.Component.literal("打击饰品"))
+            .title(net.minecraft.network.chat.Component.translatable("creativeTab.lim_mirror.strike_tab"))
             .displayItems((parameters, output) -> {
                 output.accept(Registration.EXPRESSION_OF_THIS_MOMENT.get());
                 output.accept(Registration.STAR_OF_THE_VALLEY.get());
@@ -214,6 +214,19 @@ public class lim_mirror {
                 output.accept(Registration.CLENCHED_STATUE.get());
                 output.accept(Registration.SHATTERED_MEMORY_STRIKE.get());
                 output.accept(Registration.DIMENSIONAL_SORTING_RECYCLING_BIN.get());
+                output.accept(Registration.POCKET_MNEMONIC_CARD.get());
+                output.accept(Registration.DIMENSIONAL_PERCEPTION_VARIANT.get());
+                output.accept(Registration.REVENGE_LEDGER.get());
+                output.accept(Registration.MEAT_TENDERIZER.get());
+                output.accept(Registration.STOLEN_FIXER_MAGAZINE.get());
+                output.accept(Registration.REVENGE_LEDGER_APPENDIX.get());
+                output.accept(Registration.MIDDLE_FINGER_KNUCKLE.get());
+                output.accept(Registration.DEBUT_EXCLUSIVE_SPEAKER.get());
+                output.accept(Registration.YOUNG_BROTHER_DEBUT.get());
+                output.accept(Registration.ENHANCED_TATTOO_MIDDLE_FINGER.get());
+                output.accept(Registration.LOYALTY_CHAINS.get());
+                output.accept(Registration.ETERNAL_CHAINS.get());
+                output.accept(Registration.MIDDLE_FINGER_RULES.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

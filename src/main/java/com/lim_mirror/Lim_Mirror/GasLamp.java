@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -91,8 +92,8 @@ public class GasLamp extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每30秒获得5秒呼吸法+5级强度"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7迅捷II+急迫II（持续30秒）"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7造成伤害×1.39"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.gas_lamp.1", "§7每30秒获得5秒呼吸法+5级强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.gas_lamp.2", "§7迅捷II+急迫II（持续30秒）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.gas_lamp.3", "§7造成伤害×1.39"));
     }
 }

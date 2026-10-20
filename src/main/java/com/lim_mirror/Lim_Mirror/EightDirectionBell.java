@@ -37,10 +37,10 @@ public class EightDirectionBell extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7对敌方造成伤害时，增加6秒震颤，增加3级震颤强度"));
-        tooltip.add(Component.literal("§7自身增加16秒震颤"));
-        tooltip.add(Component.literal("§7自身造成伤害+（1+（震颤时间(秒)×0.4））×3（上限240点）"));
-        tooltip.add(Component.literal("§7若自身带有震颤并击杀生物，自身增加6秒震颤"));
-        tooltip.add(Component.literal("§7自身造成伤害增加（震颤时间(秒)+震颤强度+5）%（上限50%）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.eight_direction_bell.1", "§7对敌方造成伤害时，增加6秒震颤，增加3级震颤强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.eight_direction_bell.2", "§7自身增加16秒震颤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.eight_direction_bell.3", "§7自身造成伤害+（1+（震颤时间(秒)×0.4））×3（上限240点）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.eight_direction_bell.4", "§7若自身带有震颤并击杀生物，自身增加6秒震颤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.eight_direction_bell.5", "§7自身造成伤害增加（震颤时间(秒)+震颤强度+5）%（上限50%）"));
     }
 }

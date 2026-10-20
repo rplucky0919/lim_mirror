@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +37,7 @@ public class RustedHand extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7攻击时：对目标+8秒8级震颤（冷却30秒）"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7震颤≥12级的敌人攻击你时，你受到的伤害-10%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.rusted_hand.1", "§7攻击时：对目标+8秒8级震颤（冷却30秒）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.rusted_hand.2", "§7震颤≥12级的敌人攻击你时，你受到的伤害-10%"));
     }
 }

@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,8 +37,8 @@ public class RoyalJellyPerfume extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7敌方攻击时增加3层烧伤"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7受烧伤敌方攻击时获得抗性提升"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7敌方烧伤≥60级时造成伤害×1.2"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.royal_jelly_perfume.1", "§7敌方攻击时增加3层烧伤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.royal_jelly_perfume.2", "§7受烧伤敌方攻击时获得抗性提升"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.royal_jelly_perfume.3", "§7敌方烧伤≥60级时造成伤害×1.2"));
     }
 }

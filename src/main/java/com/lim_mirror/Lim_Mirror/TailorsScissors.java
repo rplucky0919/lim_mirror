@@ -56,10 +56,10 @@ public class TailorsScissors extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持第4格或第6格快捷栏中的剑类武器时"));
-        tooltip.add(Component.literal("§7造成伤害 §c+3"));
-        tooltip.add(Component.literal("§7最终伤害 §c+30%"));
-        tooltip.add(Component.literal("§8- 第4格 = 索引3，第6格 = 索引5"));
-        tooltip.add(Component.literal("§8- 武器必须来自对应快捷栏格子"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.tailors_scissors.1", "§7手持第4格或第6格快捷栏中的剑类武器时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.tailors_scissors.2", "§7造成伤害 §c+3"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.tailors_scissors.3", "§7最终伤害 §c+30%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.tailors_scissors.4", "§8- 第4格 = 索引3，第6格 = 索引5"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.tailors_scissors.5", "§8- 武器必须来自对应快捷栏格子"));
     }
 }

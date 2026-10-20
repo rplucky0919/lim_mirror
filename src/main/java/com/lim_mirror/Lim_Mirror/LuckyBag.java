@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -64,8 +65,8 @@ public class LuckyBag extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7暴击时增加7秒呼吸法和7级强度"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7有呼吸法时基础伤害+9，获得力量12级"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每3秒增加2秒呼吸法时间"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.lucky_bag.1", "§7暴击时增加7秒呼吸法和7级强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.lucky_bag.2", "§7有呼吸法时基础伤害+9，获得力量12级"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.lucky_bag.3", "§7每3秒增加2秒呼吸法时间"));
     }
 }

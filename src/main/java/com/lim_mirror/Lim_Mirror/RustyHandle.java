@@ -73,8 +73,8 @@ public class RustyHandle extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持剑类武器时："));
-        tooltip.add(Component.literal("§7每 30 秒增加 §c4 秒 §72 级斩击伤害提升"));
-        tooltip.add(Component.literal("§8- 等级可叠加，无上限"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.rusty_handle.1", "§7手持剑类武器时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.rusty_handle.2", "§7每 30 秒增加 §c4 秒 §72 级斩击伤害提升"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.rusty_handle.3", "§8- 等级可叠加，无上限"));
     }
 }

@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -46,7 +47,7 @@ public class ScorchedDisc extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7攻击烧伤目标时使其护甲减少8"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7可与炎陵的减16叠加"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.scorched_disc.1", "§7攻击烧伤目标时使其护甲减少8"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.scorched_disc.2", "§7可与炎陵的减16叠加"));
     }
 }

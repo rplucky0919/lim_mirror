@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -49,7 +50,7 @@ public class DevilsDelight extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7有呼吸法时获得迅捷2级"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7伤害+2，最终伤害+2"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.devils_delight.1", "§7有呼吸法时获得迅捷2级"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.devils_delight.2", "§7伤害+2，最终伤害+2"));
     }
 }

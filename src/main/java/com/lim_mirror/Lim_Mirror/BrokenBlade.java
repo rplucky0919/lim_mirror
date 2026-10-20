@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,6 +37,6 @@ public class BrokenBlade extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7暴击时追加 呼吸法等级/2 的伤害"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.broken_blade.1", "§7暴击时追加 呼吸法等级/2 的伤害"));
     }
 }

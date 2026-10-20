@@ -47,8 +47,8 @@ public class ReignitionSparkPlug extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7若武器带有火柴之焰附魔"));
-        tooltip.add(Component.literal("§7造成伤害+5，最终伤害×1.2"));
-        tooltip.add(Component.literal("§7施加烧伤额外+1s，降低敌方护甲2点"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.reignition_spark_plug.1", "§7若武器带有火柴之焰附魔"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.reignition_spark_plug.2", "§7造成伤害+5，最终伤害×1.2"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.reignition_spark_plug.3", "§7施加烧伤额外+1s，降低敌方护甲2点"));
     }
 }

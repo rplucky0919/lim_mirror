@@ -66,9 +66,9 @@ public class MomentOfJudgment extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持第3/4/5/6格快捷栏中的剑类武器时"));
-        tooltip.add(Component.literal("§7造成伤害 §c+12.5%"));
-        tooltip.add(Component.literal("§7斩击伤害提升 §c(50 / 快捷栏剑数)%"));
-        tooltip.add(Component.literal("§8- 剑数越多，单把加成越低"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.moment_of_judgment.1", "§7手持第3/4/5/6格快捷栏中的剑类武器时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.moment_of_judgment.2", "§7造成伤害 §c+12.5%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.moment_of_judgment.3", "§7斩击伤害提升 §c(50 / 快捷栏剑数)%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.moment_of_judgment.4", "§8- 剑数越多，单把加成越低"));
     }
 }

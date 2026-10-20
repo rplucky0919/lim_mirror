@@ -37,9 +37,9 @@ public class ShadowMonster extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7攻击时自身获得2秒震颤（目标有虚弱时改为4秒）"));
-        tooltip.add(Component.literal("§7目标有虚弱时：施加（快捷栏武器数×3）级虚弱5秒（冷却30秒）"));
-        tooltip.add(Component.literal("§7每有1把武器，对目标伤害+10%（快捷栏）"));
-        tooltip.add(Component.literal("§8- 受熄灭的提灯加成（+1秒）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shadow_monster.1", "§7攻击时自身获得2秒震颤（目标有虚弱时改为4秒）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shadow_monster.2", "§7目标有虚弱时：施加（快捷栏武器数×3）级虚弱5秒（冷却30秒）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shadow_monster.3", "§7每有1把武器，对目标伤害+10%（快捷栏）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shadow_monster.4", "§8- 受熄灭的提灯加成（+1秒）"));
     }
 }

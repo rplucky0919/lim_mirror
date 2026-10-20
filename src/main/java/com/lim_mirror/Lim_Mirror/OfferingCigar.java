@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,10 +37,10 @@ public class OfferingCigar extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7造成伤害×1.1，最终伤害×1.2（独立乘区）"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7造成伤害+12"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7目标震颤-灼热≥20级时，造成伤害+20%"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7消耗弹药后，造成伤害+20%，最终伤害×1.2"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7触发震颤引爆后，下次攻击伤害+6"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.offering_cigar.1", "§7造成伤害×1.1，最终伤害×1.2（独立乘区）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.offering_cigar.2", "§7造成伤害+12"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.offering_cigar.3", "§7目标震颤-灼热≥20级时，造成伤害+20%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.offering_cigar.4", "§7消耗弹药后，造成伤害+20%，最终伤害×1.2"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.offering_cigar.5", "§7触发震颤引爆后，下次攻击伤害+6"));
     }
 }

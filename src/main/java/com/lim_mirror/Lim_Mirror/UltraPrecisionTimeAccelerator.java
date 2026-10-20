@@ -75,11 +75,11 @@ public class UltraPrecisionTimeAccelerator extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7当武器带有震颤爆发附魔时"));
-        tooltip.add(Component.literal("§7获得迅捷 V"));
-        tooltip.add(Component.literal("§7获得精密时间加速"));
-        tooltip.add(Component.literal("§7- 攻击伤害 +5"));
-        tooltip.add(Component.literal("§7- 造成伤害 +50%"));
-        tooltip.add(Component.literal("§8不可被牛奶清除，持续至死亡"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.ultra_precision_time_accelerator.1", "§7当武器带有震颤爆发附魔时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.ultra_precision_time_accelerator.2", "§7获得迅捷 V"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.ultra_precision_time_accelerator.3", "§7获得精密时间加速"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.ultra_precision_time_accelerator.4", "§7- 攻击伤害 +5"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.ultra_precision_time_accelerator.5", "§7- 造成伤害 +50%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.ultra_precision_time_accelerator.6", "§8不可被牛奶清除，持续至死亡"));
     }
 }

@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -64,6 +65,6 @@ public class FuzzyHat extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每2秒增加1层呼吸法强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.fuzzy_hat.1", "§7每2秒增加1层呼吸法强度"));
     }
 }

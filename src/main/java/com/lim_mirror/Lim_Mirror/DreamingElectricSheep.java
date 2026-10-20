@@ -68,9 +68,9 @@ public class DreamingElectricSheep extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持剑类武器击杀敌人时"));
-        tooltip.add(Component.literal("§7获得 §c斩击威力提升 II§r§7，持续 60 秒（冷却 30 秒）"));
-        tooltip.add(Component.literal("§7玩家增加 §a4 点护甲"));
-        tooltip.add(Component.literal("§7造成伤害 §c+20%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.dreaming_electric_sheep.1", "§7手持剑类武器击杀敌人时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.dreaming_electric_sheep.2", "§7获得 §c斩击威力提升 II§r§7，持续 60 秒（冷却 30 秒）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.dreaming_electric_sheep.3", "§7玩家增加 §a4 点护甲"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.dreaming_electric_sheep.4", "§7造成伤害 §c+20%"));
     }
 }

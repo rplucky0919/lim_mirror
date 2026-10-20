@@ -37,10 +37,10 @@ public class OldRobe extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持剑类武器时："));
-        tooltip.add(Component.literal("§7造成伤害 §c+50%"));
-        tooltip.add(Component.literal("§7快捷栏第一把剑造成伤害 §c+9"));
-        tooltip.add(Component.literal(""));
-        tooltip.add(Component.literal("§8【你似乎无法发挥他的全部力量】"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.old_robe.1", "§7手持剑类武器时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.old_robe.2", "§7造成伤害 §c+50%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.old_robe.3", "§7快捷栏第一把剑造成伤害 §c+9"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.old_robe.4", ""));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.old_robe.5", "§8【你似乎无法发挥他的全部力量】"));
     }
 }

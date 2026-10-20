@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,8 +38,8 @@ public class MoonInWater extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7攻击破裂≥5秒目标时+1秒呼吸法+1级强度"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7攻击破裂≥20级目标时暴击伤害+46%"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每5秒清除一种负面效果"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.moon_in_water.1", "§7攻击破裂≥5秒目标时+1秒呼吸法+1级强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.moon_in_water.2", "§7攻击破裂≥20级目标时暴击伤害+46%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.moon_in_water.3", "§7每5秒清除一种负面效果"));
     }
 }

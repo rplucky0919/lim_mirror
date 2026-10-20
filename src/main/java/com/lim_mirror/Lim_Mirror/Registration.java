@@ -477,6 +477,9 @@ public class Registration {
     // ==================== 打击威力提升 ====================
     public static final RegistryObject<MobEffect> STRIKE_POWER = EFFECTS.register("strike_power", StrikePowerEffect::new);
 
+    // ==================== 打击伤害强化 ====================
+    public static final RegistryObject<MobEffect> STRIKE_ENHANCE = EFFECTS.register("strike_enhance", StrikeEnhanceEffect::new);
+
     public static final RegistryObject<Item> EXPRESSION_OF_THIS_MOMENT = ITEMS.register("expression_of_this_moment",
             () -> new ExpressionOfThisMoment(new Item.Properties().stacksTo(1)));
 
@@ -500,6 +503,58 @@ public class Registration {
 
     public static final RegistryObject<Item> DIMENSIONAL_SORTING_RECYCLING_BIN = ITEMS.register("dimensional_sorting_recycling_bin",
             () -> new DimensionalSortingRecyclingBin(new Item.Properties().stacksTo(1)));
+
+    // ==================== 口袋助记卡 ====================
+    public static final RegistryObject<Item> POCKET_MNEMONIC_CARD = ITEMS.register("pocket_mnemonic_card",
+            () -> new PocketMnemonicCard(new Item.Properties().stacksTo(1)));
+
+    // ==================== 次元知觉变体 ====================
+    public static final RegistryObject<Item> DIMENSIONAL_PERCEPTION_VARIANT = ITEMS.register("dimensional_perception_variant",
+            () -> new DimensionalPerceptionVariant(new Item.Properties().stacksTo(1)));
+
+    // ==================== 复仇账簿 ====================
+    public static final RegistryObject<Item> REVENGE_LEDGER = ITEMS.register("revenge_ledger",
+            () -> new RevengeLedger(new Item.Properties().stacksTo(1)));
+
+    // ==================== 嫩肉锤 ====================
+    public static final RegistryObject<Item> MEAT_TENDERIZER = ITEMS.register("meat_tenderizer",
+            () -> new MeatTenderizer(new Item.Properties().stacksTo(1)));
+
+    // ==================== 被盗的收尾人杂志 ====================
+    public static final RegistryObject<Item> STOLEN_FIXER_MAGAZINE = ITEMS.register("stolen_fixer_magazine",
+            () -> new StolenFixerMagazine(new Item.Properties().stacksTo(1)));
+
+    // ==================== 复仇账簿：附录 ====================
+    public static final RegistryObject<Item> REVENGE_LEDGER_APPENDIX = ITEMS.register("revenge_ledger_appendix",
+            () -> new RevengeLedgerAppendix(new Item.Properties().stacksTo(1)));
+
+    // ==================== 中指式指虎 ====================
+    public static final RegistryObject<Item> MIDDLE_FINGER_KNUCKLE = ITEMS.register("middle_finger_knuckle",
+            () -> new MiddleFingerKnuckle(new Item.Properties().stacksTo(1)));
+
+    // ==================== 登场专用音响 ====================
+    public static final RegistryObject<Item> DEBUT_EXCLUSIVE_SPEAKER = ITEMS.register("debut_exclusive_speaker",
+            () -> new DebutExclusiveSpeaker(new Item.Properties().stacksTo(1)));
+
+    // ==================== 幼·兄登场 ====================
+    public static final RegistryObject<Item> YOUNG_BROTHER_DEBUT = ITEMS.register("young_brother_debut",
+            () -> new YoungBrotherDebut(new Item.Properties().stacksTo(1)));
+
+    // ==================== 强化纹身-中指 ====================
+    public static final RegistryObject<Item> ENHANCED_TATTOO_MIDDLE_FINGER = ITEMS.register("enhanced_tattoo_middle_finger",
+            () -> new EnhancedTattooMiddleFinger(new Item.Properties().stacksTo(1)));
+
+    // ==================== 忠义锁链 ====================
+    public static final RegistryObject<Item> LOYALTY_CHAINS = ITEMS.register("loyalty_chains",
+            () -> new LoyaltyChains(new Item.Properties().stacksTo(1)));
+
+    // ==================== 永恒的缘分锁链 ====================
+    public static final RegistryObject<Item> ETERNAL_CHAINS = ITEMS.register("eternal_chains",
+            () -> new EternalChains(new Item.Properties().stacksTo(1)));
+
+    // ==================== 中指规矩 ====================
+    public static final RegistryObject<Item> MIDDLE_FINGER_RULES = ITEMS.register("middle_finger_rules",
+            () -> new MiddleFingerRules(new Item.Properties().stacksTo(1)));
 
 
     public static void init(IEventBus modEventBus) {

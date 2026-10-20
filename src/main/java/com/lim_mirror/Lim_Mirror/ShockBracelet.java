@@ -37,7 +37,7 @@ public class ShockBracelet extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7每10秒检测一次，攻击敌方时，增加2级震颤强度"));
-        tooltip.add(Component.literal("§7若带有亡灵杀手附魔则改为增加4级"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shock_bracelet.1", "§7每10秒检测一次，攻击敌方时，增加2级震颤强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shock_bracelet.2", "§7若带有亡灵杀手附魔则改为增加4级"));
     }
 }

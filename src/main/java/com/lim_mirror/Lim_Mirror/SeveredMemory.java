@@ -44,9 +44,9 @@ public class SeveredMemory extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持剑类武器时"));
-        tooltip.add(Component.literal("§7造成伤害 §c+9"));
-        tooltip.add(Component.literal("§7造成伤害 §c+30%"));
-        tooltip.add(Component.literal("§7每失去 §c5% §7体力，造成伤害 §c+5% §7（最多 +20%）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.severed_memory.1", "§7手持剑类武器时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.severed_memory.2", "§7造成伤害 §c+9"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.severed_memory.3", "§7造成伤害 §c+30%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.severed_memory.4", "§7每失去 §c5% §7体力，造成伤害 §c+5% §7（最多 +20%）"));
     }
 }

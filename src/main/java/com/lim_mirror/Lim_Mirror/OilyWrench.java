@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +37,7 @@ public class OilyWrench extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7空手命中时：敌人震颤强度+2"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7空手伤害+10%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.oily_wrench.1", "§7空手命中时：敌人震颤强度+2"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.oily_wrench.2", "§7空手伤害+10%"));
     }
 }

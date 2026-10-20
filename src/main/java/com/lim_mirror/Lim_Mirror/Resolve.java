@@ -101,19 +101,19 @@ public class Resolve extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal(""));
-        tooltip.add(Component.literal("§6=== 常驻效果 ==="));
-        tooltip.add(Component.literal("§7手持剑类时："));
-        tooltip.add(Component.literal("§7  造成伤害 §c+6"));
-        tooltip.add(Component.literal("§7  获得 §b迅捷 II"));
-        tooltip.add(Component.literal(""));
-        tooltip.add(Component.literal("§6=== 右键开关 ==="));
-        tooltip.add(Component.literal("§e右键切换开启/关闭"));
-        tooltip.add(Component.literal(""));
-        tooltip.add(Component.literal("§6=== 开启后额外效果 ==="));
-        tooltip.add(Component.literal("§7扣除 §c50% §7体力上限"));
-        tooltip.add(Component.literal("§7受到伤害 §a-75%"));
-        tooltip.add(Component.literal("§7受到治疗效果 §c-75%"));
-        tooltip.add(Component.literal("§7增加 §c6 级 §7斩击伤害强化"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.resolve.1", ""));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.resolve.2", "§6=== 常驻效果 ==="));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.resolve.3", "§7手持剑类时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.resolve.4", "§7  造成伤害 §c+6"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.resolve.5", "§7  获得 §b迅捷 II"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.resolve.6", ""));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.resolve.7", "§6=== 右键开关 ==="));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.resolve.8", "§e右键切换开启/关闭"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.resolve.9", ""));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.resolve.10", "§6=== 开启后额外效果 ==="));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.resolve.11", "§7扣除 §c50% §7体力上限"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.resolve.12", "§7受到伤害 §a-75%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.resolve.13", "§7受到治疗效果 §c-75%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.resolve.14", "§7增加 §c6 级 §7斩击伤害强化"));
     }
 }

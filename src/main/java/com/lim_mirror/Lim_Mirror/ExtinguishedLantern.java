@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +37,7 @@ public class ExtinguishedLantern extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7快捷栏第7格有武器时："));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7  对自身施加的震颤额外+1秒"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.extinguished_lantern.1", "§7快捷栏第7格有武器时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.extinguished_lantern.2", "§7  对自身施加的震颤额外+1秒"));
     }
 }

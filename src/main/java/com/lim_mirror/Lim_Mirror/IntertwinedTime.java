@@ -37,8 +37,8 @@ public class IntertwinedTime extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7震颤转化为特殊震颤时"));
-        tooltip.add(Component.literal("§7立即引爆目标一次"));
-        tooltip.add(Component.literal("§8- 配合拍手啪啪！使用效果更佳"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.intertwined_time.1", "§7震颤转化为特殊震颤时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.intertwined_time.2", "§7立即引爆目标一次"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.intertwined_time.3", "§8- 配合拍手啪啪！使用效果更佳"));
     }
 }

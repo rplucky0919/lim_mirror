@@ -1,0 +1,48 @@
+package com.lim_mirror.Lim_Mirror;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import top.theillusivec4.curios.api.SlotContext;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
+import javax.annotation.Nullable;
+import java.util.List;
+
+public class YoungBrotherDebut extends Item implements ICurioItem {
+
+    public YoungBrotherDebut(Properties properties) {
+        super(properties);
+    }
+
+    @Override
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        LivingEntity living = slotContext.entity();
+        if (living instanceof Player player && !player.level().isClientSide()) {
+            player.getPersistentData().putBoolean("hasYoungBrotherDebut", true);
+        }
+    }
+
+    @Override
+    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+        LivingEntity living = slotContext.entity();
+        if (living instanceof Player player) {
+            player.getPersistentData().putBoolean("hasYoungBrotherDebut", false);
+        }
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.young_brother_debut.1", "§7受到伤害后 30 秒内："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.young_brother_debut.2", "§7  造成伤害 §c+3"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.young_brother_debut.3", "§7  对攻击对象增加 §c8 秒流血 I§7（可叠加）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.young_brother_debut.4", "§6=== 常驻效果 ==="));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.young_brother_debut.5", "§7造成伤害 §c+60%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.young_brother_debut.6", "§7造成伤害 §c+3"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.young_brother_debut.7", "§7打击命中时：使自身恢复造成伤害量 §a10% §7的体力"));
+    }
+}

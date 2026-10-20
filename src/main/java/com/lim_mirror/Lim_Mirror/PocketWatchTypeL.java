@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,9 +37,9 @@ public class PocketWatchTypeL extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7武器带震颤爆发时：伤害+8，最终伤害×1.25"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7震颤转化为特殊震颤时：时间与层数×1.5"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7敌方受到伤害+50%"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每30秒对攻击目标+6级震颤强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.pocket_watch_type_l.1", "§7武器带震颤爆发时：伤害+8，最终伤害×1.25"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.pocket_watch_type_l.2", "§7震颤转化为特殊震颤时：时间与层数×1.5"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.pocket_watch_type_l.3", "§7敌方受到伤害+50%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.pocket_watch_type_l.4", "§7每30秒对攻击目标+6级震颤强度"));
     }
 }

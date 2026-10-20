@@ -117,12 +117,12 @@ public class Murakumo extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持剑类武器时："));
-        tooltip.add(Component.literal("§7每 30 秒："));
-        tooltip.add(Component.literal("§7  若武器有耐久附魔，造成伤害 §c+（80/耐久等级）%"));
-        tooltip.add(Component.literal("§7  获得 §c4 秒 §72 级斩击伤害提升"));
-        tooltip.add(Component.literal("§7每失去 §c10% §7生命："));
-        tooltip.add(Component.literal("§7  造成伤害 §c+1§7，护甲 §a+1 §7（最多 5 次）"));
-        tooltip.add(Component.literal("§7击杀友方生物后 §c30 秒内 §7造成伤害 §c+20%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.murakumo.1", "§7手持剑类武器时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.murakumo.2", "§7每 30 秒："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.murakumo.3", "§7  若武器有耐久附魔，造成伤害 §c+（80/耐久等级）%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.murakumo.4", "§7  获得 §c4 秒 §72 级斩击伤害提升"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.murakumo.5", "§7每失去 §c10% §7生命："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.murakumo.6", "§7  造成伤害 §c+1§7，护甲 §a+1 §7（最多 5 次）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.murakumo.7", "§7击杀友方生物后 §c30 秒内 §7造成伤害 §c+20%"));
     }
 }

@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -38,7 +39,7 @@ public class EndorphinKit extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7通过顺畅呼吸附魔获得的呼吸法额外增加3秒和3级强度"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7如果攻击的是怪物，改为额外获得4秒和4级强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.endorphin_kit.1", "§7通过顺畅呼吸附魔获得的呼吸法额外增加3秒和3级强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.endorphin_kit.2", "§7如果攻击的是怪物，改为额外获得4秒和4级强度"));
     }
 }

@@ -38,12 +38,12 @@ public class Haunting extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7造成打击伤害后："));
-        tooltip.add(Component.literal("§730 秒后获得 §b4 秒迅捷 II §7+ §c4 秒打击威力提升 II"));
-        tooltip.add(Component.literal("§7- 等级和时间可叠加"));
-        tooltip.add(Component.literal(""));
-        tooltip.add(Component.literal("§730 秒内没有攻击敌人："));
-        tooltip.add(Component.literal("§7获得 §b6 秒迅捷 §7+ §c4 秒打击威力提升 II"));
-        tooltip.add(Component.literal("§7- 随后进入 §c30 秒 §7冷却"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.haunting.1", "§7造成打击伤害后："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.haunting.2", "§730 秒后获得 §b4 秒迅捷 II §7+ §c4 秒打击威力提升 II"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.haunting.3", "§7- 等级和时间可叠加"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.haunting.4", ""));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.haunting.5", "§730 秒内没有攻击敌人："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.haunting.6", "§7获得 §b6 秒迅捷 §7+ §c4 秒打击威力提升 II"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.haunting.7", "§7- 随后进入 §c30 秒 §7冷却"));
     }
 }

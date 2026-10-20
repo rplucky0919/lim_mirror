@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,6 +38,6 @@ public class EternalStewpot extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7火柴之焰攻击时攻击力+3"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.eternal_stewpot.1", "§7火柴之焰攻击时攻击力+3"));
     }
 }

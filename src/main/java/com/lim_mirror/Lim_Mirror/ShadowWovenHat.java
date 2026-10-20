@@ -69,8 +69,8 @@ public class ShadowWovenHat extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7每 30 秒增加 §b2 级 §7迅捷"));
-        tooltip.add(Component.literal("§7对敌方造成伤害 §c+（迅捷等级/3）% §7（最多 30%）"));
-        tooltip.add(Component.literal("§7自身受到伤害 §a-（迅捷等级/3）% §7（最多 30%）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shadow_woven_hat.1", "§7每 30 秒增加 §b2 级 §7迅捷"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shadow_woven_hat.2", "§7对敌方造成伤害 §c+（迅捷等级/3）% §7（最多 30%）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shadow_woven_hat.3", "§7自身受到伤害 §a-（迅捷等级/3）% §7（最多 30%）"));
     }
 }

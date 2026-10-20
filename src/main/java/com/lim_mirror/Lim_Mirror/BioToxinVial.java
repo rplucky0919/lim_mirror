@@ -37,6 +37,6 @@ public class BioToxinVial extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7造成伤害时，追加（震颤时间(秒)+震颤强度(等级)）×1.25 点伤害"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.bio_toxin_vial.1", "§7造成伤害时，追加（震颤时间(秒)+震颤强度(等级)）×1.25 点伤害"));
     }
 }

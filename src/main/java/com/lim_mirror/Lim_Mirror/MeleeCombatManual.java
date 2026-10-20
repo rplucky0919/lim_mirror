@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,8 +37,8 @@ public class MeleeCombatManual extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7消耗弹药时："));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7  伤害×1.2，持续30秒"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7  获得2秒3级呼吸法"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.melee_combat_manual.1", "§7消耗弹药时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.melee_combat_manual.2", "§7  伤害×1.2，持续30秒"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.melee_combat_manual.3", "§7  获得2秒3级呼吸法"));
     }
 }

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "lim_mirror:ignition_gloves"
+    "lim_mirror:ignition_gloves",
+    "lim_mirror:middle_finger_knuckle"
   ]
 }

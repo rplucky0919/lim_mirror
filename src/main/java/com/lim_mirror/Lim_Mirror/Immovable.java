@@ -72,9 +72,9 @@ public class Immovable extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持剑类武器时："));
-        tooltip.add(Component.literal("§7每 30 秒获得 §c2 级 §74 秒斩击伤害提升"));
-        tooltip.add(Component.literal("§7造成伤害 §c+35%"));
-        tooltip.add(Component.literal("§7对目标额外造成 §d（呼吸法强度）§7的魔法伤害"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.immovable.1", "§7手持剑类武器时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.immovable.2", "§7每 30 秒获得 §c2 级 §74 秒斩击伤害提升"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.immovable.3", "§7造成伤害 §c+35%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.immovable.4", "§7对目标额外造成 §d（呼吸法强度）§7的魔法伤害"));
     }
 }

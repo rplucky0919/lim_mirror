@@ -37,6 +37,6 @@ public class GemPendulum extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7每10秒一次，对攻击对象增加6秒震颤时间（层数不变）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.gem_pendulum.1", "§7每10秒一次，对攻击对象增加6秒震颤时间（层数不变）"));
     }
 }

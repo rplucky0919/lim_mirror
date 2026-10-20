@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -39,9 +40,9 @@ public class EndOfEvil extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7攻击流血目标时：+3级呼吸法或+2秒呼吸法"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7暴击时：下一次攻击伤害+6"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7击杀时：获得1层抗性提升（不可叠加）"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7最终伤害×1.1"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.end_of_evil.1", "§7攻击流血目标时：+3级呼吸法或+2秒呼吸法"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.end_of_evil.2", "§7暴击时：下一次攻击伤害+6"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.end_of_evil.3", "§7击杀时：获得1层抗性提升（不可叠加）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.end_of_evil.4", "§7最终伤害×1.1"));
     }
 }

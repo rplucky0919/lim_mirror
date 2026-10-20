@@ -89,9 +89,9 @@ public class ForcedEntanglementSequencer extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7当自身带有震颤时"));
-        tooltip.add(Component.literal("§7将 5 秒震颤转化为 5 秒震颤-灼热"));
-        tooltip.add(Component.literal("§7冷却 10 秒"));
-        tooltip.add(Component.literal("§7造成伤害 +5"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.forced_entanglement_sequencer.1", "§7当自身带有震颤时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.forced_entanglement_sequencer.2", "§7将 5 秒震颤转化为 5 秒震颤-灼热"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.forced_entanglement_sequencer.3", "§7冷却 10 秒"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.forced_entanglement_sequencer.4", "§7造成伤害 +5"));
     }
 }

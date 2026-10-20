@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,10 +37,10 @@ public class HeatingHammer extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7命中带震颤-灼热的敌人时："));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7  使其烧伤强度+1"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7  若震颤-灼热≥15级，额外施加1层烧伤"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7目标每3级烧伤，震颤引爆伤害+1%"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7最高+15%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.heating_hammer.1", "§7命中带震颤-灼热的敌人时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.heating_hammer.2", "§7  使其烧伤强度+1"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.heating_hammer.3", "§7  若震颤-灼热≥15级，额外施加1层烧伤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.heating_hammer.4", "§7目标每3级烧伤，震颤引爆伤害+1%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.heating_hammer.5", "§7最高+15%"));
     }
 }

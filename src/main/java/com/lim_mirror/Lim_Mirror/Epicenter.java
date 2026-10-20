@@ -37,8 +37,8 @@ public class Epicenter extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7每10秒检测一次，对敌方造成伤害时，敌方增加6秒震颤"));
-        tooltip.add(Component.literal("§7自身伤害+9"));
-        tooltip.add(Component.literal("§7当自身带有震颤时击杀生物，自身震颤时间+6秒"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.epicenter.1", "§7每10秒检测一次，对敌方造成伤害时，敌方增加6秒震颤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.epicenter.2", "§7自身伤害+9"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.epicenter.3", "§7当自身带有震颤时击杀生物，自身震颤时间+6秒"));
     }
 }

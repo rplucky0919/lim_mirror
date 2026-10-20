@@ -45,9 +45,9 @@ public class ShatteredWoodenTortureDevice extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持剑类武器时："));
-        tooltip.add(Component.literal("§7  命中敌方时降低敌方 §c2 点 §7护甲（最多 §c8 点§7）"));
-        tooltip.add(Component.literal("§7  自身每带有 §b1 级 §7缓慢，增加 §c6% §7伤害（上限 §c24%§7）"));
-        tooltip.add(Component.literal("§8- 减甲持续 5 秒，每次命中刷新"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_wooden_torture_device.1", "§7手持剑类武器时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_wooden_torture_device.2", "§7  命中敌方时降低敌方 §c2 点 §7护甲（最多 §c8 点§7）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_wooden_torture_device.3", "§7  自身每带有 §b1 级 §7缓慢，增加 §c6% §7伤害（上限 §c24%§7）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_wooden_torture_device.4", "§8- 减甲持续 5 秒，每次命中刷新"));
     }
 }

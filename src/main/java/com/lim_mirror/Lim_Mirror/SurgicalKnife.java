@@ -119,9 +119,9 @@ public class SurgicalKnife extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持剑类武器且快捷栏第4/5格有剑时"));
-        tooltip.add(Component.literal("§7快捷栏中每有1把剑 +1 级迅捷（持续30秒，冷却30秒）"));
-        tooltip.add(Component.literal("§8- 迅捷等级可叠加，不覆盖现有迅捷"));
-        tooltip.add(Component.literal("§8- 第4格和第5格至少有一把剑即可触发"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.surgical_knife.1", "§7手持剑类武器且快捷栏第4/5格有剑时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.surgical_knife.2", "§7快捷栏中每有1把剑 +1 级迅捷（持续30秒，冷却30秒）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.surgical_knife.3", "§8- 迅捷等级可叠加，不覆盖现有迅捷"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.surgical_knife.4", "§8- 第4格和第5格至少有一把剑即可触发"));
     }
 }

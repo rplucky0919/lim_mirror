@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -51,12 +52,12 @@ public class ImperfectForesightEye extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7玩家造成伤害+80%（独立乘区）"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7获得§b瞬间的预知§7buff："));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7  伤害+30，最终伤害×1.2"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7  攻击时对目标+2级烧伤+2级震颤"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§710秒冷却：将所有震颤转化为震颤-灼热并引爆"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7目标有虚弱时伤害+30%（独立乘区）"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7暴击时触发震颤引爆"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.imperfect_foresight_eye.1", "§7玩家造成伤害+80%（独立乘区）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.imperfect_foresight_eye.2", "§7获得§b瞬间的预知§7buff："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.imperfect_foresight_eye.3", "§7  伤害+30，最终伤害×1.2"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.imperfect_foresight_eye.4", "§7  攻击时对目标+2级烧伤+2级震颤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.imperfect_foresight_eye.5", "§710秒冷却：将所有震颤转化为震颤-灼热并引爆"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.imperfect_foresight_eye.6", "§7目标有虚弱时伤害+30%（独立乘区）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.imperfect_foresight_eye.7", "§7暴击时触发震颤引爆"));
     }
 }

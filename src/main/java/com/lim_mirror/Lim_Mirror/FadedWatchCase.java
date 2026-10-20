@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +37,7 @@ public class FadedWatchCase extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7自身有缓慢时，攻击伤害+3"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7对目标+4秒3级震颤（冷却10秒）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.faded_watch_case.1", "§7自身有缓慢时，攻击伤害+3"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.faded_watch_case.2", "§7对目标+4秒3级震颤（冷却10秒）"));
     }
 }

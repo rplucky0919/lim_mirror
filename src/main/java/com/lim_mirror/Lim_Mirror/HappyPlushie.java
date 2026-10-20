@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -75,8 +76,8 @@ public class HappyPlushie extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每2秒增加2层呼吸法强度（时间不变）"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7有呼吸法时获得抗性提升II"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7造成伤害×1.45"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.happy_plushie.1", "§7每2秒增加2层呼吸法强度（时间不变）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.happy_plushie.2", "§7有呼吸法时获得抗性提升II"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.happy_plushie.3", "§7造成伤害×1.45"));
     }
 }

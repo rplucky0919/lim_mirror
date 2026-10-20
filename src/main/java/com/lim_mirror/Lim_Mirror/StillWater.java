@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -38,7 +39,7 @@ public class StillWater extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7佩戴时，暴击倍率调整为3.5倍"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7暴击消耗呼吸法时，下一次攻击伤害+15"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.still_water.1", "§7佩戴时，暴击倍率调整为3.5倍"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.still_water.2", "§7暴击消耗呼吸法时，下一次攻击伤害+15"));
     }
 }

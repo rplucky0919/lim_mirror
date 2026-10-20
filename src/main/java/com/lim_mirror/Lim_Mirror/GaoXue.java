@@ -37,7 +37,7 @@ public class GaoXue extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7对敌方造成伤害+15%"));
-        tooltip.add(Component.literal("§7若带有沸腾腐蚀附魔，则改为+30%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.gao_xue.1", "§7对敌方造成伤害+15%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.gao_xue.2", "§7若带有沸腾腐蚀附魔，则改为+30%"));
     }
 }

@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -73,8 +74,8 @@ public class Horseshoe extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每20秒检测一次"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7无呼吸法时获得5秒呼吸法和3层强度"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7有呼吸法时增加2层强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.horseshoe.1", "§7每20秒检测一次"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.horseshoe.2", "§7无呼吸法时获得5秒呼吸法和3层强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.horseshoe.3", "§7有呼吸法时增加2层强度"));
     }
 }

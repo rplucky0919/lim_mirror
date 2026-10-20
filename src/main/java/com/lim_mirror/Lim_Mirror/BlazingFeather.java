@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -89,7 +90,7 @@ public class BlazingFeather extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7主手有火柴之焰时攻击增加4级烧伤"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每30秒检测烧伤≥20级目标，将其等级×2.5"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.blazing_feather.1", "§7主手有火柴之焰时攻击增加4级烧伤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.blazing_feather.2", "§7每30秒检测烧伤≥20级目标，将其等级×2.5"));
     }
 }

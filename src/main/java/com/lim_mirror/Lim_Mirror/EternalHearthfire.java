@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +37,7 @@ public class EternalHearthfire extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每10秒攻击烧伤时间>3秒的目标时"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7重复触发一次烧伤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.eternal_hearthfire.1", "§7每10秒攻击烧伤时间>3秒的目标时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.eternal_hearthfire.2", "§7重复触发一次烧伤"));
     }
 }

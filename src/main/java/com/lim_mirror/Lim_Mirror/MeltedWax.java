@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,7 +38,7 @@ public class MeltedWax extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7用火柴之焰武器攻击时"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7额外增加 武器伤害/2 的烧伤强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.melted_wax.1", "§7用火柴之焰武器攻击时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.melted_wax.2", "§7额外增加 武器伤害/2 的烧伤强度"));
     }
 }

@@ -37,6 +37,6 @@ public class GreenLightFruit extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7每10秒检测一次，对敌方造成伤害时，在原有基础上增加8级震颤强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.green_light_fruit.1", "§7每10秒检测一次，对敌方造成伤害时，在原有基础上增加8级震颤强度"));
     }
 }

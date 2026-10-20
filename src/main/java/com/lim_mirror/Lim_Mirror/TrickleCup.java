@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,8 +37,8 @@ public class TrickleCup extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7武器带震颤爆发时，攻击对目标+6秒3级震颤"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7连续3次后进入10秒冷却"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7造成伤害+6，最终伤害×1.2"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.trickle_cup.1", "§7武器带震颤爆发时，攻击对目标+6秒3级震颤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.trickle_cup.2", "§7连续3次后进入10秒冷却"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.trickle_cup.3", "§7造成伤害+6，最终伤害×1.2"));
     }
 }

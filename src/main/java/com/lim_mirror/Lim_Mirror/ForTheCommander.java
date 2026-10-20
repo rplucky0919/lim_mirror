@@ -74,12 +74,12 @@ public class ForTheCommander extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7造成伤害 +6"));
-        tooltip.add(Component.literal("§7造成伤害 +30%"));
-        tooltip.add(Component.literal("§7消耗弹药后：自身增加迅捷III（60秒，可叠加）"));
-        tooltip.add(Component.literal("§7弹药消耗后持续时间内，命中时："));
-        tooltip.add(Component.literal("§7  - 震颤引爆，扣除基础震颤4秒"));
-        tooltip.add(Component.literal("§7  - 若目标有烧伤+震颤：追加（烧伤+震颤）火焰伤害"));
-        tooltip.add(Component.literal("§8- 追加伤害不受+6/+30%加成"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.for_the_commander.1", "§7造成伤害 +6"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.for_the_commander.2", "§7造成伤害 +30%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.for_the_commander.3", "§7消耗弹药后：自身增加迅捷III（60秒，可叠加）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.for_the_commander.4", "§7弹药消耗后持续时间内，命中时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.for_the_commander.5", "§7  - 震颤引爆，扣除基础震颤4秒"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.for_the_commander.6", "§7  - 若目标有烧伤+震颤：追加（烧伤+震颤）火焰伤害"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.for_the_commander.7", "§8- 追加伤害不受+6/+30%加成"));
     }
 }

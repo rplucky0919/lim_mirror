@@ -37,8 +37,8 @@ public class TremorCoupling extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7每30秒使30格内所有敌方增加10秒震颤与5级震颤强度"));
-        tooltip.add(Component.literal("§7敌方被震颤引爆后，增加5级震颤强度，受到伤害+20%"));
-        tooltip.add(Component.literal("§7若敌方30秒内被引爆3次，则增加10秒3级虚弱"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.tremor_coupling.1", "§7每30秒使30格内所有敌方增加10秒震颤与5级震颤强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.tremor_coupling.2", "§7敌方被震颤引爆后，增加5级震颤强度，受到伤害+20%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.tremor_coupling.3", "§7若敌方30秒内被引爆3次，则增加10秒3级虚弱"));
     }
 }

@@ -37,7 +37,7 @@ public class MeshedGear extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7目标被震颤引爆6次后，获得60秒虚弱II"));
-        tooltip.add(Component.literal("§7受到伤害+10%（持续60秒）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.meshed_gear.1", "§7目标被震颤引爆6次后，获得60秒虚弱II"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.meshed_gear.2", "§7受到伤害+10%（持续60秒）"));
     }
 }

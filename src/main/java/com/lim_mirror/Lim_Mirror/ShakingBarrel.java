@@ -37,7 +37,7 @@ public class ShakingBarrel extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7若自身震颤等级不小于8级，造成伤害+3"));
-        tooltip.add(Component.literal("§7自身带有震颤时击杀生物，增加（震颤时间(秒)/2）秒震颤时间"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shaking_barrel.1", "§7若自身震颤等级不小于8级，造成伤害+3"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shaking_barrel.2", "§7自身带有震颤时击杀生物，增加（震颤时间(秒)/2）秒震颤时间"));
     }
 }

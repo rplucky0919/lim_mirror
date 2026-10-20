@@ -52,8 +52,8 @@ public class WornWhetstone extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7当剑类武器在第3格快捷栏且被手持时"));
-        tooltip.add(Component.literal("§7造成伤害 §c+3"));
-        tooltip.add(Component.literal("§7造成的伤害 §c+25%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.worn_whetstone.1", "§7当剑类武器在第3格快捷栏且被手持时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.worn_whetstone.2", "§7造成伤害 §c+3"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.worn_whetstone.3", "§7造成的伤害 §c+25%"));
     }
 }

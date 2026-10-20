@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -79,7 +80,7 @@ public class Reminiscence extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7手持呼吸顺畅附魔武器时伤害+3"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每5秒增加2秒呼吸法和3级呼吸法强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.reminiscence.1", "§7手持呼吸顺畅附魔武器时伤害+3"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.reminiscence.2", "§7每5秒增加2秒呼吸法和3级呼吸法强度"));
     }
 }

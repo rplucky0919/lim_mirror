@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,7 +38,7 @@ public class RedTie extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7火柴之焰武器伤害+6"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7造成伤害×1.3"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.red_tie.1", "§7火柴之焰武器伤害+6"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.red_tie.2", "§7造成伤害×1.3"));
     }
 }

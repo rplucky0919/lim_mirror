@@ -37,8 +37,8 @@ public class ChainsOfTime extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7造成打击伤害时："));
-        tooltip.add(Component.literal("§7  每 30 秒增加 §c6 秒 §73 级打击伤害提升"));
-        tooltip.add(Component.literal("§7造成伤害 §c+3 §7（常驻）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.chains_of_time.1", "§7造成打击伤害时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.chains_of_time.2", "§7  每 30 秒增加 §c6 秒 §73 级打击伤害提升"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.chains_of_time.3", "§7造成伤害 §c+3 §7（常驻）"));
     }
 }

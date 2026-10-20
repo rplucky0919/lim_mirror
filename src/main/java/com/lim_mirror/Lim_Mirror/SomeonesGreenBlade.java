@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -38,7 +39,7 @@ public class SomeonesGreenBlade extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7拥有伤害吸收buff时，攻击伤害×1.1"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7暴击时，获得等级为 呼吸法等级/5 的伤害吸收buff（最高15级）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.someones_green_blade.1", "§7拥有伤害吸收buff时，攻击伤害×1.1"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.someones_green_blade.2", "§7暴击时，获得等级为 呼吸法等级/5 的伤害吸收buff（最高15级）"));
     }
 }

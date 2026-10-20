@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -49,7 +50,7 @@ public class HarpoonGunLeg extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7有呼吸法时获得急迫II"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7攻击伤害×1.22"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.harpoon_gun_leg.1", "§7有呼吸法时获得急迫II"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.harpoon_gun_leg.2", "§7攻击伤害×1.22"));
     }
 }

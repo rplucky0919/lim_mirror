@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,9 +37,9 @@ public class StolenFlame extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7火柴之焰攻击烧伤>3级目标时触发烧伤扣血"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每10秒对10格内烧伤>3级生物触发烧伤伤害"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7对10格内烧伤生物施加虚弱II"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7自身造成伤害×1.2"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.stolen_flame.1", "§7火柴之焰攻击烧伤>3级目标时触发烧伤扣血"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.stolen_flame.2", "§7每10秒对10格内烧伤>3级生物触发烧伤伤害"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.stolen_flame.3", "§7对10格内烧伤生物施加虚弱II"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.stolen_flame.4", "§7自身造成伤害×1.2"));
     }
 }

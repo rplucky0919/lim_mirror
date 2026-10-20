@@ -62,8 +62,8 @@ public class BloodFlameBlade extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7若武器带有火柴之焰附魔"));
-        tooltip.add(Component.literal("§7每30s充能一次，下一次攻击烧伤等级+5"));
-        tooltip.add(Component.literal("§8（你似乎无法发挥他的全部力量）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.blood_flame_blade.1", "§7若武器带有火柴之焰附魔"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.blood_flame_blade.2", "§7每30s充能一次，下一次攻击烧伤等级+5"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.blood_flame_blade.3", "§8（你似乎无法发挥他的全部力量）"));
     }
 }

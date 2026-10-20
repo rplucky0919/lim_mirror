@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -38,7 +39,7 @@ public class HellButterflyDream extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7攻击烧伤目标时增加5层烧伤强度"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7武器有火柴之焰附魔时改为增加8层"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.hell_butterfly_dream.1", "§7攻击烧伤目标时增加5层烧伤强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.hell_butterfly_dream.2", "§7武器有火柴之焰附魔时改为增加8层"));
     }
 }

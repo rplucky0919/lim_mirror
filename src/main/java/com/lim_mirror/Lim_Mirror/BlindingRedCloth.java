@@ -40,12 +40,12 @@ public class BlindingRedCloth extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持剑类武器时："));
-        tooltip.add(Component.literal("§7命中敌方时，造成伤害 §c+1 §7（最多 §c6 次§7）"));
-        tooltip.add(Component.literal("§8- 冷却 30 秒"));
-        tooltip.add(Component.literal(""));
-        tooltip.add(Component.literal("§7不死图腾触发时："));
-        tooltip.add(Component.literal("§7增加 §c30 秒 §7斩击伤害提升 §cII"));
-        tooltip.add(Component.literal("§7造成伤害 §c+20%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.blinding_red_cloth.1", "§7手持剑类武器时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.blinding_red_cloth.2", "§7命中敌方时，造成伤害 §c+1 §7（最多 §c6 次§7）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.blinding_red_cloth.3", "§8- 冷却 30 秒"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.blinding_red_cloth.4", ""));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.blinding_red_cloth.5", "§7不死图腾触发时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.blinding_red_cloth.6", "§7增加 §c30 秒 §7斩击伤害提升 §cII"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.blinding_red_cloth.7", "§7造成伤害 §c+20%"));
     }
 }

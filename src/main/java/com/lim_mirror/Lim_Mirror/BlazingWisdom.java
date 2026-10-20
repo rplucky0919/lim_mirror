@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -42,7 +43,7 @@ public class BlazingWisdom extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7通过烧伤击杀生物时"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7玩家在30秒内造成伤害提升20%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.blazing_wisdom.1", "§7通过烧伤击杀生物时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.blazing_wisdom.2", "§7玩家在30秒内造成伤害提升20%"));
     }
 }

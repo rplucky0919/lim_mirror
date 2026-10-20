@@ -131,23 +131,23 @@ public class ShatteredGreatsword extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal(""));
-        tooltip.add(Component.literal("§6=== 常驻效果 ==="));
-        tooltip.add(Component.literal("§7手持剑类武器时："));
-        tooltip.add(Component.literal("§7  造成伤害 §c+6"));
-        tooltip.add(Component.literal("§7  造成伤害 §c+30%"));
-        tooltip.add(Component.literal(""));
-        tooltip.add(Component.literal("§6=== 周期性效果 ==="));
-        tooltip.add(Component.literal("§7每 30 秒："));
-        tooltip.add(Component.literal("§7  获得 §c2 秒 §7斩击伤害提升 I"));
-        tooltip.add(Component.literal("§7  增加 §c1 层 §7斩击伤害提升（持续 30 秒）"));
-        tooltip.add(Component.literal("§7  随机获得 §a4~16 秒 §7抗性提升 I"));
-        tooltip.add(Component.literal(""));
-        tooltip.add(Component.literal("§6=== 盾牌防御 ==="));
-        tooltip.add(Component.literal("§7使用盾牌防御时："));
-        tooltip.add(Component.literal("§7  获得 §a抗性提升 I"));
-        tooltip.add(Component.literal("§7  受到伤害 §a-3 点 §7（持续 3 秒）"));
-        tooltip.add(Component.literal("§7  若仍受到伤害，30 秒后"));
-        tooltip.add(Component.literal("§7  受到伤害再 §a-3 点 §7（持续 5 秒）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.1", ""));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.2", "§6=== 常驻效果 ==="));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.3", "§7手持剑类武器时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.4", "§7  造成伤害 §c+6"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.5", "§7  造成伤害 §c+30%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.6", ""));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.7", "§6=== 周期性效果 ==="));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.8", "§7每 30 秒："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.9", "§7  获得 §c2 秒 §7斩击伤害提升 I"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.10", "§7  增加 §c1 层 §7斩击伤害提升（持续 30 秒）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.11", "§7  随机获得 §a4~16 秒 §7抗性提升 I"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.12", ""));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.13", "§6=== 盾牌防御 ==="));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.14", "§7使用盾牌防御时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.15", "§7  获得 §a抗性提升 I"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.16", "§7  受到伤害 §a-3 点 §7（持续 3 秒）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.17", "§7  若仍受到伤害，30 秒后"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_greatsword.18", "§7  受到伤害再 §a-3 点 §7（持续 5 秒）"));
     }
 }

@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -80,7 +81,7 @@ public class GreenElytra extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7若武器有节肢杀手附魔"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每20秒获得5秒呼吸法和5层呼吸法强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.green_elytra.1", "§7若武器有节肢杀手附魔"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.green_elytra.2", "§7每20秒获得5秒呼吸法和5层呼吸法强度"));
     }
 }

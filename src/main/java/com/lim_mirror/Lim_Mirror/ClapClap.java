@@ -37,10 +37,10 @@ public class ClapClap extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7若武器有震颤爆发附魔"));
-        tooltip.add(Component.literal("§7减少目标震颤2秒"));
-        tooltip.add(Component.literal("§7增加随机一个特殊震颤10秒（可叠加，上限99级）"));
-        tooltip.add(Component.literal("§8- 震颤-灼热  §8- 震颤-大出血"));
-        tooltip.add(Component.literal("§8- 震颤-回响  §8- 震颤-崩坏  §8- 震颤-锁链"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.clap_clap.1", "§7若武器有震颤爆发附魔"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.clap_clap.2", "§7减少目标震颤2秒"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.clap_clap.3", "§7增加随机一个特殊震颤10秒（可叠加，上限99级）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.clap_clap.4", "§8- 震颤-灼热  §8- 震颤-大出血"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.clap_clap.5", "§8- 震颤-回响  §8- 震颤-崩坏  §8- 震颤-锁链"));
     }
 }

@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,8 +38,8 @@ public class WingCandle extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7§o你似乎无法发挥他的全部力量"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7火柴之焰时伤害+6"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7最终伤害×1.15"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.wing_candle.1", "§7§o你似乎无法发挥他的全部力量"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.wing_candle.2", "§7火柴之焰时伤害+6"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.wing_candle.3", "§7最终伤害×1.15"));
     }
 }

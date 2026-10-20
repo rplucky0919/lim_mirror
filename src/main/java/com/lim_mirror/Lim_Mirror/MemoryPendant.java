@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -73,8 +74,8 @@ public class MemoryPendant extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7手上拿着武器时，每10秒增加1级呼吸法强度"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7若武器带有亡灵杀手，则每10秒增加2级呼吸法强度"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7可以和其他饰品叠加"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.memory_pendant.1", "§7手上拿着武器时，每10秒增加1级呼吸法强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.memory_pendant.2", "§7若武器带有亡灵杀手，则每10秒增加2级呼吸法强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.memory_pendant.3", "§7可以和其他饰品叠加"));
     }
 }

@@ -72,9 +72,9 @@ public class OldHandle extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持剑类武器时："));
-        tooltip.add(Component.literal("§7每 30 秒获得 §c2 秒 §71 级斩击伤害提升"));
-        tooltip.add(Component.literal("§7若武器带有 §d亡灵杀手 §7附魔："));
-        tooltip.add(Component.literal("§7  造成伤害 §c+20%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.old_handle.1", "§7手持剑类武器时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.old_handle.2", "§7每 30 秒获得 §c2 秒 §71 级斩击伤害提升"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.old_handle.3", "§7若武器带有 §d亡灵杀手 §7附魔："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.old_handle.4", "§7  造成伤害 §c+20%"));
     }
 }

@@ -37,7 +37,7 @@ public class SourWineAroma extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7若武器带有沸腾腐蚀附魔，攻击对象有震颤和虚弱"));
-        tooltip.add(Component.literal("§7则玩家造成伤害+3，最终伤害×1.25"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.sour_wine_aroma.1", "§7若武器带有沸腾腐蚀附魔，攻击对象有震颤和虚弱"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.sour_wine_aroma.2", "§7则玩家造成伤害+3，最终伤害×1.25"));
     }
 }

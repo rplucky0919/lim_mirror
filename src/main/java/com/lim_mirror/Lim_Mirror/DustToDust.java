@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -75,7 +76,7 @@ public class DustToDust extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每10秒检测3×3×3范围内带有烧伤的生物"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7对目标增加2层烧伤强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.dust_to_dust.1", "§7每10秒检测3×3×3范围内带有烧伤的生物"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.dust_to_dust.2", "§7对目标增加2层烧伤强度"));
     }
 }

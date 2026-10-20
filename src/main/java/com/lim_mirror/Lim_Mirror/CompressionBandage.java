@@ -37,8 +37,8 @@ public class CompressionBandage extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7造成打击伤害时："));
-        tooltip.add(Component.literal("§7  额外追加 §c7~9 点 §7伤害"));
-        tooltip.add(Component.literal("§7  恢复 §a1.5 颗心"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.compression_bandage.1", "§7造成打击伤害时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.compression_bandage.2", "§7  额外追加 §c7~9 点 §7伤害"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.compression_bandage.3", "§7  恢复 §a1.5 颗心"));
     }
 }

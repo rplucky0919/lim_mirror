@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,8 +38,8 @@ public class UniformSixAssociation extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7攻击伤害+8"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7有火柴之焰时伤害+4，最终伤害×1.5"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7最终伤害×1.2"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.uniform_six_association.1", "§7攻击伤害+8"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.uniform_six_association.2", "§7有火柴之焰时伤害+4，最终伤害×1.5"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.uniform_six_association.3", "§7最终伤害×1.2"));
     }
 }

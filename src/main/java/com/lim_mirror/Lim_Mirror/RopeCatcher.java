@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,8 +37,8 @@ public class RopeCatcher extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7暴击命中时对目标施加2层缓慢"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7若目标带有流血，额外给予虚弱II"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7攻击带有缓慢的目标时+3级呼吸法"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.rope_catcher.1", "§7暴击命中时对目标施加2层缓慢"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.rope_catcher.2", "§7若目标带有流血，额外给予虚弱II"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.rope_catcher.3", "§7攻击带有缓慢的目标时+3级呼吸法"));
     }
 }

@@ -37,6 +37,6 @@ public class TruthClock extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7敌方被震颤引爆时，受到的伤害增加40%，持续20秒"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.truth_clock.1", "§7敌方被震颤引爆时，受到的伤害增加40%，持续20秒"));
     }
 }

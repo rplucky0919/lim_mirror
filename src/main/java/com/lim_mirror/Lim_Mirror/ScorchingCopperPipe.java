@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -38,8 +39,8 @@ public class ScorchingCopperPipe extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7火柴之焰时伤害×1.3"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7额外造成 烧伤强度×1.5 的伤害"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7烧伤上限+21（可叠加）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.scorching_copper_pipe.1", "§7火柴之焰时伤害×1.3"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.scorching_copper_pipe.2", "§7额外造成 烧伤强度×1.5 的伤害"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.scorching_copper_pipe.3", "§7烧伤上限+21（可叠加）"));
     }
 }

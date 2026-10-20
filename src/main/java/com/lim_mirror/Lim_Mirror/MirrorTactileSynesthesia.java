@@ -37,7 +37,7 @@ public class MirrorTactileSynesthesia extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7每20秒一次，手持沸腾腐蚀附魔攻击敌方时"));
-        tooltip.add(Component.literal("§7敌方的震颤强度变为1.5倍"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.mirror_tactile_synesthesia.1", "§7每20秒一次，手持沸腾腐蚀附魔攻击敌方时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.mirror_tactile_synesthesia.2", "§7敌方的震颤强度变为1.5倍"));
     }
 }

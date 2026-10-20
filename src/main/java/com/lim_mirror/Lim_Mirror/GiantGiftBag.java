@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -79,7 +80,7 @@ public class GiantGiftBag extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7生命低于等于10%时获得抗性提升II"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每10秒增加2秒呼吸法和2层呼吸法等级"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.giant_gift_bag.1", "§7生命低于等于10%时获得抗性提升II"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.giant_gift_bag.2", "§7每10秒增加2秒呼吸法和2层呼吸法等级"));
     }
 }

@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -40,8 +41,8 @@ public class Clover extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level level, @Nonnull List<net.minecraft.network.chat.Component> tooltip, @Nonnull TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7当通过呼吸法造成暴击伤害时"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7获得2秒呼吸法和5级呼吸法强度"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7冷却时间5秒"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.clover.1", "§7当通过呼吸法造成暴击伤害时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.clover.2", "§7获得2秒呼吸法和5级呼吸法强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.clover.3", "§7冷却时间5秒"));
     }
 }

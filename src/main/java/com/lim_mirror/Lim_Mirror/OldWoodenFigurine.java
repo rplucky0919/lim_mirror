@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -40,7 +41,7 @@ public class OldWoodenFigurine extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7暴击时使目标受伤 +10%"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7最高叠加至 +60%，持续 30 秒"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.old_wooden_figurine.1", "§7暴击时使目标受伤 +10%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.old_wooden_figurine.2", "§7最高叠加至 +60%，持续 30 秒"));
     }
 }

@@ -37,7 +37,7 @@ public class Rainstorm extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7每10秒对30格内所有敌人施加10级震颤和6秒时间"));
-        tooltip.add(Component.literal("§7并引爆两次（间隔0.5秒，每次扣1秒）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.rainstorm.1", "§7每10秒对30格内所有敌人施加10级震颤和6秒时间"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.rainstorm.2", "§7并引爆两次（间隔0.5秒，每次扣1秒）"));
     }
 }

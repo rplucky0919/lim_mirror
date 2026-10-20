@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -88,8 +89,8 @@ public class CommandSanctuary extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每30秒检测一次"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7武器有沉沦之触附魔时：+2秒呼吸法，+3级强度"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7触发后10秒内伤害×1.3"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.command_sanctuary.1", "§7每30秒检测一次"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.command_sanctuary.2", "§7武器有沉沦之触附魔时：+2秒呼吸法，+3级强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.command_sanctuary.3", "§7触发后10秒内伤害×1.3"));
     }
 }

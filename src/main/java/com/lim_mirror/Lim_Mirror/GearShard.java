@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -63,8 +64,8 @@ public class GearShard extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7有呼吸法时护甲+4"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7获得抗性提升I"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7最终伤害×1.32"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.gear_shard.1", "§7有呼吸法时护甲+4"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.gear_shard.2", "§7获得抗性提升I"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.gear_shard.3", "§7最终伤害×1.32"));
     }
 }

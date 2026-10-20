@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,7 +38,7 @@ public class StoneMound extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7呼吸顺畅附魔获得的呼吸法时间x2"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每击杀一个敌人获得4秒呼吸法和8层强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.stone_mound.1", "§7呼吸顺畅附魔获得的呼吸法时间x2"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.stone_mound.2", "§7每击杀一个敌人获得4秒呼吸法和8层强度"));
     }
 }

@@ -110,9 +110,9 @@ public class BlackIronBarding extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7每30秒补满15格黄心"));
-        tooltip.add(Component.literal("§7带有黄心时，命中敌人+2级震颤"));
-        tooltip.add(Component.literal("§7每30秒获得迅捷II + 抗性提升II（持续30秒）"));
-        tooltip.add(Component.literal("§8- 黄心和buff各自独立冷却"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.black_iron_barding.1", "§7每30秒补满15格黄心"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.black_iron_barding.2", "§7带有黄心时，命中敌人+2级震颤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.black_iron_barding.3", "§7每30秒获得迅捷II + 抗性提升II（持续30秒）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.black_iron_barding.4", "§8- 黄心和buff各自独立冷却"));
     }
 }

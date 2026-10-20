@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -68,8 +69,8 @@ public class AngelsPrivilege extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7呼吸法等级大于20时"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每5秒减少1级呼吸法等级"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7增加1秒呼吸法时间"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.angels_privilege.1", "§7呼吸法等级大于20时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.angels_privilege.2", "§7每5秒减少1级呼吸法等级"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.angels_privilege.3", "§7增加1秒呼吸法时间"));
     }
 }

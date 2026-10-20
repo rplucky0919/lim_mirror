@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +37,7 @@ public class StifledBreath extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7呼吸法≥50分钟时总伤×1.8"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7若武器有呼吸顺畅附魔，总伤×2.6"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.stifled_breath.1", "§7呼吸法≥50分钟时总伤×1.8"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.stifled_breath.2", "§7若武器有呼吸顺畅附魔，总伤×2.6"));
     }
 }

@@ -38,11 +38,11 @@ public class ShatteredMemoryStrike extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7造成伤害 §c+6"));
-        tooltip.add(Component.literal("§7最终伤害 §c+10%"));
-        tooltip.add(Component.literal("§7若空手或携带打击武器："));
-        tooltip.add(Component.literal("§7  伤害 §c+20%"));
-        tooltip.add(Component.literal("§7造成打击伤害后："));
-        tooltip.add(Component.literal("§7  下一次攻击伤害随机增加 §c10%~30%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_memory_strike.1", "§7造成伤害 §c+6"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_memory_strike.2", "§7最终伤害 §c+10%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_memory_strike.3", "§7若空手或携带打击武器："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_memory_strike.4", "§7  伤害 §c+20%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_memory_strike.5", "§7造成打击伤害后："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.shattered_memory_strike.6", "§7  下一次攻击伤害随机增加 §c10%~30%"));
     }
 }

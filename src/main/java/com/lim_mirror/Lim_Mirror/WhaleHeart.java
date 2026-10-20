@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +37,7 @@ public class WhaleHeart extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7攻击流血目标时+1级呼吸法强度"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§750%概率使自身造成伤害×1.1"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.whale_heart.1", "§7攻击流血目标时+1级呼吸法强度"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.whale_heart.2", "§750%概率使自身造成伤害×1.1"));
     }
 }

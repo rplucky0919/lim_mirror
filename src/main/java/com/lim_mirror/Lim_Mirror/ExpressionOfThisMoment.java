@@ -38,7 +38,7 @@ public class ExpressionOfThisMoment extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7造成打击伤害击杀敌方后："));
-        tooltip.add(Component.literal("§730 秒后获得 §c60 秒 §72 级打击威力提升"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.expression_of_this_moment.1", "§7造成打击伤害击杀敌方后："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.expression_of_this_moment.2", "§730 秒后获得 §c60 秒 §72 级打击威力提升"));
     }
 }

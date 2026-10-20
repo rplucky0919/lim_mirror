@@ -38,8 +38,8 @@ public class ClenchedStatue extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7造成打击伤害后："));
-        tooltip.add(Component.literal("§7下一次伤害随机增加"));
-        tooltip.add(Component.literal("§c12.5% §7/ §c25% §7/ §c50%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.clenched_statue.1", "§7造成打击伤害后："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.clenched_statue.2", "§7下一次伤害随机增加"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.clenched_statue.3", "§c12.5% §7/ §c25% §7/ §c50%"));
     }
 }

@@ -37,7 +37,7 @@ public class Embers extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7每30s对30格内所有敌人增加2s烧伤（不覆盖层数）"));
-        tooltip.add(Component.literal("§7被火柴之焰武器攻击5次减少1s烧伤时间，额外触发一次烧伤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.embers.1", "§7每30s对30格内所有敌人增加2s烧伤（不覆盖层数）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.embers.2", "§7被火柴之焰武器攻击5次减少1s烧伤时间，额外触发一次烧伤"));
     }
 }

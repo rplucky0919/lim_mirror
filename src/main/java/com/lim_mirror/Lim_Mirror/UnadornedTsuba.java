@@ -37,7 +37,7 @@ public class UnadornedTsuba extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持剑类武器时："));
-        tooltip.add(Component.literal("§7自身每有 §b1 级 §7呼吸法，造成伤害 §c+1% §7（最多 §c15%§7）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.unadorned_tsuba.1", "§7手持剑类武器时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.unadorned_tsuba.2", "§7自身每有 §b1 级 §7呼吸法，造成伤害 §c+1% §7（最多 §c15%§7）"));
     }
 }

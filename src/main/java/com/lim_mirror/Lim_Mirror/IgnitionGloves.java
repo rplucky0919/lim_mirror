@@ -37,7 +37,7 @@ public class IgnitionGloves extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7武器有火柴之焰附魔时，施加的烧伤+2s，烧伤强度+2"));
-        tooltip.add(Component.literal("§7武器造成伤害+5"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.ignition_gloves.1", "§7武器有火柴之焰附魔时，施加的烧伤+2s，烧伤强度+2"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.ignition_gloves.2", "§7武器造成伤害+5"));
     }
 }

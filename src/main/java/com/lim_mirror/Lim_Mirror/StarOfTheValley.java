@@ -37,8 +37,8 @@ public class StarOfTheValley extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7造成打击伤害命中敌方时："));
-        tooltip.add(Component.literal("§7造成 §c5 点 §7固定额外伤害"));
-        tooltip.add(Component.literal("§7若自身带有 §c虚弱§7，造成伤害 §c+25%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.star_of_the_valley.1", "§7造成打击伤害命中敌方时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.star_of_the_valley.2", "§7造成 §c5 点 §7固定额外伤害"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.star_of_the_valley.3", "§7若自身带有 §c虚弱§7，造成伤害 §c+25%"));
     }
 }

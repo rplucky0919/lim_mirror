@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,8 +38,8 @@ public class BrokenBambooHat extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7剑类伤害×1.5"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7呼吸法暴击倍率变为1.87倍"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7戴上后必定暴击"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.broken_bamboo_hat.1", "§7剑类伤害×1.5"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.broken_bamboo_hat.2", "§7呼吸法暴击倍率变为1.87倍"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.broken_bamboo_hat.3", "§7戴上后必定暴击"));
     }
 }

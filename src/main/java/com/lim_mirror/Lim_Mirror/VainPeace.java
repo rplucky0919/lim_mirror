@@ -39,8 +39,8 @@ public class VainPeace extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持剑类武器且快捷栏第5/6格有剑时"));
-        tooltip.add(Component.literal("§7若自身带有迅捷效果，造成伤害 §c+20%"));
-        tooltip.add(Component.literal("§8- 快捷栏第5格 = 索引4，第6格 = 索引5"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.vain_peace.1", "§7手持剑类武器且快捷栏第5/6格有剑时"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.vain_peace.2", "§7若自身带有迅捷效果，造成伤害 §c+20%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.vain_peace.3", "§8- 快捷栏第5格 = 索引4，第6格 = 索引5"));
     }
 }

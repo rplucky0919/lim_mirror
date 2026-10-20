@@ -37,7 +37,7 @@ public class Echo extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7若攻击对象的震颤强度在5~10级，增加2级缓慢，玩家造成伤害×1.3"));
-        tooltip.add(Component.literal("§7若震颤强度大于10级，增加2级缓慢，增加1层虚弱，玩家造成伤害×1.4"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.echo.1", "§7若攻击对象的震颤强度在5~10级，增加2级缓慢，玩家造成伤害×1.3"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.echo.2", "§7若震颤强度大于10级，增加2级缓慢，增加1层虚弱，玩家造成伤害×1.4"));
     }
 }

@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -79,6 +80,6 @@ public class EarthToEarth extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7每30秒对30格内生物增加6秒12级烧伤"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.earth_to_earth.1", "§7每30秒对30格内生物增加6秒12级烧伤"));
     }
 }

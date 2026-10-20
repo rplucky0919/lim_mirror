@@ -37,7 +37,7 @@ public class GearSpring extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7若带有沸腾腐蚀附魔，造成伤害+3"));
-        tooltip.add(Component.literal("§7玩家造成的最终伤害+（（震颤时间(秒)+震颤强度）+5）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.gear_spring.1", "§7若带有沸腾腐蚀附魔，造成伤害+3"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.gear_spring.2", "§7玩家造成的最终伤害+（（震颤时间(秒)+震颤强度）+5）"));
     }
 }

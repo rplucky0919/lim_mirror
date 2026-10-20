@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +37,7 @@ public class SinglePointLogicCircuit extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7亡灵杀手武器攻击时烧伤+1层（不覆盖原等级）"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7烧伤>99层时造成伤害×1.1"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.single_point_logic_circuit.1", "§7亡灵杀手武器攻击时烧伤+1层（不覆盖原等级）"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.single_point_logic_circuit.2", "§7烧伤>99层时造成伤害×1.1"));
     }
 }

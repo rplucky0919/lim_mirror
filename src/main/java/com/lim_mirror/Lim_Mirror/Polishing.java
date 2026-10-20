@@ -117,11 +117,11 @@ public class Polishing extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7手持剑类武器时："));
-        tooltip.add(Component.literal("§7每 30 秒增加 §c4 秒 §72 级斩击伤害提升"));
-        tooltip.add(Component.literal("§7造成伤害 §c+35%"));
-        tooltip.add(Component.literal("§7呼吸法暴击时，额外追加 §d（呼吸法强度/2）§7的魔法伤害"));
-        tooltip.add(Component.literal("§7每 30 秒检测：若呼吸法强度 > 30"));
-        tooltip.add(Component.literal("§7  减少 §c10 级 §7呼吸法，获得 §c2 级 §7斩击伤害提升"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.polishing.1", "§7手持剑类武器时："));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.polishing.2", "§7每 30 秒增加 §c4 秒 §72 级斩击伤害提升"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.polishing.3", "§7造成伤害 §c+35%"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.polishing.4", "§7呼吸法暴击时，额外追加 §d（呼吸法强度/2）§7的魔法伤害"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.polishing.5", "§7每 30 秒检测：若呼吸法强度 > 30"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.polishing.6", "§7  减少 §c10 级 §7呼吸法，获得 §c2 级 §7斩击伤害提升"));
     }
 }

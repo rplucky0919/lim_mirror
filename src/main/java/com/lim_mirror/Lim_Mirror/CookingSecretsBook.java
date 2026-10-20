@@ -1,4 +1,5 @@
 package com.lim_mirror.Lim_Mirror;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,7 +38,7 @@ public class CookingSecretsBook extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<net.minecraft.network.chat.Component> tooltip, TooltipFlag flag) {
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7火柴之焰攻击时伤害×1.1"));
-        tooltip.add(net.minecraft.network.chat.Component.literal("§7火柴之焰烧伤强度+2"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.cooking_secrets_book.1", "§7火柴之焰攻击时伤害×1.1"));
+        tooltip.add(Component.translatableWithFallback("tooltip.lim_mirror.cooking_secrets_book.2", "§7火柴之焰烧伤强度+2"));
     }
 }
