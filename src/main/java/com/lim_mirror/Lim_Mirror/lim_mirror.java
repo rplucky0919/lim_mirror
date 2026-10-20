@@ -229,6 +229,15 @@ public class lim_mirror {
                 output.accept(Registration.MIDDLE_FINGER_RULES.get());
             }).build());
 
+    // ==================== 流血饰品创造栏 ====================
+    public static final RegistryObject<CreativeModeTab> BLEED_TAB = CREATIVE_MODE_TABS.register("bleed_tab", () -> CreativeModeTab.builder()
+            .withTabsBefore(CreativeModeTabs.COMBAT)
+            .icon(() -> new ItemStack(Registration.MIMIC_WOUND_BUG.get()))
+            .title(net.minecraft.network.chat.Component.translatable("creativeTab.lim_mirror.bleed_tab"))
+            .displayItems((parameters, output) -> {
+                output.accept(Registration.MIMIC_WOUND_BUG.get());
+            }).build());
+
     public lim_mirror(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
 

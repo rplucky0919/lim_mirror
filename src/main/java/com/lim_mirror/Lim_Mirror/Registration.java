@@ -556,6 +556,10 @@ public class Registration {
     public static final RegistryObject<Item> MIDDLE_FINGER_RULES = ITEMS.register("middle_finger_rules",
             () -> new MiddleFingerRules(new Item.Properties().stacksTo(1)));
 
+    // ==================== 拟伤虫 ====================
+    public static final RegistryObject<Item> MIMIC_WOUND_BUG = ITEMS.register("mimic_wound_bug",
+            () -> new MimicWoundBug(new Item.Properties().stacksTo(1)));
+
 
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);

@@ -692,6 +692,12 @@
   "tooltip.lim_mirror.middle_finger_rules.3": "§7每 30 秒：获得 30 秒 §b抗性提升 III§7，期间造成伤害 §c+30%",
   "tooltip.lim_mirror.middle_finger_rules.4": "§7每 15 秒：获得 4 秒 §c打击伤害提升 II",
 
+  "item.lim_mirror.mimic_wound_bug": "拟伤虫",
+  "tooltip.lim_mirror.mimic_wound_bug.1": "§7主手武器带有 §c桑丘之血 §7附魔时：",
+  "tooltip.lim_mirror.mimic_wound_bug.2": "§7命中使目标获得 §c4 秒 §75 级 §c流血",
+
+  "creativeTab.lim_mirror.bleed_tab": "流血饰品",
+
   "creativeTab.lim_mirror.poise_tab": "呼吸法饰品",
   "creativeTab.lim_mirror.tremor_tab": "震颤饰品",
   "creativeTab.lim_mirror.slashing_tab": "斩击饰品"

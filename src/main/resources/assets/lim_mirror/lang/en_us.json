@@ -686,6 +686,10 @@
   "tooltip.lim_mirror.middle_finger_rules.2": "§7When hit: next damage dealt §c+2§7 (stackable)",
   "tooltip.lim_mirror.middle_finger_rules.3": "§7Every 30s: 30s §bResistance III§7, damage dealt §c+30% §7during it",
   "tooltip.lim_mirror.middle_finger_rules.4": "§7Every 15s: 4s §cStrike Damage Boost II",
+  "item.lim_mirror.mimic_wound_bug": "Mimic Wound Bug",
+  "tooltip.lim_mirror.mimic_wound_bug.1": "§7While the main-hand weapon has §cSancho Blood§7:",
+  "tooltip.lim_mirror.mimic_wound_bug.2": "§7Hits inflict §c4s §7of §cBleed V",
+  "creativeTab.lim_mirror.bleed_tab": "Bleed Curios",
 
   "creativeTab.lim_mirror.poise_tab": "Poise Curios",
   "creativeTab.lim_mirror.tremor_tab": "Tremor Curios",
