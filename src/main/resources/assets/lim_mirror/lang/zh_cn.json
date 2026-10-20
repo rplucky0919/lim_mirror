@@ -709,6 +709,12 @@
   "tooltip.lim_mirror.white_cotton.4": "§7  这些生物 30 秒后：",
   "tooltip.lim_mirror.white_cotton.5": "§7    对自身造成伤害 §a−6§7，受到伤害 §c+6",
 
+  "item.lim_mirror.tiny_doll": "又小又可能很坏的玩偶",
+  "tooltip.lim_mirror.tiny_doll.1": "§7若敌方带有流血：",
+  "tooltip.lim_mirror.tiny_doll.2": "§7  造成伤害 §c+10%§7，自身受到伤害 §a−20%",
+  "tooltip.lim_mirror.tiny_doll.3": "§7主手武器带 §c亡灵杀手§7 附魔时改为：",
+  "tooltip.lim_mirror.tiny_doll.4": "§7  造成伤害 §c+20%§7，自身受到伤害 §a−30%",
+
   "creativeTab.lim_mirror.bleed_tab": "流血饰品",
 
   "creativeTab.lim_mirror.poise_tab": "呼吸法饰品",

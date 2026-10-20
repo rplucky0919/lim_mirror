@@ -568,6 +568,10 @@ public class Registration {
     public static final RegistryObject<Item> WHITE_COTTON = ITEMS.register("white_cotton",
             () -> new WhiteCotton(new Item.Properties().stacksTo(1)));
 
+    // ==================== 又小又可能很坏的玩偶 ====================
+    public static final RegistryObject<Item> TINY_DOLL = ITEMS.register("tiny_doll",
+            () -> new TinyDoll(new Item.Properties().stacksTo(1)));
+
 
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);

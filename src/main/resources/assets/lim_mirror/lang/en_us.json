@@ -700,6 +700,11 @@
   "tooltip.lim_mirror.white_cotton.3": "§7  Inflict §c1s of Bleed XII",
   "tooltip.lim_mirror.white_cotton.4": "§7  Those creatures, after 30s:",
   "tooltip.lim_mirror.white_cotton.5": "§7    Deal §a−6 §7damage to you, take §c+6 §7damage",
+  "item.lim_mirror.tiny_doll": "Tiny, Possibly Evil Doll",
+  "tooltip.lim_mirror.tiny_doll.1": "§7While the enemy bleeds:",
+  "tooltip.lim_mirror.tiny_doll.2": "§7  Damage dealt §c+10%§7, damage taken §a−20%",
+  "tooltip.lim_mirror.tiny_doll.3": "§7With §cSmite§7 on the main-hand weapon, instead:",
+  "tooltip.lim_mirror.tiny_doll.4": "§7  Damage dealt §c+20%§7, damage taken §a−30%",
   "creativeTab.lim_mirror.bleed_tab": "Bleed Curios",
 
   "creativeTab.lim_mirror.poise_tab": "Poise Curios",

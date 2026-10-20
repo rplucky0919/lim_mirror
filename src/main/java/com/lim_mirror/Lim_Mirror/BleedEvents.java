@@ -220,4 +220,45 @@ public class BleedEvents {
 
         event.setAmount(event.getAmount() + WHITE_COTTON_DAMAGE_MOD);
     }
+
+    // ==================== 又小又可能很坏的玩偶 ====================
+
+    private static final float TINY_DOLL_BONUS_BASE = 0.10f;
+    private static final float TINY_DOLL_BONUS_SMITE = 0.20f;
+    private static final float TINY_DOLL_REDUCTION_BASE = 0.20f;
+    private static final float TINY_DOLL_REDUCTION_SMITE = 0.30f;
+
+    /** 主手带亡灵杀手附魔？ */
+    private static boolean hasSmite(Player player) {
+        return EnchantmentHelper.getItemEnchantmentLevel(
+                net.minecraft.world.item.enchantment.Enchantments.SMITE, player.getMainHandItem()) > 0;
+    }
+
+    /** 敌方带流血时：造成伤害提高（有亡灵杀手则提档） */
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtTinyDollDeal(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+
+        LivingEntity target = event.getEntity();
+        if (target == null || target == player) return;
+
+        if (!player.getPersistentData().getBoolean("hasTinyDoll")) return;
+
+        // 晚于流血施加方结算，确保"目标是否带流血"判断准确
+        if (target.getEffect(Registration.BLEED.get()) == null) return;
+
+        float bonus = hasSmite(player) ? TINY_DOLL_BONUS_SMITE : TINY_DOLL_BONUS_BASE;
+        event.setAmount(event.getAmount() * (1.0f + bonus));
+    }
+
+    /** 玩家自身受伤时：受到伤害降低（有亡灵杀手则提档） */
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtTinyDollTake(LivingHurtEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+
+        if (!player.getPersistentData().getBoolean("hasTinyDoll")) return;
+
+        float reduction = hasSmite(player) ? TINY_DOLL_REDUCTION_SMITE : TINY_DOLL_REDUCTION_BASE;
+        event.setAmount(event.getAmount() * (1.0f - reduction));
+    }
 }
