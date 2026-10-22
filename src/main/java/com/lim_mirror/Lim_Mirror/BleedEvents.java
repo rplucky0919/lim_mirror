@@ -121,6 +121,31 @@ public class BleedEvents {
         ));
     }
 
+    // ==================== 锈蚀的美工刀 ====================
+    // 与拟伤虫同类：晚于桑丘之血附魔结算，再覆盖为指定等级与时长
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void onLivingHurtRustedUtilityKnife(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+        LivingEntity target = event.getEntity();
+        if (target == null || target == player) return;
+
+        if (!player.getPersistentData().getBoolean("hasRustedUtilityKnife")) return;
+
+        ItemStack weapon = player.getMainHandItem();
+        int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.SANCHO_BLOOD.get(), weapon);
+        if (enchantLevel <= 0) return;
+
+        // 4 秒 3 级流血（amplifier = 2）
+        target.removeEffect(Registration.BLEED.get());
+        target.addEffect(new MobEffectInstance(
+                Registration.BLEED.get(),
+                20 * 4,
+                2,
+                false,
+                false
+        ));
+    }
+
     // ==================== 染血铁钉 ====================
     // 用 LOWEST 保证在附魔/拟伤虫的流血结算之后再判断"目标是否已带有流血"
     @SubscribeEvent(priority = EventPriority.LOWEST)

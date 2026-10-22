@@ -709,6 +709,9 @@
   "tooltip.lim_mirror.haze_and_barbed_wire.1": "§7While the main-hand weapon has §cSancho Blood§7:",
   "tooltip.lim_mirror.haze_and_barbed_wire.2": "§7  Bleed intensity gained is §c×2.5",
   "tooltip.lim_mirror.haze_and_barbed_wire.3": "§7  Hits inflict §bSlowness III",
+  "item.lim_mirror.rusted_utility_knife": "Rusted Utility Knife",
+  "tooltip.lim_mirror.rusted_utility_knife.1": "§7When bleeding is applied via §cSancho Blood§7:",
+  "tooltip.lim_mirror.rusted_utility_knife.2": "§7  Target gains §c4s §7of §cBleed III",
   "creativeTab.lim_mirror.bleed_tab": "Bleed Curios",
 
   "creativeTab.lim_mirror.poise_tab": "Poise Curios",

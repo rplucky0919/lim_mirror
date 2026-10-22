@@ -580,6 +580,10 @@ public class Registration {
     public static final RegistryObject<Item> HAZE_AND_BARBED_WIRE = ITEMS.register("haze_and_barbed_wire",
             () -> new HazeAndBarbedWire(new Item.Properties().stacksTo(1)));
 
+    // ==================== 锈蚀的美工刀 ====================
+    public static final RegistryObject<Item> RUSTED_UTILITY_KNIFE = ITEMS.register("rusted_utility_knife",
+            () -> new RustedUtilityKnife(new Item.Properties().stacksTo(1)));
+
 
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);

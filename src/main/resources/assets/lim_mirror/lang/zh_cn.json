@@ -720,6 +720,10 @@
   "tooltip.lim_mirror.haze_and_barbed_wire.2": "§7  增加的流血强度变为 §c2.5 倍",
   "tooltip.lim_mirror.haze_and_barbed_wire.3": "§7  命中使敌方获得 §b缓慢 III",
 
+  "item.lim_mirror.rusted_utility_knife": "锈蚀的美工刀",
+  "tooltip.lim_mirror.rusted_utility_knife.1": "§7通过 §c桑丘之血 §7添加流血时：",
+  "tooltip.lim_mirror.rusted_utility_knife.2": "§7  使目标获得 §c4 秒 §73 级 §c流血",
+
   "creativeTab.lim_mirror.bleed_tab": "流血饰品",
 
   "creativeTab.lim_mirror.poise_tab": "呼吸法饰品",
