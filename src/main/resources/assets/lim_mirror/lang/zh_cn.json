@@ -724,6 +724,12 @@
   "tooltip.lim_mirror.rusted_utility_knife.1": "§7通过 §c桑丘之血 §7添加流血时：",
   "tooltip.lim_mirror.rusted_utility_knife.2": "§7  使目标获得 §c4 秒 §73 级 §c流血",
 
+  "item.lim_mirror.red_dyed_cotton": "红染棉花",
+  "tooltip.lim_mirror.red_dyed_cotton.1": "§7每 30 秒：对自身 10 格内的怪物",
+  "tooltip.lim_mirror.red_dyed_cotton.2": "§7  施加 §c40 秒 4 级流血§7（可叠加，最高 §c30 级§7）",
+  "tooltip.lim_mirror.red_dyed_cotton.3": "§7敌方造成伤害减少 §c(流血强度/2)%",
+  "tooltip.lim_mirror.red_dyed_cotton.4": "§7敌方受到伤害增加 §c(流血强度/2)%",
+
   "creativeTab.lim_mirror.bleed_tab": "流血饰品",
 
   "creativeTab.lim_mirror.poise_tab": "呼吸法饰品",

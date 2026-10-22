@@ -712,6 +712,11 @@
   "item.lim_mirror.rusted_utility_knife": "Rusted Utility Knife",
   "tooltip.lim_mirror.rusted_utility_knife.1": "§7When bleeding is applied via §cSancho Blood§7:",
   "tooltip.lim_mirror.rusted_utility_knife.2": "§7  Target gains §c4s §7of §cBleed III",
+  "item.lim_mirror.red_dyed_cotton": "Red-Dyed Cotton",
+  "tooltip.lim_mirror.red_dyed_cotton.1": "§7Every 30s: to monsters within 10 blocks",
+  "tooltip.lim_mirror.red_dyed_cotton.2": "§7  Inflict §c40s of Bleed IV§7 (stackable, max §c30 levels§7)",
+  "tooltip.lim_mirror.red_dyed_cotton.3": "§7Enemies deal §c(Bleed/2)% §7less damage",
+  "tooltip.lim_mirror.red_dyed_cotton.4": "§7Enemies take §c(Bleed/2)% §7more damage",
   "creativeTab.lim_mirror.bleed_tab": "Bleed Curios",
 
   "creativeTab.lim_mirror.poise_tab": "Poise Curios",

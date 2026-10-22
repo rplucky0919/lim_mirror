@@ -242,6 +242,7 @@ public class lim_mirror {
                 output.accept(Registration.TINY_DOLL.get());
                 output.accept(Registration.HAZE_AND_BARBED_WIRE.get());
                 output.accept(Registration.RUSTED_UTILITY_KNIFE.get());
+                output.accept(Registration.RED_DYED_COTTON.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

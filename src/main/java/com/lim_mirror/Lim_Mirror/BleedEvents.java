@@ -308,4 +308,84 @@ public class BleedEvents {
         float reduction = hasSmite(player) ? TINY_DOLL_REDUCTION_SMITE : TINY_DOLL_REDUCTION_BASE;
         event.setAmount(event.getAmount() * (1.0f - reduction));
     }
+
+    // ==================== 红染棉花 ====================
+
+    private static final int RED_DYED_COTTON_INTERVAL = 20 * 30;   // 每 30 秒
+    private static final double RED_DYED_COTTON_RADIUS = 10.0;
+    private static final int RED_DYED_COTTON_BLEED_DURATION = 20 * 40; // 40 秒
+    private static final int RED_DYED_COTTON_BLEED_STACK = 4;          // 每次 +4 级
+    private static final int RED_DYED_COTTON_MAX_LEVEL = 30;           // 封顶 30 级
+
+    /** 每 30 秒：对 10 格内怪物施加 40 秒流血，等级叠加（最高 30 级） */
+    @SubscribeEvent
+    public static void onLivingTickRedDyedCotton(LivingEvent.LivingTickEvent event) {
+        LivingEntity entity = event.getEntity();
+        if (!(entity instanceof Player player)) return;
+        if (player.level().isClientSide()) return;
+        if (!player.getPersistentData().getBoolean("hasRedDyedCotton")) return;
+
+        long currentTick = player.level().getGameTime();
+        long lastTrigger = player.getPersistentData().getLong("redDyedCottonLastTrigger");
+
+        // 首次装备只记录时间
+        if (lastTrigger == 0) {
+            player.getPersistentData().putLong("redDyedCottonLastTrigger", currentTick);
+            return;
+        }
+        if (currentTick - lastTrigger < RED_DYED_COTTON_INTERVAL) return;
+        player.getPersistentData().putLong("redDyedCottonLastTrigger", currentTick);
+
+        AABB area = new AABB(player.blockPosition()).inflate(RED_DYED_COTTON_RADIUS);
+        for (LivingEntity target : player.level().getEntitiesOfClass(LivingEntity.class, area,
+                e -> e != player && e.isAlive() && !(e instanceof Player))) {
+
+            MobEffectInstance current = target.getEffect(Registration.BLEED.get());
+            int currentLevel = (current == null) ? 0 : current.getAmplifier() + 1;
+            int newLevel = Math.min(currentLevel + RED_DYED_COTTON_BLEED_STACK, RED_DYED_COTTON_MAX_LEVEL);
+
+            target.removeEffect(Registration.BLEED.get());
+            target.addEffect(new MobEffectInstance(
+                    Registration.BLEED.get(),
+                    RED_DYED_COTTON_BLEED_DURATION,
+                    newLevel - 1,
+                    false,
+                    false
+            ));
+        }
+    }
+
+    /** 取目标当前流血强度（等级），无流血返回 0，封顶 30 */
+    private static int getBleedLevel(LivingEntity entity) {
+        MobEffectInstance bleed = entity.getEffect(Registration.BLEED.get());
+        if (bleed == null) return 0;
+        return Math.min(bleed.getAmplifier() + 1, RED_DYED_COTTON_MAX_LEVEL);
+    }
+
+    /** 敌方攻击玩家时：按 (流血强度/2)% 降低其造成的伤害 */
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtRedDyedCottonAttacker(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof LivingEntity attacker)) return;
+        if (!(event.getEntity() instanceof Player)) return;
+
+        int level = getBleedLevel(attacker);
+        if (level <= 0) return;
+
+        float reduction = (level / 2.0f) / 100.0f;  // 流血强度/2 个百分点
+        reduction = Math.min(reduction, 0.99f);     // 防止负伤害
+        event.setAmount(event.getAmount() * (1.0f - reduction));
+    }
+
+    /** 敌方受到伤害时：按 (流血强度/2)% 提高其受到的伤害 */
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtRedDyedCottonVictim(LivingHurtEvent event) {
+        LivingEntity target = event.getEntity();
+        if (target instanceof Player) return;
+
+        int level = getBleedLevel(target);
+        if (level <= 0) return;
+
+        float bonus = (level / 2.0f) / 100.0f;
+        event.setAmount(event.getAmount() * (1.0f + bonus));
+    }
 }
