@@ -715,9 +715,20 @@
   "tooltip.lim_mirror.tiny_doll.3": "§7主手武器带 §c亡灵杀手§7 附魔时改为：",
   "tooltip.lim_mirror.tiny_doll.4": "§7  造成伤害 §c+20%§7，自身受到伤害 §a−30%",
 
+  "item.lim_mirror.haze_and_barbed_wire": "烟霾与铁丝网",
+  "tooltip.lim_mirror.haze_and_barbed_wire.1": "§7主手武器带有 §c桑丘之血 §7附魔时：",
+  "tooltip.lim_mirror.haze_and_barbed_wire.2": "§7  增加的流血强度变为 §c2.5 倍",
+  "tooltip.lim_mirror.haze_and_barbed_wire.3": "§7  命中使敌方获得 §b缓慢 III",
+
   "creativeTab.lim_mirror.bleed_tab": "流血饰品",
 
   "creativeTab.lim_mirror.poise_tab": "呼吸法饰品",
   "creativeTab.lim_mirror.tremor_tab": "震颤饰品",
-  "creativeTab.lim_mirror.slashing_tab": "斩击饰品"
+  "creativeTab.lim_mirror.slashing_tab": "斩击饰品",
+
+  "item.lim_mirror.test_card_pack": "测试卡包",
+  "tooltip.lim_mirror.test_card_pack.1": "§7右键撕开，随机获得一个饰品",
+  "tooltip.lim_mirror.test_card_pack.2": "§8- 卡池为全部 156 种饰品",
+  "message.lim_mirror.test_card_pack.open": "卡包开启：获得了一个饰品",
+  "message.lim_mirror.test_card_pack.empty": "卡包里什么都没有……"
 }

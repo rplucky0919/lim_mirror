@@ -705,9 +705,19 @@
   "tooltip.lim_mirror.tiny_doll.2": "§7  Damage dealt §c+10%§7, damage taken §a−20%",
   "tooltip.lim_mirror.tiny_doll.3": "§7With §cSmite§7 on the main-hand weapon, instead:",
   "tooltip.lim_mirror.tiny_doll.4": "§7  Damage dealt §c+20%§7, damage taken §a−30%",
+  "item.lim_mirror.haze_and_barbed_wire": "Haze and Barbed Wire",
+  "tooltip.lim_mirror.haze_and_barbed_wire.1": "§7While the main-hand weapon has §cSancho Blood§7:",
+  "tooltip.lim_mirror.haze_and_barbed_wire.2": "§7  Bleed intensity gained is §c×2.5",
+  "tooltip.lim_mirror.haze_and_barbed_wire.3": "§7  Hits inflict §bSlowness III",
   "creativeTab.lim_mirror.bleed_tab": "Bleed Curios",
 
   "creativeTab.lim_mirror.poise_tab": "Poise Curios",
   "creativeTab.lim_mirror.tremor_tab": "Tremor Curios",
-  "creativeTab.lim_mirror.slashing_tab": "Slashing Curios"
+  "creativeTab.lim_mirror.slashing_tab": "Slashing Curios",
+
+  "item.lim_mirror.test_card_pack": "Test Card Pack",
+  "tooltip.lim_mirror.test_card_pack.1": "§7Right-click to tear open and get a random curio",
+  "tooltip.lim_mirror.test_card_pack.2": "§8- Pool: all 156 curios",
+  "message.lim_mirror.test_card_pack.open": "Card pack opened: got a curio",
+  "message.lim_mirror.test_card_pack.empty": "The pack is empty..."
 }

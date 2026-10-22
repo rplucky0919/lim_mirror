@@ -42,6 +42,7 @@ public class lim_mirror {
             .icon(() -> new ItemStack(Registration.PIPE.get()))
             .title(net.minecraft.network.chat.Component.translatable("creativeTab.lim_mirror.poise_tab"))
             .displayItems((parameters, output) -> {
+                output.accept(Registration.TEST_CARD_PACK.get());
                 output.accept(Registration.PIPE.get());
                 output.accept(Registration.STONE_MOUND.get());
                 output.accept(Registration.CLOVER.get());
@@ -239,6 +240,7 @@ public class lim_mirror {
                 output.accept(Registration.BLOODY_IRON_SPIKE.get());
                 output.accept(Registration.WHITE_COTTON.get());
                 output.accept(Registration.TINY_DOLL.get());
+                output.accept(Registration.HAZE_AND_BARBED_WIRE.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

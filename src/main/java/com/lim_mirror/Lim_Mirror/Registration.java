@@ -35,6 +35,10 @@ public class Registration {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, lim_mirror.MODID);
 
+    // ==================== 测试卡包（右键随机获得一个饰品） ====================
+    public static final RegistryObject<Item> TEST_CARD_PACK = ITEMS.register("test_card_pack",
+            () -> new TestCardPack(new Item.Properties().stacksTo(16)));
+
     public static final RegistryObject<Item> PIPE = ITEMS.register("pipe",
             () -> new pipe(new Item.Properties().stacksTo(1)));
 
@@ -571,6 +575,10 @@ public class Registration {
     // ==================== 又小又可能很坏的玩偶 ====================
     public static final RegistryObject<Item> TINY_DOLL = ITEMS.register("tiny_doll",
             () -> new TinyDoll(new Item.Properties().stacksTo(1)));
+
+    // ==================== 烟霾与铁丝网 ====================
+    public static final RegistryObject<Item> HAZE_AND_BARBED_WIRE = ITEMS.register("haze_and_barbed_wire",
+            () -> new HazeAndBarbedWire(new Item.Properties().stacksTo(1)));
 
 
     public static void init(IEventBus modEventBus) {

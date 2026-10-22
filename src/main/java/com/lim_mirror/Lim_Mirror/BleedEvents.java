@@ -54,13 +54,23 @@ public class BleedEvents {
         int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.SANCHO_BLOOD.get(), weapon);
         if (enchantLevel <= 0) return;
 
+        // 烟霾与铁丝网：每次命中增加的流血强度变为 2.5 倍
+        boolean hazeBoost = player.getPersistentData().getBoolean("hasHazeAndBarbedWire");
+        // 以 0.1 级为单位累计，支持 2.5 这类小数倍率（+1 级 → +2.5 级）
+        int bonusInTenths = hazeBoost ? (int) Math.round(1 * 2.5 * 10) : 10;
+
         MobEffectInstance currentBleed = target.getEffect(Registration.BLEED.get());
-        int newAmplifier = 0;
+        int newAmplifier;
         int newDuration = 20;
 
         if (currentBleed != null) {
-            newAmplifier = Math.min(currentBleed.getAmplifier() + 1, 98);
+            // 现有层数 + 本次增量（十进计数再折算回 amplifier）
+            int currentTenths = (currentBleed.getAmplifier() + 1) * 10;
+            int totalTenths = currentTenths + bonusInTenths;
+            newAmplifier = Math.min(totalTenths / 10 - 1, 98);
             newDuration = currentBleed.getDuration() + 20;
+        } else {
+            newAmplifier = Math.min(bonusInTenths / 10 - 1, 98);
         }
 
         target.removeEffect(Registration.BLEED.get());
@@ -71,6 +81,18 @@ public class BleedEvents {
                 false,
                 false
         ));
+
+        // 烟霾与铁丝网：敌方获得缓慢 III
+        if (hazeBoost) {
+            target.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
+            target.addEffect(new MobEffectInstance(
+                    MobEffects.MOVEMENT_SLOWDOWN,
+                    20 * 5,
+                    2,
+                    false,
+                    false
+            ));
+        }
     }
 
     // ==================== 拟伤虫 ====================
