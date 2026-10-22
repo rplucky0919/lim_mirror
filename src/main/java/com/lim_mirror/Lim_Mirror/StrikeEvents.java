@@ -726,21 +726,8 @@ public class StrikeEvents {
         if (hurtTime != 0 && currentTick - hurtTime < 20 * 30) {
             event.setAmount(event.getAmount() + 3.0f);
 
-            MobEffectInstance currentBleed = target.getEffect(Registration.BLEED.get());
-            int newAmplifier = 0;
-            int newDuration = 20 * 8;
-            if (currentBleed != null) {
-                newAmplifier = Math.min(currentBleed.getAmplifier() + 1, 98);
-                newDuration = currentBleed.getDuration() + 20 * 8;
-            }
-            target.removeEffect(Registration.BLEED.get());
-            target.addEffect(new MobEffectInstance(
-                    Registration.BLEED.get(),
-                    newDuration,
-                    newAmplifier,
-                    false,
-                    false
-            ));
+            // 8 秒 1 级流血：时长与等级均累加
+            BleedEvents.applyBleed(target, 20 * 8, 1, false);
         }
 
         // 打击命中时：使自身恢复造成伤害量 10% 的体力

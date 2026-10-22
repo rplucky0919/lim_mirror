@@ -617,14 +617,8 @@ public class SlashingEvents {
         if (lastTrigger == 0) return;
 
         if (currentTick - lastTrigger < 20 * 30) {
-            target.removeEffect(Registration.BLEED.get());
-            target.addEffect(new MobEffectInstance(
-                    Registration.BLEED.get(),
-                    20 * 8,
-                    3,
-                    false,
-                    false
-            ));
+            // 8 秒 4 级流血：时长累加，等级取「现有 +4」
+            BleedEvents.applyBleed(target, 20 * 8, 4, false);
 
             player.getPersistentData().putBoolean("magnificentBleedUsed", true);
         }

@@ -17,6 +17,37 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = lim_mirror.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BleedEvents {
 
+    /**
+     * 统一的流血施加入口：时长累加，等级取「现有等级 + 本次增量」，并受 98 级上限约束。
+     *
+     * @param target         目标
+     * @param addDuration    本次要累加的时长（tick）
+     * @param addLevels      本次要累加的等级（可小于 0 表示仅覆盖等级）
+     * @param forceLevel     是否强制把等级设为 addLevels（true 时忽略累加，直接取该值）
+     */
+    public static void applyBleed(LivingEntity target, int addDuration, int addLevels, boolean forceLevel) {
+        if (target == null || target.level().isClientSide()) return;
+
+        MobEffectInstance current = target.getEffect(Registration.BLEED.get());
+        int currentDuration = (current == null) ? 0 : current.getDuration();
+        int currentLevel = (current == null) ? 0 : current.getAmplifier() + 1;
+
+        int newDuration = currentDuration + addDuration;
+        int newLevel = forceLevel ? addLevels : (currentLevel + addLevels);
+
+        newLevel = Math.max(1, Math.min(newLevel, 99));
+        newDuration = Math.max(newDuration, 1);
+
+        target.removeEffect(Registration.BLEED.get());
+        target.addEffect(new MobEffectInstance(
+                Registration.BLEED.get(),
+                newDuration,
+                newLevel - 1,
+                false,
+                false
+        ));
+    }
+
     @SubscribeEvent
     public static void onLivingTickBleed(LivingEvent.LivingTickEvent event) {
         LivingEntity entity = event.getEntity();
@@ -68,6 +99,7 @@ public class BleedEvents {
             int currentTenths = (currentBleed.getAmplifier() + 1) * 10;
             int totalTenths = currentTenths + bonusInTenths;
             newAmplifier = Math.min(totalTenths / 10 - 1, 98);
+            // 时长累加
             newDuration = currentBleed.getDuration() + 20;
         } else {
             newAmplifier = Math.min(bonusInTenths / 10 - 1, 98);
@@ -110,15 +142,8 @@ public class BleedEvents {
         int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.SANCHO_BLOOD.get(), weapon);
         if (enchantLevel <= 0) return;
 
-        // 4 秒 5 级流血（amplifier = 4）
-        target.removeEffect(Registration.BLEED.get());
-        target.addEffect(new MobEffectInstance(
-                Registration.BLEED.get(),
-                20 * 4,
-                4,
-                false,
-                false
-        ));
+        // 4 秒 5 级流血：时长累加，等级取「现有 +5」
+        applyBleed(target, 20 * 4, 5, false);
     }
 
     // ==================== 锈蚀的美工刀 ====================
@@ -135,15 +160,8 @@ public class BleedEvents {
         int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.SANCHO_BLOOD.get(), weapon);
         if (enchantLevel <= 0) return;
 
-        // 4 秒 3 级流血（amplifier = 2）
-        target.removeEffect(Registration.BLEED.get());
-        target.addEffect(new MobEffectInstance(
-                Registration.BLEED.get(),
-                20 * 4,
-                2,
-                false,
-                false
-        ));
+        // 4 秒 3 级流血：时长累加，等级取「现有 +3」
+        applyBleed(target, 20 * 4, 3, false);
     }
 
     // ==================== 染血铁钉 ====================
@@ -158,25 +176,9 @@ public class BleedEvents {
 
         MobEffectInstance currentBleed = target.getEffect(Registration.BLEED.get());
 
-        // 施加强度：目标无流血 → 1 级（amplifier 0）；已有流血 → 3 级（amplifier 2）
-        int amplifier = (currentBleed == null) ? 0 : 2;
-
-        // 0 秒 = 不额外续时长：已有流血则沿用剩余时间（不足 1 秒补到 1 秒），无流血则仅瞬时 1 秒
-        int duration;
-        if (currentBleed == null) {
-            duration = 20;
-        } else {
-            duration = Math.max(currentBleed.getDuration(), 20);
-        }
-
-        target.removeEffect(Registration.BLEED.get());
-        target.addEffect(new MobEffectInstance(
-                Registration.BLEED.get(),
-                duration,
-                amplifier,
-                false,
-                false
-        ));
+        // 目标无流血 → 1 级；已有流血 → 3 级。时长统一累加 1 秒
+        int addLevels = (currentBleed == null) ? 1 : 3;
+        applyBleed(target, 20, addLevels, false);
 
         // 目标原本无流血时，额外降低护甲 2 点（固定 UUID，不叠加）
         if (currentBleed == null) {
@@ -222,15 +224,8 @@ public class BleedEvents {
         for (LivingEntity target : player.level().getEntitiesOfClass(LivingEntity.class, area,
                 e -> e != player && e.isAlive() && !(e instanceof Player))) {
 
-            // 对范围内生物施加 1 秒 12 级流血
-            target.removeEffect(Registration.BLEED.get());
-            target.addEffect(new MobEffectInstance(
-                    Registration.BLEED.get(),
-                    WHITE_COTTON_BLEED_DURATION,
-                    WHITE_COTTON_BLEED_AMPLIFIER,
-                    false,
-                    false
-            ));
+            // 对范围内生物施加 1 秒 12 级流血（时长累加）
+            applyBleed(target, WHITE_COTTON_BLEED_DURATION, 12, false);
 
             // 记录标记施加时刻：30 秒后进入"易伤/减伤"状态
             target.getPersistentData().putLong("whiteCottonMarkCreated", currentTick);
@@ -344,10 +339,11 @@ public class BleedEvents {
             int currentLevel = (current == null) ? 0 : current.getAmplifier() + 1;
             int newLevel = Math.min(currentLevel + RED_DYED_COTTON_BLEED_STACK, RED_DYED_COTTON_MAX_LEVEL);
 
+            // 等级封顶 30，时长累加 40 秒
             target.removeEffect(Registration.BLEED.get());
             target.addEffect(new MobEffectInstance(
                     Registration.BLEED.get(),
-                    RED_DYED_COTTON_BLEED_DURATION,
+                    ((current == null) ? 0 : current.getDuration()) + RED_DYED_COTTON_BLEED_DURATION,
                     newLevel - 1,
                     false,
                     false

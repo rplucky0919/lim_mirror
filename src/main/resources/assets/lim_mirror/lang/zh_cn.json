@@ -694,7 +694,7 @@
 
   "item.lim_mirror.mimic_wound_bug": "拟伤虫",
   "tooltip.lim_mirror.mimic_wound_bug.1": "§7主手武器带有 §c桑丘之血 §7附魔时：",
-  "tooltip.lim_mirror.mimic_wound_bug.2": "§7命中使目标获得 §c4 秒 §75 级 §c流血",
+  "tooltip.lim_mirror.mimic_wound_bug.2": "§7命中使目标获得 §c4 秒 §75 级 §c流血§7（时长可叠加）",
 
   "item.lim_mirror.bloody_iron_spike": "染血铁钉",
   "tooltip.lim_mirror.bloody_iron_spike.1": "§7造成伤害时：",
@@ -705,7 +705,7 @@
   "item.lim_mirror.white_cotton": "白棉花",
   "tooltip.lim_mirror.white_cotton.1": "§7解除敌方的 §7虚弱 §7效果",
   "tooltip.lim_mirror.white_cotton.2": "§7每 30 秒：对自身 5 格范围内的生物",
-  "tooltip.lim_mirror.white_cotton.3": "§7  施加 §c1 秒 12 级流血",
+  "tooltip.lim_mirror.white_cotton.3": "§7  施加 §c1 秒 12 级流血§7（时长可叠加）",
   "tooltip.lim_mirror.white_cotton.4": "§7  这些生物 30 秒后：",
   "tooltip.lim_mirror.white_cotton.5": "§7    对自身造成伤害 §a−6§7，受到伤害 §c+6",
 
@@ -722,7 +722,7 @@
 
   "item.lim_mirror.rusted_utility_knife": "锈蚀的美工刀",
   "tooltip.lim_mirror.rusted_utility_knife.1": "§7通过 §c桑丘之血 §7添加流血时：",
-  "tooltip.lim_mirror.rusted_utility_knife.2": "§7  使目标获得 §c4 秒 §73 级 §c流血",
+  "tooltip.lim_mirror.rusted_utility_knife.2": "§7  使目标获得 §c4 秒 §73 级 §c流血§7（时长可叠加）",
 
   "item.lim_mirror.red_dyed_cotton": "红染棉花",
   "tooltip.lim_mirror.red_dyed_cotton.1": "§7每 30 秒：对自身 10 格内的怪物",
