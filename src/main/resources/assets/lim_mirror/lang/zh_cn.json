@@ -736,6 +736,14 @@
   "tooltip.lim_mirror.rusted_bridle.3": "§7  若为斩击（剑类武器）：",
   "tooltip.lim_mirror.rusted_bridle.4": "§7    改为增加 §c2 秒 5 级流血",
 
+  "item.lim_mirror.blood_mist": "血雾",
+  "tooltip.lim_mirror.blood_mist.1": "§7主手武器带有 §c桑丘之血 §7附魔时：",
+  "tooltip.lim_mirror.blood_mist.2": "§7  每次攻击施加的流血强度与时间变为 §c2 倍§7（施加量）",
+  "tooltip.lim_mirror.blood_mist.3": "§7手持快捷栏第一格的武器时：",
+  "tooltip.lim_mirror.blood_mist.4": "§7  造成伤害 §c+30%§7，最终伤害 §c+130%",
+  "tooltip.lim_mirror.blood_mist.5": "§7击杀敌方后：将流血时间与等级传播给死亡单位 10 格内所有敌方",
+  "tooltip.lim_mirror.blood_mist.6": "§7常驻：造成伤害 §c+10%§7，最终伤害 §c+30%",
+
   "creativeTab.lim_mirror.bleed_tab": "流血饰品",
 
   "creativeTab.lim_mirror.poise_tab": "呼吸法饰品",

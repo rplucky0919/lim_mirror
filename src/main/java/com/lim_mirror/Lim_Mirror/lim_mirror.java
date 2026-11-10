@@ -244,6 +244,7 @@ public class lim_mirror {
                 output.accept(Registration.RUSTED_UTILITY_KNIFE.get());
                 output.accept(Registration.RED_DYED_COTTON.get());
                 output.accept(Registration.RUSTED_BRIDLE.get());
+                output.accept(Registration.BLOOD_MIST.get());
             }).build());
 
     public lim_mirror(FMLJavaModLoadingContext context) {

@@ -722,6 +722,13 @@
   "tooltip.lim_mirror.rusted_bridle.2": "§7  On dealing damage: §c+3 Bleed levels",
   "tooltip.lim_mirror.rusted_bridle.3": "§7  If it is a slashing hit (sword):",
   "tooltip.lim_mirror.rusted_bridle.4": "§7    Instead: §c2s of Bleed V",
+  "item.lim_mirror.blood_mist": "Blood Mist",
+  "tooltip.lim_mirror.blood_mist.1": "§7While the main-hand weapon has §cSancho Blood§7:",
+  "tooltip.lim_mirror.blood_mist.2": "§7  Bleed intensity and duration applied per hit are §c×2§7 (applied amount)",
+  "tooltip.lim_mirror.blood_mist.3": "§7While holding the weapon in hotbar slot 1:",
+  "tooltip.lim_mirror.blood_mist.4": "§7  Damage dealt §c+30%§7, final damage §c+130%",
+  "tooltip.lim_mirror.blood_mist.5": "§7On kill: spread that bleed's duration and level to all enemies within 10 blocks of the dead unit",
+  "tooltip.lim_mirror.blood_mist.6": "§7Passive: damage dealt §c+10%§7, final damage §c+30%",
   "creativeTab.lim_mirror.bleed_tab": "Bleed Curios",
 
   "creativeTab.lim_mirror.poise_tab": "Poise Curios",

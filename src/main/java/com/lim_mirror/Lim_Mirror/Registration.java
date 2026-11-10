@@ -592,6 +592,10 @@ public class Registration {
     public static final RegistryObject<Item> RUSTED_BRIDLE = ITEMS.register("rusted_bridle",
             () -> new RustedBridle(new Item.Properties().stacksTo(1)));
 
+    // ==================== 血雾 ====================
+    public static final RegistryObject<Item> BLOOD_MIST = ITEMS.register("blood_mist",
+            () -> new BloodMist(new Item.Properties().stacksTo(1)));
+
 
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);

@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -85,14 +86,21 @@ public class BleedEvents {
         int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.SANCHO_BLOOD.get(), weapon);
         if (enchantLevel <= 0) return;
 
-        // 烟霾与铁丝网：每次命中增加的流血强度变为 2.5 倍
-        boolean hazeBoost = player.getPersistentData().getBoolean("hasHazeAndBarbedWire");
-        // 以 0.1 级为单位累计，支持 2.5 这类小数倍率（+1 级 → +2.5 级）
-        int bonusInTenths = hazeBoost ? (int) Math.round(1 * 2.5 * 10) : 10;
+        // ===== 流血施加量倍率 =====
+        // 烟霾与铁丝网：强度 ×2.5
+        double levelMultiplier = player.getPersistentData().getBoolean("hasHazeAndBarbedWire") ? 2.5 : 1.0;
+        // 血雾：强度与时间均 ×2（施加量，不是结果）
+        boolean bloodMist = player.getPersistentData().getBoolean("hasBloodMist");
+        if (bloodMist) levelMultiplier *= 2.0;
+        double durationMultiplier = bloodMist ? 2.0 : 1.0;
+
+        // 以 0.1 级为单位累计，支持 2.5 / 5.0 这类小数倍率
+        int bonusInTenths = (int) Math.round(1 * levelMultiplier * 10);
+        int addDuration = (int) Math.round(20 * durationMultiplier);
 
         MobEffectInstance currentBleed = target.getEffect(Registration.BLEED.get());
         int newAmplifier;
-        int newDuration = 20;
+        int newDuration = addDuration;
 
         if (currentBleed != null) {
             // 现有层数 + 本次增量（十进计数再折算回 amplifier）
@@ -100,7 +108,7 @@ public class BleedEvents {
             int totalTenths = currentTenths + bonusInTenths;
             newAmplifier = Math.min(totalTenths / 10 - 1, 98);
             // 时长累加
-            newDuration = currentBleed.getDuration() + 20;
+            newDuration = currentBleed.getDuration() + addDuration;
         } else {
             newAmplifier = Math.min(bonusInTenths / 10 - 1, 98);
         }
@@ -115,7 +123,7 @@ public class BleedEvents {
         ));
 
         // 烟霾与铁丝网：敌方获得缓慢 III
-        if (hazeBoost) {
+        if (player.getPersistentData().getBoolean("hasHazeAndBarbedWire")) {
             target.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
             target.addEffect(new MobEffectInstance(
                     MobEffects.MOVEMENT_SLOWDOWN,
@@ -405,6 +413,71 @@ public class BleedEvents {
         } else {
             // 0 秒：不额外续时长，纯累加 3 级强度
             applyBleed(target, 0, 3, false);
+        }
+    }
+
+    // ==================== 血雾 ====================
+
+    private static final float BLOOD_MIST_PASSIVE_ADD = 0.10f;     // 常驻：造成伤害 +10%
+    private static final float BLOOD_MIST_PASSIVE_FINAL = 0.30f;   // 常驻：最终伤害 +30%
+    private static final float BLOOD_MIST_SLOT1_ADD = 0.20f;       // 快捷栏第一格：造成伤害 +20%
+    private static final float BLOOD_MIST_SLOT1_FINAL = 1.00f;     // 快捷栏第一格：最终伤害 +100%
+    private static final double BLOOD_MIST_SPREAD_RADIUS = 10.0;
+
+    /** 主手武器是否来自快捷栏第一格（索引 0） */
+    private static boolean isFromFirstSlot(Player player) {
+        ItemStack mainHand = player.getMainHandItem();
+        if (mainHand.isEmpty()) return false;
+        return player.getInventory().getItem(0) == mainHand;
+    }
+
+    /** 血雾增伤：常驻 +10% / 最终 +30%；手持第一格武器时额外 +20% / 最终 +100% */
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtBloodMistDamage(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+        LivingEntity target = event.getEntity();
+        if (target == null || target == player) return;
+
+        if (!player.getPersistentData().getBoolean("hasBloodMist")) return;
+
+        // 常驻乘区
+        float addPercent = BLOOD_MIST_PASSIVE_ADD;
+        float finalPercent = BLOOD_MIST_PASSIVE_FINAL;
+
+        // 快捷栏第一格武器加成
+        if (isFromFirstSlot(player)) {
+            addPercent += BLOOD_MIST_SLOT1_ADD;
+            finalPercent += BLOOD_MIST_SLOT1_FINAL;
+        }
+
+        // 造成伤害（第一乘区）→ 最终伤害（独立乘区）
+        event.setAmount(event.getAmount() * (1.0f + addPercent));
+        event.setAmount(event.getAmount() * (1.0f + finalPercent));
+    }
+
+    /** 血雾：击杀后把流血时间与等级传播给死亡单位 10 格内所有敌方 */
+    @SubscribeEvent
+    public static void onLivingDeathBloodMist(LivingDeathEvent event) {
+        LivingEntity victim = event.getEntity();
+        if (victim == null) return;
+        if (victim.level().isClientSide()) return;
+
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+        if (!player.getPersistentData().getBoolean("hasBloodMist")) return;
+
+        // 读取死亡单位身上的流血
+        MobEffectInstance victimBleed = victim.getEffect(Registration.BLEED.get());
+        if (victimBleed == null) return;
+
+        int bleedLevel = victimBleed.getAmplifier() + 1;
+        int bleedDuration = victimBleed.getDuration();
+
+        AABB area = new AABB(victim.blockPosition()).inflate(BLOOD_MIST_SPREAD_RADIUS);
+        for (LivingEntity nearby : victim.level().getEntitiesOfClass(LivingEntity.class, area,
+                e -> e != victim && e != player && e.isAlive() && !(e instanceof Player))) {
+
+            // 传播：等级取「现有 + 死亡单位的等级」，时长累加
+            applyBleed(nearby, bleedDuration, bleedLevel, false);
         }
     }
 }
