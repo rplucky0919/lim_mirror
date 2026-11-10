@@ -384,4 +384,27 @@ public class BleedEvents {
         float bonus = (level / 2.0f) / 100.0f;
         event.setAmount(event.getAmount() * (1.0f + bonus));
     }
+
+    // ==================== 锈蚀的笼头 ====================
+    // 需晚于桑丘之血附魔的血结算，确保基础流血已存在；用 LOWEST 统一收尾
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurtRustedBridle(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) return;
+        LivingEntity target = event.getEntity();
+        if (target == null || target == player) return;
+
+        if (!player.getPersistentData().getBoolean("hasRustedBridle")) return;
+
+        ItemStack weapon = player.getMainHandItem();
+        int enchantLevel = EnchantmentHelper.getItemEnchantmentLevel(Registration.SANCHO_BLOOD.get(), weapon);
+        if (enchantLevel <= 0) return;
+
+        // 斩击（剑类武器）→ 2 秒 5 级；否则仅在原基础上追加 3 级强度
+        if (weapon.getItem() instanceof net.minecraft.world.item.SwordItem) {
+            applyBleed(target, 20 * 2, 5, false);
+        } else {
+            // 0 秒：不额外续时长，纯累加 3 级强度
+            applyBleed(target, 0, 3, false);
+        }
+    }
 }

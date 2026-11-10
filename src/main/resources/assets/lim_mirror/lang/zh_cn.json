@@ -730,6 +730,12 @@
   "tooltip.lim_mirror.red_dyed_cotton.3": "§7敌方造成伤害减少 §c(流血强度/2)%",
   "tooltip.lim_mirror.red_dyed_cotton.4": "§7敌方受到伤害增加 §c(流血强度/2)%",
 
+  "item.lim_mirror.rusted_bridle": "锈蚀的笼头",
+  "tooltip.lim_mirror.rusted_bridle.1": "§7主手武器带有 §c桑丘之血 §7附魔时：",
+  "tooltip.lim_mirror.rusted_bridle.2": "§7  造成伤害时增加 §c3 级流血强度",
+  "tooltip.lim_mirror.rusted_bridle.3": "§7  若为斩击（剑类武器）：",
+  "tooltip.lim_mirror.rusted_bridle.4": "§7    改为增加 §c2 秒 5 级流血",
+
   "creativeTab.lim_mirror.bleed_tab": "流血饰品",
 
   "creativeTab.lim_mirror.poise_tab": "呼吸法饰品",

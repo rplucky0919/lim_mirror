@@ -588,6 +588,10 @@ public class Registration {
     public static final RegistryObject<Item> RED_DYED_COTTON = ITEMS.register("red_dyed_cotton",
             () -> new RedDyedCotton(new Item.Properties().stacksTo(1)));
 
+    // ==================== 锈蚀的笼头 ====================
+    public static final RegistryObject<Item> RUSTED_BRIDLE = ITEMS.register("rusted_bridle",
+            () -> new RustedBridle(new Item.Properties().stacksTo(1)));
+
 
     public static void init(IEventBus modEventBus) {
         EFFECTS.register(modEventBus);
